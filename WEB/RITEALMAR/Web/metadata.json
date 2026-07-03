@@ -1,0 +1,5 @@
+{
+  "name": "Ritealmar Digital | ALMAR Engine",
+  "description": "Plataforma de automatización logística y control de inventario ultra-preciso. Digitalizamos tu esfuerzo, automatizamos tu éxito.",
+  "requestFramePermissions": ["geolocation"]
+}

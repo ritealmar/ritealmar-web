@@ -1,0 +1,101 @@
+/* -------------------------------------------------------------
+   Global Animations and Utility Classes
+   ------------------------------------------------------------- */
+
+/* Gradient text animation (already used in index.css) */
+@keyframes gradientMove {
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
+
+/* Fade up animation (already used) */
+@keyframes fadeUp {
+  from { opacity: 0; transform: translateY(24px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+/* Pulse glow for text */
+@keyframes pulseGlow {
+  0%, 100% { opacity: 1; text-shadow: 0 0 12px rgba(102, 227, 255, 0.45); }
+  50% { opacity: 0.75; text-shadow: 0 0 28px rgba(102, 227, 255, 0.95); }
+}
+
+/* Slow floating animation for decorative shapes */
+@keyframes floatSlow {
+  0% { transform: translateY(0) rotate(0deg); }
+  50% { transform: translateY(-10px) rotate(5deg); }
+  100% { transform: translateY(0) rotate(0deg); }
+}
+
+/* Border glow animation for cards and buttons */
+@keyframes borderGlow {
+  0% { box-shadow: 0 0 5px rgba(0, 229, 255, 0.3); }
+  50% { box-shadow: 0 0 15px rgba(0, 229, 255, 0.6); }
+  100% { box-shadow: 0 0 5px rgba(0, 229, 255, 0.3); }
+}
+
+/* Utility classes */
+.gradient-text {
+  background: linear-gradient(90deg, #ffffff, #66e3ff, #3b82f6, #a855f7, #ffffff);
+  background-size: 300% 300%;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  animation: gradientMove 6s ease infinite;
+}
+
+.animated-gradient {
+  background: linear-gradient(135deg, var(--color-primary), var(--color-primary-bright));
+  background-size: 200% 200%;
+  animation: gradientMove 8s linear infinite;
+}
+
+.glow-button {
+  position: relative;
+  overflow: hidden;
+}
+.glow-button::after {
+  content: '';
+  position: absolute;
+  inset: -2px;
+  background: linear-gradient(45deg, #00d8ff, #7c3aed, #a78bfa);
+  filter: blur(6px);
+  opacity: 0.7;
+  transition: opacity 0.3s;
+  border-radius: inherit;
+}
+.glow-button:hover::after { opacity: 1; }
+
+.glass-card {
+  background: rgba(255,255,255,0.08);
+  border: 1px solid rgba(255,255,255,0.12);
+  backdrop-filter: blur(12px);
+  border-radius: 12px;
+  transition: transform 0.3s, box-shadow 0.3s;
+}
+.glass-card:hover {
+  transform: translateY(-6px);
+  box-shadow: 0 0 12px rgba(0,229,255,0.4);
+  animation: borderGlow 2s infinite;
+}
+
+.fade-up {
+  opacity: 0;
+  transform: translateY(20px);
+  animation: fadeUp 0.8s forwards;
+}
+
+.floating-shape {
+  animation: floatSlow 6s ease-in-out infinite;
+}
+
+.section-glow {
+  position: relative;
+}
+.section-glow::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(circle at 50% 50%, rgba(0,229,255,0.15), transparent 70%);
+  pointer-events: none;
+}

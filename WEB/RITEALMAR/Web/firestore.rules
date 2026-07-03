@@ -1,0 +1,21 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+    // 1. Leads: Permitir creación desde la web, pero no lectura ni borrado público
+    match /leads/{leadId} {
+      allow create: if true;
+      allow read, update, delete: if false; // Solo administradores desde Firebase Console o Functions
+    }
+    
+    // 2. Chat Leads: Para guardar logs de conversaciones
+    match /chat_leads/{chatId} {
+      allow create: if true;
+      allow read, update, delete: if false;
+    }
+    
+    // 3. Notificaciones: Protegidas totalmente
+    match /lead_notifications/{notifId} {
+      allow read, write: if false;
+    }
+  }
+}

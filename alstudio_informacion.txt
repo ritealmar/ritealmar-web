@@ -1,0 +1,20 @@
+1. Creación de Aplicaciones Web y Prototipado
+Programación por intención (Vibe Coding): Permite desarrollar aplicaciones web completas utilizando únicamente lenguaje natural. El desarrollador describe la funcionalidad deseada y el sistema genera automáticamente el código necesario (frontend y backend).
+Desarrollo multimodal: Es posible subir bocetos dibujados a mano, documentos o capturas de pantalla de interfaces existentes para que el sistema las analice y construya la estructura del sitio web basándose en esas referencias visuales.
+Entorno de previsualización en vivo: El espacio de trabajo divide la pantalla en un panel de chat para instrucciones, un visor de código y una vista previa en tiempo real. Esto permite probar la aplicación interactiva al instante.
+Edición visual directa (Anotaciones): En lugar de modificar el código fuente, se puede hacer clic sobre un elemento específico en la vista previa (por ejemplo, un botón o una caja de texto) y pedirle al sistema que cambie su diseño, color o posición.
+Despliegue y exportación: Una vez finalizado el prototipo, el código generado se puede descargar en formatos estándar o desplegarse directamente en servidores en la nube con un solo clic para su publicación inmediata.
+2. Automatización y Lógica de Sistemas
+Creación de agentes autónomos: Permite diseñar asistentes inteligentes integrados en la aplicación que pueden procesar lenguaje natural, buscar información avanzada, tomar decisiones y ejecutar tareas complejas en segundo plano.
+Configuración automática de infraestructura: Al solicitar la creación de una aplicación, el sistema puede configurar automáticamente las bases de datos (esquemas NoSQL) y los flujos de autenticación de usuarios (inicios de sesión) sin requerir programación manual.
+Automatización de flujos de trabajo: Facilita la construcción de sistemas de gestión de tareas, calendarios dinámicos y herramientas de productividad que reaccionan de forma proactiva a las entradas del usuario.
+Procesamiento de datos multimedia: Se pueden automatizar tareas de análisis mediante la integración de capacidades que evalúan y extraen información simultáneamente de textos, imágenes, audios o bases de datos no estructuradas.
+3. Desarrollo Estructurado y Gestión de Software Empresarial
+Editores visuales de estructura: Para aplicaciones empresariales complejas, ofrece interfaces gráficas en forma de cuadrícula que permiten crear y editar tablas, páginas y estructuras de datos sin necesidad de lidiar con la sintaxis del código, reduciendo los errores.
+Gestión global del espacio de trabajo: Proporciona un panel principal para visualizar todas las dependencias del proyecto, organizar objetos y realizar búsquedas unificadas en todo el código y las propiedades de la aplicación.
+Depuración avanzada (Snapshots): Incluye herramientas para grabar la ejecución del software y visualizar el árbol de llamadas completo. Esto permite rastrear errores críticos y navegar con un clic directamente al objeto que causó la falla.
+Automatización mediante línea de comandos (CLI): Soporta la validación de reglas de desarrollo y la generación automática de manuales y documentación técnica durante el proceso de construcción del software.
+Gestión de traducciones: Integra un sistema automatizado para traducir aplicaciones a múltiples idiomas, rellenando espacios en blanco y gestionando archivos de localización de manera masiva.
+4. Automatización de Contenido Multimedia
+Generación de activos a partir de texto: Permite convertir guiones en videos con transiciones, movimientos de cámara y locuciones sincronizadas automáticamente.
+Edición inteligente: Cuenta con herramientas que sincronizan automáticamente los cortes de video con el ritmo de la música, aplican corrección de color y estabilizan secuencias sin necesidad de edición manual.
