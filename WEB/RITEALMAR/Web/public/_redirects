@@ -1,0 +1,6 @@
+/assets/*  /assets/:splat  200
+/servicios/automatizacion-whatsapp-ia  /automatizacion-whatsapp-empresas  301
+/servicios/chatbots-inteligentes       /chatbots-ia                       301
+/automatizaciones-ia                   /servicios/automatizacion-procesos 301
+/ia-para-despachos-abogado             /ia-para-despachos-abogados        301
+/*         /index.html     200

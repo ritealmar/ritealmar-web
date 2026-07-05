@@ -153,7 +153,7 @@ export default function PremiumAgency() {
         )}
       </AnimatePresence>
 
-      <main>
+      <div>
         {/* HERO SECTION */}
         <section className="relative pt-40 pb-20 lg:pt-56 lg:pb-40 overflow-hidden">
           {/* Background Gradients */}
@@ -427,7 +427,7 @@ export default function PremiumAgency() {
             </div>
           </div>
         </section>
-      </main>
+      </div>
 
       {/* FOOTER */}
       <footer className="py-20 border-t border-white/5">

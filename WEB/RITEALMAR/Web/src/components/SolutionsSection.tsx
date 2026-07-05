@@ -60,7 +60,7 @@ export default function SolutionsSection() {
       {/* Background Decor */}
       <div className="absolute top-0 right-1/4 w-[500px] h-[500px] bg-[#00D4FF]/10 blur-[150px] rounded-full mix-blend-screen pointer-events-none" />
       <div className="absolute bottom-0 left-1/4 w-[500px] h-[500px] bg-[#FF006E]/10 blur-[150px] rounded-full mix-blend-screen pointer-events-none" />
-      <div className="absolute inset-0 bg-[url('https://grainy-gradients.vercel.app/noise.svg')] opacity-10 mix-blend-overlay pointer-events-none"></div>
+      <div className="absolute inset-0 bg-[url('/noise.svg')] opacity-10 mix-blend-overlay pointer-events-none"></div>
 
       <div className="max-w-7xl mx-auto px-6 relative z-10">
         <div className="mb-20 text-center">
@@ -84,7 +84,7 @@ export default function SolutionsSection() {
               onClick={() => {
                 let route = '';
                 if (sol.title === "Automatización de tareas") route = '/servicios/automatizacion-procesos';
-                else if (sol.title === "Asistentes IA y chatbots") route = '/servicios/chatbots-inteligentes';
+                else if (sol.title === "Asistentes IA y chatbots") route = '/chatbots-ia';
                 else if (sol.title === "Gestión documental inteligente") route = '/servicios/gestion-documental';
                 else if (sol.title === "Consultoría IA para PYMEs") route = '/servicios/consultoria-ia';
                 else if (sol.title === "Formación práctica en IA") route = '/servicios/formacion-ia';

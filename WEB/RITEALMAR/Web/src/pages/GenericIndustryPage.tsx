@@ -13,7 +13,7 @@ interface IndustryData {
 }
 
 export default function GenericIndustryPage({ data }: { data: IndustryData }) {
-  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [modalConfig, setModalConfig] = useState<{ isOpen: boolean; title?: string; subtitle?: string; submitText?: string }>({ isOpen: false });
 
   useEffect(() => {
     document.title = data.seoTitle;
@@ -36,13 +36,13 @@ export default function GenericIndustryPage({ data }: { data: IndustryData }) {
       <ServiceLayout 
         title={data.title}
         subtitle={data.subtitle}
-        onOpenCalendly={() => setIsModalOpen(true)}
+        onOpenCalendly={(config) => setModalConfig({ isOpen: true, ...(config || {}) })}
       >
         
         {/* Beneficios Específicos */}
         <section className="py-32 px-6 bg-[#0A1628] relative overflow-hidden">
           <div className="absolute top-0 right-1/4 w-[500px] h-[500px] bg-[#00D4FF]/5 blur-[150px] rounded-full pointer-events-none" />
-          <div className="absolute inset-0 bg-[url('https://grainy-gradients.vercel.app/noise.svg')] opacity-10 mix-blend-overlay pointer-events-none"></div>
+          <div className="absolute inset-0 bg-[url('/noise.svg')] opacity-10 mix-blend-overlay pointer-events-none"></div>
           
           <div className="max-w-4xl mx-auto relative z-10">
             <h2 className="text-4xl font-bold mb-12 text-center text-white">¿Qué solucionamos para tu sector?</h2>
@@ -62,7 +62,7 @@ export default function GenericIndustryPage({ data }: { data: IndustryData }) {
         {/* CTA Section */}
         <section className="py-32 px-6 bg-[#0F172A] border-y border-white/5 text-center relative overflow-hidden">
           <div className="absolute bottom-0 left-1/4 w-[500px] h-[500px] bg-[#FF006E]/10 blur-[150px] rounded-full pointer-events-none" />
-          <div className="absolute inset-0 bg-[url('https://grainy-gradients.vercel.app/noise.svg')] opacity-10 mix-blend-overlay pointer-events-none"></div>
+          <div className="absolute inset-0 bg-[url('/noise.svg')] opacity-10 mix-blend-overlay pointer-events-none"></div>
           
           <div className="max-w-3xl mx-auto relative z-10">
             <h2 className="text-4xl font-bold mb-8 text-white">Da el siguiente paso</h2>
@@ -79,8 +79,11 @@ export default function GenericIndustryPage({ data }: { data: IndustryData }) {
       </ServiceLayout>
 
       <ModalController 
-        isOpen={isModalOpen} 
-        onClose={() => setIsModalOpen(false)} 
+        isOpen={modalConfig.isOpen} 
+        onClose={() => setModalConfig(prev => ({ ...prev, isOpen: false }))} 
+        title={modalConfig.title}
+        subtitle={modalConfig.subtitle}
+        submitText={modalConfig.submitText}
       />
     </>
   );

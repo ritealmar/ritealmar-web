@@ -135,7 +135,7 @@ export default function AgencyLanding() {
         </div>
       </header>
 
-      <main>
+      <div>
         {/* HERO */}
         <section className="relative pt-48 pb-32 lg:pt-64 lg:pb-56 overflow-hidden">
           {/* Ambient Glows */}
@@ -358,7 +358,7 @@ export default function AgencyLanding() {
             </div>
           </div>
         </section>
-      </main>
+      </div>
 
       <footer className="py-20 border-t border-white/5 opacity-40">
         <div className="container mx-auto max-w-7xl px-8 flex flex-col lg:flex-row justify-between items-center gap-10">

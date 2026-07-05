@@ -3,15 +3,48 @@ import ServiceLayout from '../components/ServiceLayout';
 import { ModalController } from '../components/ModalController';
 import { CheckCircle2, Clock, ShieldCheck, TrendingUp, Users, Zap } from 'lucide-react';
 
+import { trackEvent } from '../utils/analytics';
+
 export default function ProcessAutomation() {
-  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [modalConfig, setModalConfig] = useState<{ isOpen: boolean; title?: string; subtitle?: string; submitText?: string }>({ isOpen: false });
+
+  const breadcrumbSchema = {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    "itemListElement": [
+      {
+        "@type": "ListItem",
+        "position": 1,
+        "name": "Home",
+        "item": "https://ritealmar.es/"
+      },
+      {
+        "@type": "ListItem",
+        "position": 2,
+        "name": "Servicios",
+        "item": "https://ritealmar.es/servicios"
+      },
+      {
+        "@type": "ListItem",
+        "position": 3,
+        "name": "Automatización de Procesos",
+        "item": "https://ritealmar.es/servicios/automatizacion-procesos"
+      }
+    ]
+  };
 
   return (
     <>
+      <script 
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbSchema) }}
+      />
       <ServiceLayout 
-        title="Automatización de Procesos con Inteligencia Artificial"
-        subtitle="¿Tu empresa pierde tiempo realizando tareas repetitivas? La automatización de procesos permite eliminar trabajo manual, reducir errores y aumentar la productividad."
-        onOpenCalendly={() => setIsModalOpen(true)}
+        title="Automatización de Procesos Operativos"
+        subtitle="Transformamos las tareas manuales y repetitivas de tu equipo en flujos de trabajo autónomos que operan 24/7 sin margen de error."
+        onOpenCalendly={(config) => setModalConfig({ isOpen: true, ...(config || {}) })}
+        seoTitle="Automatización de Procesos para PYMES | Ahorra Tiempo y Costes"
+        seoDesc="Automatiza las tareas mecánicas de tu empresa. Conectamos tu CRM, correo y bases de datos para que operen solos 24/7. Solicita tu auditoría gratuita."
       >
         
         {/* Intro Section */}
@@ -22,7 +55,7 @@ export default function ProcessAutomation() {
               La automatización consiste en utilizar tecnología e inteligencia artificial para realizar tareas repetitivas de forma automática, sin necesidad de intervención constante de los empleados.
             </p>
             <p className="font-medium leading-relaxed">
-              En Ritealmar analizamos los procesos de tu negocio y desarrollamos soluciones personalizadas que trabajan por ti las 24 horas del día. Esto permite que tu equipo dedique más tiempo a actividades de valor mientras los procesos repetitivos se ejecutan de forma autónoma.
+              En Ritealmar analizamos los procesos de tu negocio y desarrollamos soluciones personalizadas que trabajan por ti las 24 horas del día. Esto permite que tu equipo dedique más tiempo a actividades de valor mientras los procesos repetitivos se ejecutan de forma autónoma, como puedes ver en nuestra guía sobre <a href="/blog/automatizar-captacion-clientes-ia-pyme" onClick={() => trackEvent('internal_link', { link: 'blog-captacion' })} className="text-[#00D4FF] hover:underline">cómo automatizar la captación de clientes</a>.
             </p>
           </div>
         </section>
@@ -136,7 +169,9 @@ export default function ProcessAutomation() {
             </div>
             
             <div className="p-8 rounded-2xl border border-white/10 bg-gradient-to-b from-[#00FF9D]/20 to-[#0A1628]">
-              <h3 className="text-2xl font-bold mb-4 text-[#00FF9D]">Automatización de WhatsApp</h3>
+              <h3 className="text-2xl font-bold mb-4 text-[#00FF9D]">
+                <a href="/blog/automatizar-whatsapp-pyme" onClick={() => trackEvent('internal_link', { link: 'blog-whatsapp' })} className="hover:underline">Automatización de WhatsApp</a>
+              </h3>
               <p className="font-medium text-slate-300 mb-6">Cuando un cliente escribe por WhatsApp a la empresa, el sistema inteligente actúa:</p>
               <ul className="space-y-3">
                 <li className="flex items-center gap-3"><CheckCircle2 className="w-5 h-5 text-[#00FF9D]" /> <span className="font-medium text-slate-200">El cliente recibe una respuesta inmediata.</span></li>
@@ -175,34 +210,54 @@ export default function ProcessAutomation() {
         <section className="py-20 px-6 max-w-3xl mx-auto bg-[#0A1628]">
           <h2 className="text-3xl font-bold mb-12 text-center text-white">Preguntas Frecuentes</h2>
           <div className="space-y-6">
-            <div className="p-6 rounded-xl glass-card border border-white/10">
+            <div className="p-6 rounded-xl glass-card border border-white/10 hover:border-[#00D4FF]/30 transition-colors">
               <h3 className="font-bold text-lg mb-2 text-white">¿Necesito conocimientos técnicos?</h3>
               <p className="font-medium text-slate-300">No. Nosotros nos encargamos de toda la configuración, integración y puesta en marcha para que tú solo disfrutes de los resultados.</p>
             </div>
-            <div className="p-6 rounded-xl glass-card border border-white/10">
+            <div className="p-6 rounded-xl glass-card border border-white/10 hover:border-[#00D4FF]/30 transition-colors">
               <h3 className="font-bold text-lg mb-2 text-white">¿Se puede integrar con mis programas actuales?</h3>
               <p className="font-medium text-slate-300">Sí. Trabajamos con múltiples plataformas y herramientas. Conectamos tus sistemas actuales mediante APIs y automatizaciones a medida.</p>
             </div>
-            <div className="p-6 rounded-xl glass-card border border-white/10">
+            <div className="p-6 rounded-xl glass-card border border-white/10 hover:border-[#00D4FF]/30 transition-colors">
               <h3 className="font-bold text-lg mb-2 text-white">¿Cuánto tiempo tarda la implementación?</h3>
               <p className="font-medium text-slate-300">Depende del proyecto y su complejidad, aunque muchas automatizaciones esenciales pueden estar funcionando en pocos días.</p>
             </div>
-            <div className="p-6 rounded-xl glass-card border border-white/10">
+            <div className="p-6 rounded-xl glass-card border border-white/10 hover:border-[#00D4FF]/30 transition-colors">
               <h3 className="font-bold text-lg mb-2 text-white">¿Cuánto cuesta automatizar un proceso?</h3>
               <p className="font-medium text-slate-300">Depende de las necesidades exactas de tu negocio. Solicita una auditoría gratuita y te proporcionaremos un presupuesto sin compromiso.</p>
             </div>
-            <div className="p-6 rounded-xl glass-card border border-white/10">
+            <div className="p-6 rounded-xl glass-card border border-white/10 hover:border-[#00D4FF]/30 transition-colors">
               <h3 className="font-bold text-lg mb-2 text-white">¿Es necesario cambiar mi forma de trabajar?</h3>
               <p className="font-medium text-slate-300">No. Adaptamos la solución a la idiosincrasia de tu empresa para que la curva de aprendizaje sea nula.</p>
             </div>
           </div>
         </section>
 
+        {/* Casos de éxito relacionados */}
+        <section className="py-20 px-6 bg-[#0F172A] border-t border-white/5">
+          <div className="max-w-4xl mx-auto text-center">
+            <h2 className="text-3xl font-bold mb-8 text-white">Descubre cómo hemos ayudado a otras empresas</h2>
+            <p className="font-medium text-slate-300 mb-10 text-lg">
+              Explora ejemplos reales de automatización de procesos en clínicas, inmobiliarias y agencias B2B.
+            </p>
+            <a 
+              href="/casos-de-exito" 
+              onClick={() => trackEvent('internal_link', { link: 'casos-de-exito' })}
+              className="inline-flex items-center justify-center gap-3 px-8 py-4 bg-white/5 border border-white/10 hover:border-[#00D4FF]/50 hover:bg-white/10 text-white font-bold rounded-xl transition-all"
+            >
+              Ver Casos de Éxito Completos
+            </a>
+          </div>
+        </section>
+
       </ServiceLayout>
 
       <ModalController 
-        isOpen={isModalOpen} 
-        onClose={() => setIsModalOpen(false)} 
+        isOpen={modalConfig.isOpen} 
+        onClose={() => setModalConfig(prev => ({ ...prev, isOpen: false }))} 
+        title={modalConfig.title}
+        subtitle={modalConfig.subtitle}
+        submitText={modalConfig.submitText}
       />
     </>
   );

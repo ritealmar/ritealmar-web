@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Calculator, Clock, Cpu, BarChart3, Calendar, ShieldAlert, Loader2, Sparkles } from 'lucide-react';
 import { AnalyticsTracker } from '../utils/analyticsTracker';
+import { trackEvent } from '../utils/analytics';
 
 export default function ROICalculator() {
   // Estados del Formulario de Entrada
@@ -83,12 +84,16 @@ export default function ROICalculator() {
           <span className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-cyan-500/5 border border-cyan-500/20 text-[10px] font-black text-cyan-400 uppercase tracking-[0.2em] mb-6">
             <Cpu size={12} className="animate-pulse" /> Auditoría de Procesos en Tiempo Real
           </span>
-          <h2 className="text-4xl md:text-6xl font-black tracking-tight leading-none uppercase mb-6">
+          <motion.h2 
+            initial={{ opacity: 0, y: 40, backgroundPosition: '200% center' }}
+            whileInView={{ opacity: 1, y: 0, backgroundPosition: '0% center' }}
+            viewport={{ once: true, margin: "-100px" }}
+            transition={{ duration: 0.8, ease: "easeOut" }}
+            className="text-4xl md:text-6xl font-black tracking-tight leading-none uppercase mb-6 text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 via-purple-400 to-magenta-400 bg-[length:200%_auto]"
+          >
             Calcula el ROI de tu <br />
-            <span className="text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 via-purple-400 to-magenta-400">
-              Infraestructura Operativa
-            </span>
-          </h2>
+            Infraestructura Operativa
+          </motion.h2>
           <p className="text-lg text-slate-400 font-medium">
             Introduce los parámetros de tu organización. Nuestro motor heurístico analizará tus cuellos de botella y generará un informe de impacto inmediato.
           </p>
@@ -106,12 +111,13 @@ export default function ROICalculator() {
               <div className="bg-slate-900/30 border border-slate-800/80 rounded-3xl p-8 md:p-10 backdrop-blur-xl space-y-8">
                 <div>
                   <div className="flex justify-between items-end mb-4">
-                    <label className="text-sm font-bold uppercase tracking-wider text-slate-300 flex items-center gap-2">
+                    <label htmlFor="roi_empleados" className="text-sm font-bold uppercase tracking-wider text-slate-300 flex items-center gap-2">
                       <Calculator size={18} className="text-cyan-400" /> Personal operativo en plantilla
                     </label>
                     <span className="text-3xl font-black text-cyan-400">{empleados}</span>
                   </div>
                   <input 
+                    id="roi_empleados"
                     type="range" min="1" max="100" value={empleados} 
                     onChange={(e) => setEmpleados(parseInt(e.target.value))}
                     className="w-full h-1.5 bg-slate-800 rounded-lg appearance-none cursor-pointer accent-cyan-400"
@@ -120,43 +126,47 @@ export default function ROICalculator() {
 
                 <div>
                   <div className="flex justify-between items-end mb-4">
-                    <label className="text-sm font-bold uppercase tracking-wider text-slate-300 flex items-center gap-2">
+                    <label htmlFor="horas_perdidas" className="text-sm font-bold uppercase tracking-wider text-slate-300 flex items-center gap-2">
                       <Clock size={18} className="text-purple-400" /> Horas diarias perdidas por empleado
                     </label>
                     <span className="text-3xl font-black text-purple-400">{horasPerdidas}h</span>
                   </div>
                   <input 
+                    id="horas_perdidas"
                     type="range" min="1" max="8" value={horasPerdidas} 
-                    onChange={(e) => setHorasPeridas(parseInt(e.target.value))}
+                    onChange={(e) => setHorasPerdidas(parseInt(e.target.value))}
                     className="w-full h-1.5 bg-slate-800 rounded-lg appearance-none cursor-pointer accent-purple-400"
                   />
-                  <span className="text-[10px] text-slate-500 font-medium mt-2 block">(Picar datos, correos manuales, actualizar CRM, facturas escaneadas)</span>
+                  <span className="text-[10px] text-slate-400 font-medium mt-2 block">(Picar datos, correos manuales, actualizar CRM, facturas escaneadas)</span>
                 </div>
               </div>
 
               {/* Bloque Derecho: Inputs Corporativos de Captación */}
               <div className="bg-slate-900/10 border border-slate-800/40 rounded-3xl p-8 md:p-10 space-y-6">
                 <div className="space-y-2">
-                  <label className="text-xs font-bold uppercase tracking-widest text-slate-400 pl-1">Nombre de la Empresa</label>
+                  <label htmlFor="roi_empresa" className="text-xs font-bold uppercase tracking-widest text-slate-400 pl-1">Nombre de la Empresa</label>
                   <input 
+                    id="roi_empresa"
                     type="text" required placeholder="Ej. Clínicas Fuenlabrada S.L." value={empresa}
                     onChange={(e) => setEmpresa(e.target.value)}
-                    className="w-full bg-slate-950/60 border border-slate-800 rounded-xl px-5 py-4 text-sm text-white focus:outline-none focus:border-cyan-400 transition-all placeholder:text-slate-600"
+                    className="w-full bg-slate-950/60 border border-slate-800 rounded-xl px-5 py-4 text-sm text-white focus:outline-none focus:border-cyan-400 transition-all placeholder:text-slate-400"
                   />
                 </div>
 
                 <div className="space-y-2">
-                  <label className="text-xs font-bold uppercase tracking-widest text-slate-400 pl-1">Email Corporativo</label>
+                  <label htmlFor="roi_email" className="text-xs font-bold uppercase tracking-widest text-slate-400 pl-1">Email Corporativo</label>
                   <input 
+                    id="roi_email"
                     type="email" required placeholder="direccion@tuempresa.com" value={email}
                     onChange={(e) => setEmail(e.target.value)}
-                    className="w-full bg-slate-950/60 border border-slate-800 rounded-xl px-5 py-4 text-sm text-white focus:outline-none focus:border-cyan-400 transition-all placeholder:text-slate-600"
+                    className="w-full bg-slate-950/60 border border-slate-800 rounded-xl px-5 py-4 text-sm text-white focus:outline-none focus:border-cyan-400 transition-all placeholder:text-slate-400"
                   />
                 </div>
 
                 <div className="space-y-2">
-                  <label className="text-xs font-bold uppercase tracking-widest text-slate-400 pl-1">Prioridad de Implementación</label>
+                  <label htmlFor="roi_urgencia" className="text-xs font-bold uppercase tracking-widest text-slate-400 pl-1">Prioridad de Implementación</label>
                   <select 
+                    id="roi_urgencia"
                     value={urgencia} onChange={(e) => setUrgencia(e.target.value)}
                     className="w-full bg-slate-950/60 border border-slate-800 rounded-xl px-5 py-4 text-sm text-slate-300 focus:outline-none focus:border-cyan-400 transition-all"
                   >
@@ -190,7 +200,7 @@ export default function ROICalculator() {
               <div className="flex justify-between items-center border-b border-slate-800/60 pb-6 mb-8">
                 <div>
                   <h3 className="text-xl font-black text-white uppercase tracking-tight">Informe de Eficiencia: {empresa}</h3>
-                  <p className="text-xs font-mono text-slate-500 mt-1">ID PROCESO: {aiResult?.lead_id}</p>
+                  <p className="text-xs font-mono text-slate-400 mt-1">ID PROCESO: {aiResult?.lead_id}</p>
                 </div>
                 <div className={`px-4 py-2 rounded-full border text-[10px] font-black tracking-widest uppercase ${
                   aiResult?.temperatura === 'CALIENTE' ? 'bg-red-500/10 border-red-500/30 text-red-400' : 'bg-yellow-500/10 border-yellow-500/30 text-yellow-400'
@@ -202,15 +212,15 @@ export default function ROICalculator() {
               {/* Grid de Métricas Devueltas Directamente por tu Algoritmo */}
               <div className="grid sm:grid-cols-3 gap-6 mb-10">
                 <div className="bg-slate-950/60 border border-slate-900 p-6 rounded-2xl text-center">
-                  <p className="text-[10px] font-bold tracking-widest text-slate-500 uppercase mb-2">Ahorro Estimado</p>
+                  <p className="text-[10px] font-bold tracking-widest text-slate-400 uppercase mb-2">Ahorro Estimado</p>
                   <p className="text-4xl font-black text-cyan-400">+{aiResult?.ahorro_horas_mes}h<span className="text-xs text-slate-400 block mt-1">recuperadas al mes</span></p>
                 </div>
                 <div className="bg-slate-950/60 border border-slate-900 p-6 rounded-2xl text-center">
-                  <p className="text-[10px] font-bold tracking-widest text-slate-500 uppercase mb-2">Potencial de ROI</p>
+                  <p className="text-[10px] font-bold tracking-widest text-slate-400 uppercase mb-2">Potencial de ROI</p>
                   <p className="text-4xl font-black text-purple-400">{aiResult?.puntuacion_automatizacion}%<span className="text-xs text-slate-400 block mt-1">índice de automatización</span></p>
                 </div>
                 <div className="bg-slate-950/60 border border-slate-900 p-6 rounded-2xl text-center">
-                  <p className="text-[10px] font-bold tracking-widest text-slate-500 uppercase mb-2">Nivel de Alerta</p>
+                  <p className="text-[10px] font-bold tracking-widest text-slate-400 uppercase mb-2">Nivel de Alerta</p>
                   <p className="text-4xl font-black text-amber-400 uppercase tracking-tighter">{aiResult?.nivel_prioridad}</p>
                 </div>
               </div>
@@ -223,13 +233,13 @@ export default function ROICalculator() {
                 <p className="text-sm text-slate-300 leading-relaxed font-medium mb-4">{aiResult?.diagnostico_corto}</p>
                 <div className="grid sm:grid-cols-2 gap-4 pt-4 border-t border-slate-900">
                   <div>
-                    <span className="text-[10px] font-bold uppercase tracking-wider text-slate-500 block mb-2">Puntos Críticos</span>
+                    <span className="text-[10px] font-bold uppercase tracking-wider text-slate-400 block mb-2">Puntos Críticos</span>
                     <ul className="text-xs text-slate-400 space-y-1.5 list-disc pl-4 font-medium">
                       {aiResult?.cuellos_botella?.map((cb: string, i: number) => <li key={i}>{cb}</li>)}
                     </ul>
                   </div>
                   <div>
-                    <span className="text-[10px] font-bold uppercase tracking-wider text-slate-500 block mb-2">Acciones Inmediatas</span>
+                    <span className="text-[10px] font-bold uppercase tracking-wider text-slate-400 block mb-2">Acciones Inmediatas</span>
                     <ul className="text-xs text-cyan-400/80 space-y-1.5 list-disc pl-4 font-bold">
                       {aiResult?.acciones_prioritarias?.map((ap: string, i: number) => <li key={i}>{ap}</li>)}
                     </ul>
@@ -241,7 +251,10 @@ export default function ROICalculator() {
               <div className="text-center pt-4 border-t border-slate-800/60">
                 <p className="text-base text-slate-200 font-medium mb-6">Hemos sincronizado este informe con nuestro departamento de ingeniería de sistemas.</p>
                 <button 
-                  onClick={() => window.open('https://calendly.com/ritealmar', '_blank')}
+                  onClick={() => {
+                    trackEvent('click_calendly', { event_label: 'Calendly 30 min' });
+                    window.open('https://calendly.com/ritealmar/30min', '_blank');
+                  }}
                   className="px-10 py-5 rounded-xl bg-gradient-to-r from-purple-500 to-pink-500 font-black text-xs uppercase tracking-widest hover:shadow-[0_0_40px_rgba(168,85,247,0.5)] transition-all flex items-center gap-3 mx-auto"
                 >
                   Agendar Sesión de Solución Gratuita (15 Min) <Calendar size={16} />

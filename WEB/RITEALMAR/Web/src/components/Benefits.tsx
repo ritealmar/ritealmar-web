@@ -32,15 +32,16 @@ export default function Benefits() {
       {/* Background Decor */}
       <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,_rgba(0,212,255,0.05)_0%,_transparent_70%)] pointer-events-none"></div>
       <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[400px] bg-gradient-to-r from-[#00D4FF]/10 to-[#FF006E]/10 blur-[120px] pointer-events-none rounded-[100%] rotate-45 mix-blend-screen"></div>
-      <div className="absolute inset-0 bg-[url('https://grainy-gradients.vercel.app/noise.svg')] opacity-10 mix-blend-overlay pointer-events-none"></div>
+      <div className="absolute inset-0 bg-[url('/noise.svg')] opacity-10 mix-blend-overlay pointer-events-none"></div>
 
       <div className="max-w-7xl mx-auto px-6 relative z-10">
         <div className="text-center mb-20">
           <motion.h2 
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            className="text-4xl md:text-5xl font-bold mb-6"
+            initial={{ opacity: 0, y: 40, backgroundPosition: '200% center' }}
+            whileInView={{ opacity: 1, y: 0, backgroundPosition: '0% center' }}
+            viewport={{ once: true, margin: "-100px" }}
+            transition={{ duration: 0.8, ease: "easeOut" }}
+            className="text-4xl md:text-5xl font-bold mb-6 text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 via-purple-500 to-cyan-400 bg-[length:200%_auto]"
           >
             ¿Por qué elegir la automatización?
           </motion.h2>

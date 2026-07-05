@@ -1,9 +1,9 @@
 import { SeoLandingProps } from '../components/SeoLandingLayout';
 
 export const chatbotsIaData: SeoLandingProps = {
-  seoTitle: "Chatbots de IA para Atención al Cliente | Ritealmar",
+  seoTitle: "Chatbots IA para web, WhatsApp y atención al cliente | RITEALMAR",
   seoDesc: "Desarrollo de chatbots inteligentes con Inteligencia Artificial. Automatiza el soporte al cliente, captura leads 24/7 y mejora la retención.",
-  h1: "Chatbots Inteligentes: Atención al Cliente Automatizada 24/7",
+  h1: "Chatbots IA para web, WhatsApp y atención al cliente",
   subtitle: "Revoluciona el soporte y las ventas de tu empresa con Asistentes Virtuales impulsados por Inteligencia Artificial conversacional avanzada.",
   introParagraphs: [
     "La era de hacer esperar a los clientes horas o días para recibir una respuesta ha terminado. En el panorama competitivo actual, la inmediatez en la atención al cliente es un factor determinante para cerrar ventas y garantizar la satisfacción del usuario. En Ritealmar, desarrollamos e integramos chatbots inteligentes impulsados por modelos de lenguaje de última generación. Estos no son los típicos bots de opciones limitadas que frustran a los usuarios; son asistentes conversacionales avanzados capaces de entender el contexto, las sutilezas del lenguaje humano y responder con empatía, precisión y una velocidad sobrehumana. Están diseñados para resolver incidencias, cualificar leads y guiar al usuario a lo largo de su viaje de compra en tiempo real.",
@@ -18,6 +18,13 @@ export const chatbotsIaData: SeoLandingProps = {
     { title: "Atención Multicanal Omnipresente", desc: "La misma Inteligencia Artificial puede desplegarse simultáneamente en tu página web, WhatsApp Business, Instagram, Facebook Messenger y Telegram." },
     { title: "Escalabilidad sin Límites", desc: "Un chatbot puede atender a miles de clientes a la vez sin perder calidad ni tiempo de respuesta, soportando picos de tráfico en campañas o lanzamientos sin problemas." },
     { title: "Recopilación de Analíticas Valiosas", desc: "Analiza automáticamente el contenido de las conversaciones para identificar las dudas más frecuentes de los clientes, sus quejas y las oportunidades de mejora en tus productos." }
+  ],
+  processTitle: "Cómo construimos tu Agente IA",
+  process: [
+    { step: "01", title: "Definición", desc: "Acordamos el tono, el objetivo (soporte o ventas) y los canales a utilizar." },
+    { step: "02", title: "Entrenamiento", desc: "Alimentamos a la IA con los datos de tu negocio, FAQs y manuales." },
+    { step: "03", title: "Testing", desc: "Realizamos simulaciones de chat para asegurar respuestas precisas." },
+    { step: "04", title: "Despliegue", desc: "Lo conectamos a tu WhatsApp, Web o CRM y lo activamos." }
   ],
   includedTitle: "¿Qué incluye nuestro servicio de desarrollo de Chatbots?",
   included: [
@@ -36,13 +43,17 @@ export const chatbotsIaData: SeoLandingProps = {
     { q: "¿Cuánto tiempo se tarda en entrenar y lanzar un chatbot inteligente?", a: "El desarrollo y entrenamiento inicial suele durar entre 2 y 4 semanas, dependiendo del volumen de información a procesar y de las integraciones con sistemas externos requeridas." },
     { q: "¿El chatbot puede hablar en varios idiomas?", a: "Sí, los modelos de lenguaje que utilizamos son multilingües por naturaleza. El chatbot puede detectar automáticamente el idioma en el que el cliente le está hablando y responder de manera nativa en ese mismo idioma sin configuraciones adicionales." }
   ],
-  ctaText: "Crear un asistente virtual para mi empresa"
+  ctaText: "Crear un asistente virtual para mi empresa",
+  recommendedBlog: {
+    title: "¿Cómo captan clientes los Chatbots IA en PYMES?",
+    url: "/blog/automatizar-captacion-clientes-ia-pyme"
+  }
 };
 
 export const seoPosicionamientoData: SeoLandingProps = {
-  seoTitle: "Agencia SEO y Posicionamiento Web | Ritealmar",
+  seoTitle: "SEO para empresas que quieren más visibilidad | RITEALMAR",
   seoDesc: "Servicios de posicionamiento SEO avanzado. Domina los primeros resultados de Google, aumenta tu tráfico orgánico y atrae clientes de calidad a tu web.",
-  h1: "Estrategias de Posicionamiento SEO para Dominar tu Mercado",
+  h1: "SEO para empresas que quieren más visibilidad",
   subtitle: "Atrae tráfico cualificado, supera a tu competencia en los motores de búsqueda y convierte las visitas en clientes con nuestro enfoque de SEO técnico y de contenidos.",
   introParagraphs: [
     "Tener el mejor diseño web o el producto más innovador sirve de muy poco si nadie puede encontrarte en internet. El posicionamiento en buscadores (SEO) es la columna vertebral de cualquier estrategia de marketing digital exitosa. A diferencia de la publicidad de pago, donde el tráfico desaparece en el momento en que dejas de invertir, el SEO construye un activo a largo plazo para tu negocio. En Ritealmar, diseñamos y ejecutamos estrategias de SEO holísticas, combinando optimización técnica profunda, creación de contenido estratégico y construcción de autoridad, para asegurar que tu empresa aparezca en los primeros resultados de Google justo cuando tus clientes potenciales están buscando lo que ofreces.",
@@ -57,6 +68,13 @@ export const seoPosicionamientoData: SeoLandingProps = {
     { title: "Ventaja Competitiva Sostenible", desc: "Superar a tus competidores en las SERPs (páginas de resultados) significa quitarles cuota de mercado directamente. Es una barrera de entrada muy alta para nuevos competidores." },
     { title: "Mejora Continua de la Usabilidad", desc: "El SEO moderno exige páginas rápidas, seguras y fáciles de usar en dispositivos móviles, lo que mejora colateralmente la experiencia de usuario general en tu web." },
     { title: "Resultados Medibles y Transparentes", desc: "Realizamos un seguimiento detallado de posiciones, tráfico, conversiones y retorno de inversión, para que sepas exactamente el impacto de la estrategia en tu negocio." }
+  ],
+  processTitle: "Nuestra Metodología SEO",
+  process: [
+    { step: "01", title: "Auditoría SEO", desc: "Revisamos la salud técnica de tu web y resolvemos errores críticos." },
+    { step: "02", title: "Keyword Research", desc: "Buscamos las palabras clave que usan tus clientes para comprar." },
+    { step: "03", title: "Optimización", desc: "Mejoramos el contenido, la velocidad y la estructura de tu web." },
+    { step: "04", title: "Autoridad", desc: "Conseguimos enlaces de calidad para aumentar la fuerza de tu dominio." }
   ],
   includedTitle: "¿Qué incluye nuestra Auditoría y Estrategia SEO?",
   included: [
@@ -75,13 +93,17 @@ export const seoPosicionamientoData: SeoLandingProps = {
     { q: "¿Hacéis SEO para e-commerce y tiendas online?", a: "Sí, el SEO para e-commerce es una de nuestras especialidades. Optimizamos arquitecturas de categorías, fichas de producto, gestionamos problemas de contenido duplicado y optimizamos el rastreo para tiendas online con miles de referencias." },
     { q: "¿El presupuesto SEO es un pago único o mensual?", a: "Dado que tus competidores no dejan de optimizar sus webs y el algoritmo de Google cambia constantemente, el SEO efectivo requiere un trabajo mensual continuo (creación de contenido, link building, ajustes técnicos). Por ello, trabajamos mediante igualas mensuales (retainers) adaptadas a la agresividad de tus objetivos." }
   ],
-  ctaText: "Solicitar una Auditoría SEO Gratuita"
+  ctaText: "Solicitar una Auditoría SEO Gratuita",
+  recommendedBlog: {
+    title: "Una vez consigas tráfico SEO, automatiza su atención por WhatsApp",
+    url: "/blog/automatizar-whatsapp-pyme"
+  }
 };
 
 export const clinicasData: SeoLandingProps = {
-  seoTitle: "IA y Automatización para Clínicas Médicas | Ritealmar",
+  seoTitle: "IA para clínicas: más citas y mejor seguimiento | RITEALMAR",
   seoDesc: "Digitaliza tu clínica con inteligencia artificial. Automatización de citas, recordatorios, atención al paciente y gestión de historiales.",
-  h1: "Transformación Digital e Inteligencia Artificial para Clínicas",
+  h1: "IA para clínicas: más citas y mejor seguimiento",
   subtitle: "Optimiza la gestión de tu centro médico, reduce el ausentismo de los pacientes y automatiza la atención administrativa para enfocarte en lo que importa: la salud de tus pacientes.",
   introParagraphs: [
     "La gestión eficiente de una clínica médica, dental o de fisioterapia presenta desafíos únicos: un alto volumen de llamadas para agendar citas, altas tasas de ausentismo (no-shows) que impactan en la facturación, montañas de papeleo administrativo y la necesidad de mantener una atención al paciente excepcional. La Inteligencia Artificial y la automatización de procesos han llegado para revolucionar el sector de la salud privada, proporcionando herramientas que agilizan las operaciones del día a día, mejoran la rentabilidad y elevan la experiencia de los pacientes desde el primer contacto.",
@@ -96,6 +118,13 @@ export const clinicasData: SeoLandingProps = {
     { title: "Seguimiento Automático de Pacientes", desc: "Programa mensajes automatizados post-tratamiento para consultar la evolución del paciente, demostrando cercanía y profesionalidad sin consumir tiempo médico." },
     { title: "Recuperación de Huecos Libres", desc: "Si un paciente cancela, el sistema IA detecta automáticamente a los pacientes en lista de espera y les ofrece el nuevo hueco libre, maximizando la ocupación del doctor." },
     { title: "Incremento de la Reputación Online", desc: "Tras una consulta exitosa, envía automáticamente solicitudes de reseñas para tu ficha de Google, mejorando tu SEO local y atrayendo nuevos pacientes." }
+  ],
+  processTitle: "Implantación en tu Clínica",
+  process: [
+    { step: "01", title: "Análisis de Flujos", desc: "Estudiamos cómo gestionáis actualmente las citas y el seguimiento." },
+    { step: "02", title: "Integración CRM", desc: "Conectamos la IA con vuestro software médico actual." },
+    { step: "03", title: "Entrenamiento", desc: "Enseñamos a la IA a responder dudas médicas generales y agendar." },
+    { step: "04", title: "Puesta en Marcha", desc: "Activamos el asistente virtual de cara a los pacientes." }
   ],
   includedTitle: "¿Qué incluye nuestras soluciones para Clínicas?",
   included: [
@@ -114,5 +143,9 @@ export const clinicasData: SeoLandingProps = {
     { q: "¿Qué pasa si la IA no entiende la petición del paciente?", a: "Hemos diseñado protocolos de seguridad o 'escalado'. Si la Inteligencia Artificial determina que se trata de una urgencia médica o no logra entender el requerimiento tras un par de intentos, transfiere la conversación inmediatamente a un profesional humano de la clínica." },
     { q: "¿En cuánto tiempo se ve el retorno de la inversión?", a: "Normalmente en el primer mes de implementación. Solo reduciendo el porcentaje de citas fallidas (ausentismo) en un 10%, el sistema se amortiza a sí mismo, por no hablar del inmenso ahorro en horas de llamadas y tareas administrativas de la recepción." }
   ],
-  ctaText: "Digitalizar mi Clínica"
+  ctaText: "Digitalizar mi Clínica",
+  recommendedBlog: {
+    title: "Automatización de WhatsApp para Clínicas: El paso a paso",
+    url: "/blog/automatizar-whatsapp-pyme"
+  }
 };

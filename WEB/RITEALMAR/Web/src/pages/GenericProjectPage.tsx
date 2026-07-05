@@ -73,7 +73,16 @@ export default function GenericProjectPage({ data }: { data: ProjectData }) {
             transition={{ delay: 0.2 }}
             className="relative w-full aspect-video rounded-2xl overflow-hidden border border-white/10 shadow-[0_0_50px_rgba(0,0,0,0.5)]"
           >
-            <img src={data.heroImage} alt={data.title} className="w-full h-full object-cover" />
+            <img 
+              src={data.heroImage} 
+              alt={`Vista principal del proyecto ${data.title}`} 
+              loading="eager" 
+              fetchpriority="high"
+              decoding="async"
+              width="1920"
+              height="1080"
+              className="w-full h-full object-cover" 
+            />
             <div className="absolute inset-0 bg-gradient-to-t from-[#0A1628] via-transparent to-transparent opacity-80"></div>
           </motion.div>
         </div>
@@ -193,7 +202,15 @@ export default function GenericProjectPage({ data }: { data: ProjectData }) {
                 transition={{ delay: i * 0.1 }}
                 className="rounded-2xl overflow-hidden border border-white/10 shadow-xl group"
               >
-                <img src={img} alt={`Captura ${i + 1}`} className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" />
+                <img 
+                  src={img} 
+                  alt={`Captura de interfaz ${i + 1} de ${data.title}`} 
+                  loading="lazy" 
+                  decoding="async"
+                  width="1200" 
+                  height="800"
+                  className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" 
+                />
               </motion.div>
             ))}
           </div>

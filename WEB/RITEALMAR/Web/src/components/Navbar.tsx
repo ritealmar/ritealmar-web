@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from 'react';
-import { motion, AnimatePresence } from 'motion/react';
 import { Menu, X } from 'lucide-react';
+import { trackEvent } from '../utils/analytics';
 
-export default function Navbar({ onOpenCalendly }: { onOpenCalendly: () => void }) {
+export default function Navbar({ onOpenCalendly }: { onOpenCalendly: (config?: any) => void }) {
   const [scrolled, setScrolled] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
@@ -14,11 +14,23 @@ export default function Navbar({ onOpenCalendly }: { onOpenCalendly: () => void 
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
+  const handleNavClick = (e: React.MouseEvent<HTMLAnchorElement>, path: string, isMobile: boolean = false) => {
+    if (isMobile) {
+      setMobileMenuOpen(false);
+    }
+    if (path.startsWith('/') && !path.includes('#')) {
+      e.preventDefault();
+      trackEvent('internal_link', { link: path });
+      window.history.pushState({}, '', path);
+      window.dispatchEvent(new PopStateEvent('popstate'));
+    }
+  };
+
   const menuItems = [
-    { label: "Inicio", href: "#inicio" },
-    { label: "Servicios", href: "#servicios" },
-    { label: "Casos de Éxito", href: "#casos" },
-    { label: "Auditoría Gratuita", href: "#contacto", onClick: onOpenCalendly }
+    { label: "Inicio", href: "/" },
+    { label: "Servicios", href: "/#servicios" },
+    { label: "Casos de Éxito", href: "/casos-de-exito" },
+    { label: "Auditoría Gratuita", href: "/auditoria-ia-gratis", onClick: (e: any) => handleNavClick(e, '/auditoria-ia-gratis') }
   ];
 
   return (
@@ -26,11 +38,17 @@ export default function Navbar({ onOpenCalendly }: { onOpenCalendly: () => void 
       <div className="max-w-7xl mx-auto px-6 flex items-center justify-between">
         
         {/* 🚫 REFACTORIZACIÓN LOGO: De contenedor rígido a integración limpia */}
-        <a href="#inicio" className="relative z-50 flex items-center gap-3 group">
+        <a href="/" onClick={(e) => handleNavClick(e, '/')} className="relative z-50 flex items-center gap-3 group">
           <div className="relative p-1 transition-all duration-300">
             <img 
-              src="/logo-fondo.jpg" 
-              alt="Ritealmar IA" 
+              src="/logo-fondo.webp" 
+              alt="Ritealmar IA"
+              width="200"
+              height="48"
+              loading="eager"
+              decoding="async"
+              fetchpriority="high"
+              style={{ aspectRatio: "200/48" }}
               className="h-10 md:h-12 w-auto object-contain rounded-lg mix-blend-screen opacity-90 hover:opacity-100 transition-opacity"
             />
           </div>
@@ -46,58 +64,67 @@ export default function Navbar({ onOpenCalendly }: { onOpenCalendly: () => void 
             <a 
               key={i} 
               href={item.href}
+              onClick={(e) => handleNavClick(e, item.href)}
               className="text-slate-300 hover:text-[#00D4FF] font-medium text-sm transition-colors"
             >
               {item.label}
             </a>
           ))}
-          <button 
-            onClick={onOpenCalendly}
+          <a 
+            href="/auditoria-ia-gratis"
+            onClick={(e) => {
+              trackEvent('click_auditoria_gratis', { event_label: 'Botón auditoría gratuita' });
+              handleNavClick(e, '/auditoria-ia-gratis');
+            }}
             className="px-6 py-2.5 bg-[#FF006E]/10 border border-[#FF006E]/30 text-[#FF006E] hover:bg-[#FF006E] hover:text-white rounded-lg font-bold text-sm transition-all shadow-[0_0_15px_rgba(255,0,110,0.2)] hover:shadow-[0_0_25px_rgba(255,0,110,0.5)]"
           >
             Auditoría Gratuita
-          </button>
+          </a>
         </div>
 
         {/* Mobile Toggle */}
         <button 
-          className="md:hidden relative z-50 text-white p-2"
+          className="md:hidden relative z-50 text-white p-2 focus:outline-none focus:ring-2 focus:ring-cyan-400 rounded-lg"
           onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
+          aria-label={mobileMenuOpen ? "Cerrar menú" : "Abrir menú"}
+          aria-expanded={mobileMenuOpen}
         >
-          {mobileMenuOpen ? <X size={28} /> : <Menu size={28} />}
+          {mobileMenuOpen ? <X size={28} aria-hidden="true" /> : <Menu size={28} aria-hidden="true" />}
         </button>
       </div>
 
       {/* Mobile Menu Fullscreen */}
-      <AnimatePresence>
+      <>
         {mobileMenuOpen && (
-          <motion.div
-            initial={{ opacity: 0, y: -20 }}
-            animate={{ opacity: 1, y: 0 }}
-            exit={{ opacity: 0, y: -20 }}
-            className="fixed inset-0 bg-[#0A1628]/95 backdrop-blur-xl z-40 flex flex-col items-center justify-center"
+          <div
+            className="fixed inset-0 bg-[#0A1628]/95 backdrop-blur-xl z-40 flex flex-col items-center justify-center animate-fade-in"
           >
             <div className="flex flex-col items-center gap-8 w-full px-6">
-              {menuItems.map((item, i) => (
+              {menuItems.slice(0, 3).map((item, i) => (
                 <a
                   key={i}
                   href={item.href}
-                  onClick={(e) => {
-                    setMobileMenuOpen(false);
-                    if (item.onClick) {
-                      e.preventDefault();
-                      item.onClick();
-                    }
-                  }}
-                  className={`text-2xl font-bold ${i === menuItems.length - 1 ? 'text-[#FF006E]' : 'text-white'}`}
+                  onClick={(e) => handleNavClick(e, item.href, true)}
+                  className="text-2xl font-bold text-white"
                 >
                   {item.label}
                 </a>
               ))}
+              <a
+                href="/auditoria-ia-gratis"
+                onClick={(e) => {
+                  setMobileMenuOpen(false);
+                  trackEvent('click_auditoria_gratis', { event_label: 'Botón auditoría gratuita' });
+                  handleNavClick(e as any, '/auditoria-ia-gratis', true);
+                }}
+                className="w-full mt-4 bg-gradient-to-r from-[#FF006E] to-[#00D4FF] text-white py-3 rounded-lg font-bold text-xl flex items-center justify-center"
+              >
+                Auditoría Gratuita
+              </a>
             </div>
-          </motion.div>
+          </div>
         )}
-      </AnimatePresence>
+      </>
     </nav>
   );
 }

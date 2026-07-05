@@ -16,14 +16,14 @@ interface ServiceData {
 }
 
 export default function GenericServicePage({ data }: { data: ServiceData }) {
-  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [modalConfig, setModalConfig] = useState<{ isOpen: boolean; title?: string; subtitle?: string; submitText?: string }>({ isOpen: false });
 
   return (
     <>
       <ServiceLayout 
         title={data.title}
         subtitle={data.subtitle}
-        onOpenCalendly={() => setIsModalOpen(true)}
+        onOpenCalendly={(config) => setModalConfig({ isOpen: true, ...(config || {}) })}
       >
         
         {/* Intro Section */}
@@ -89,8 +89,11 @@ export default function GenericServicePage({ data }: { data: ServiceData }) {
       </ServiceLayout>
 
       <ModalController 
-        isOpen={isModalOpen} 
-        onClose={() => setIsModalOpen(false)} 
+        isOpen={modalConfig.isOpen} 
+        onClose={() => setModalConfig(prev => ({ ...prev, isOpen: false }))} 
+        title={modalConfig.title}
+        subtitle={modalConfig.subtitle}
+        submitText={modalConfig.submitText}
       />
     </>
   );

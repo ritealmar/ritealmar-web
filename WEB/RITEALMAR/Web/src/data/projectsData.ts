@@ -3,8 +3,8 @@ export const projectsData: Record<string, any> = {
     id: "almar-fsm",
     title: "ALMAR FSM",
     category: "SaaS Logístico",
-    heroImage: "/almar.jpg",
-    screenshots: ["/almar.jpg"],
+    heroImage: "/almar.webp",
+    screenshots: ["/almar.webp"],
     challenge: "ALMAR necesitaba coordinar una red de logística de campo con cientos de técnicos. El proceso dependía de llamadas telefónicas y hojas de cálculo manuales, causando retrasos, pérdida de información y tiempos de inactividad que penalizaban la rentabilidad de las rutas.",
     solution: "Desarrollamos e implementamos ALMAR FSM, un sistema de Field Service Management gestionado íntegramente por un motor de Inteligencia Artificial que automatiza la asignación de rutas, monitoriza el inventario en tiempo real y gestiona incidencias mediante chatbots integrados en WhatsApp para los técnicos.",
     features: [
@@ -14,17 +14,17 @@ export const projectsData: Record<string, any> = {
       { title: "Generación de Informes", desc: "PDFs automáticos con fotografías y firmas al completar los servicios." }
     ],
     stats: [
-      { label: "Tiempo de Asignación", before: "45 mins", after: "Instantáneo" },
-      { label: "Errores de Inventario", before: "18%", after: "0.2%" },
-      { label: "Productividad Diaria", before: "4 servicios/día", after: "7 servicios/día" }
+      { label: "Tiempo de Asignación", before: "Manual", after: "Instantáneo" },
+      { label: "Errores de Inventario", before: "Frecuentes", after: "Minimizados" },
+      { label: "Productividad Diaria", before: "Limitada", after: "Escalada" }
     ]
   },
   'aurentia-app': {
     id: "aurentia-app",
     title: "Aurentia App",
     category: "Aplicación Móvil / IA",
-    heroImage: "/aurenta.jpg",
-    screenshots: ["/aurenta.jpg"],
+    heroImage: "/aurenta.webp",
+    screenshots: ["/aurenta.webp"],
     challenge: "Aurentia manejaba un volumen insostenible de consultas de clientes que sobrecargaba a su equipo de soporte. Las respuestas tardaban horas y la pérdida de leads (clientes potenciales) era significativa.",
     solution: "Creamos Aurentia App, centralizando toda la atención al cliente con una IA entrenada específicamente con la documentación, políticas y catálogo de la empresa. La IA entiende el contexto de cada usuario y responde al instante de forma humana y precisa.",
     features: [
@@ -34,17 +34,17 @@ export const projectsData: Record<string, any> = {
       { title: "Dashboard de Análisis", desc: "Métricas en tiempo real sobre los motivos de consulta más frecuentes." }
     ],
     stats: [
-      { label: "Tiempo de Respuesta", before: "4 horas", after: "3 segundos" },
-      { label: "Consultas Resueltas por IA", before: "0%", after: "85%" },
-      { label: "Satisfacción del Cliente", before: "7.2/10", after: "9.5/10" }
+      { label: "Tiempo de Respuesta", before: "Horas", after: "Segundos" },
+      { label: "Consultas Resueltas por IA", before: "Cero", after: "Mayoría delegada" },
+      { label: "Satisfacción del Cliente", before: "Mejorable", after: "Sobresaliente" }
     ]
   },
   'ritecore': {
     id: "ritecore",
     title: "RITECORE",
     category: "Plataforma Cloud",
-    heroImage: "/ritecore.jpg",
-    screenshots: ["/ritecore.jpg"],
+    heroImage: "/ritecore.webp",
+    screenshots: ["/ritecore.webp"],
     challenge: "La gestión del soporte técnico de nivel 1 era un cuello de botella constante. Requería demasiado personal para resolver problemas triviales, como reseteo de contraseñas o dudas comunes de hardware.",
     solution: "Lanzamos RITECORE, una plataforma cloud que automatiza el soporte técnico mediante flujos de trabajo inteligentes. La plataforma diagnostica problemas, guía al usuario paso a paso y ejecuta scripts en remoto para solucionar incidencias comunes sin intervención humana.",
     features: [
@@ -54,28 +54,28 @@ export const projectsData: Record<string, any> = {
       { title: "Integración con Ticketing", desc: "Conexión directa con Jira y Zendesk para trazabilidad." }
     ],
     stats: [
-      { label: "Tickets Abiertos", before: "500/semana", after: "120/semana" },
-      { label: "Coste por Resolución", before: "15€", after: "0.45€" },
-      { label: "Tiempo de Inactividad", before: "3 horas", after: "15 minutos" }
+      { label: "Gestión de Tickets", before: "Cuello de botella", after: "Filtrado automático" },
+      { label: "Coste de Soporte", before: "Alto", after: "Reducido" },
+      { label: "Tiempo de Inactividad", before: "Horas", after: "Minutos" }
     ]
   },
   'panel-central': {
     id: "panel-central",
     title: "Panel Central",
     category: "Dashboard Corporativo",
-    heroImage: "/panel.jpg",
-    screenshots: ["/panel.jpg"],
+    heroImage: "/panel.webp",
+    screenshots: ["/panel.webp"],
     challenge: "La directiva operaba a ciegas. Los datos financieros, de marketing y operaciones estaban dispersos en 5 plataformas diferentes, requiriendo que analistas pasaran días consolidando datos en Excel antes de poder tomar decisiones.",
     solution: "Diseñamos un 'Panel Central' hiper-conectado que unifica todas las fuentes de datos (ERPs, CRMs, pasarelas de pago, campañas publicitarias) en tiempo real, aplicando algoritmos predictivos para pronosticar ingresos y detectar anomalías de gasto.",
     features: [
       { title: "Sincronización Total", desc: "Integración vía API con más de 12 plataformas empresariales críticas." },
       { title: "Alertas Inteligentes", desc: "Avisos por Slack/Email si el coste de adquisición (CPA) de marketing sube bruscamente." },
       { title: "Reportes Automáticos", desc: "Generación de informes directivos en PDF y su envío por correo todos los viernes a las 18:00." },
-      { title: "Pronóstico de Caja", desc: "La IA estima la liquidez a 30, 60 y 90 días con una precisión del 94%." }
+      { title: "Pronóstico de Caja", desc: "La IA estima la liquidez a 30, 60 y 90 días con alta precisión predictiva." }
     ],
     stats: [
-      { label: "Tiempo Consolidando Datos", before: "3 días/mes", after: "0 horas" },
-      { label: "Precisión de Previsión", before: "65%", after: "94%" },
+      { label: "Tiempo Consolidando Datos", before: "Días/mes", after: "Minutos" },
+      { label: "Precisión de Previsión", before: "Baja", after: "Alta predictibilidad" },
       { label: "Detección de Pérdidas", before: "Mensual", after: "Tiempo Real" }
     ]
   },
@@ -83,8 +83,8 @@ export const projectsData: Record<string, any> = {
     id: "stylio",
     title: "STYLIO",
     category: "SaaS Empresarial",
-    heroImage: "/stylio.jpg",
-    screenshots: ["/stylio.jpg"],
+    heroImage: "https://images.unsplash.com/photo-1555421689-491a97ff2040?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&q=80",
+    screenshots: ["https://images.unsplash.com/photo-1555421689-491a97ff2040?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&q=80"],
     challenge: "Una red de clínicas/salones de estética sufría un 25% de ausencias en sus citas ('no-shows') y perdía muchas horas intentando reagendar manualmente por teléfono, dejando huecos en sus agendas que impactaban su facturación.",
     solution: "Implementamos STYLIO, un software SaaS All-In-One con reservas inteligentes. El sistema gestiona las agendas, envía recordatorios por WhatsApp y, si un cliente cancela, un Agente IA contacta a la lista de espera automáticamente para llenar el hueco en minutos.",
     features: [
@@ -94,9 +94,9 @@ export const projectsData: Record<string, any> = {
       { title: "TPV Integrado", desc: "Cobros, facturación y cálculo de comisiones para el personal en una sola plataforma." }
     ],
     stats: [
-      { label: "Ausencias (No-shows)", before: "25%", after: "4%" },
-      { label: "Huecos Recuperados", before: "10%", after: "92%" },
-      { label: "Aumento Facturación", before: "-", after: "+31%" }
+      { label: "Ausencias (No-shows)", before: "Frecuentes", after: "Reducidas" },
+      { label: "Huecos Recuperados", before: "Manual", after: "Automático" },
+      { label: "Facturación", before: "Estancada", after: "Optimizada" }
     ]
   },
   'facade-ai-pro': {
@@ -114,9 +114,9 @@ export const projectsData: Record<string, any> = {
       { title: "Cálculo Automático", desc: "Cotizador avanzado que estima superficies, materiales y costes al instante." }
     ],
     stats: [
-      { label: "Tiempo de Análisis", before: "4 horas", after: "3 minutos" },
-      { label: "Precisión de Medición", before: "75%", after: "98%" },
-      { label: "Eficiencia del Técnico", before: "2 visitas/día", after: "10 visitas/día" }
+      { label: "Tiempo de Análisis", before: "Horas/Días", after: "Minutos" },
+      { label: "Precisión de Medición", before: "Estimación visual", after: "Alta precisión algorítmica" },
+      { label: "Eficiencia del Técnico", before: "Limitada", after: "Alta capacidad diaria" }
     ]
   },
   'rehab-ia-web': {
@@ -134,9 +134,9 @@ export const projectsData: Record<string, any> = {
       { title: "Rendimiento Core", desc: "Tiempos de carga inferiores a 0.8s para evitar el abandono de la página." }
     ],
     stats: [
-      { label: "Captación B2B", before: "Boca a boca", after: "+45 Leads/mes" },
-      { label: "Tiempo de Carga", before: "4.2s", after: "0.6s" },
-      { label: "Tasa de Conversión", before: "0.8%", after: "3.4%" }
+      { label: "Captación B2B", before: "Boca a boca", after: "Flujo digital" },
+      { label: "Tiempo de Carga", before: "Lento", after: "Ultrarrápido" },
+      { label: "Conversión a Leads", before: "Baja", after: "Optimizada" }
     ]
   }
 };

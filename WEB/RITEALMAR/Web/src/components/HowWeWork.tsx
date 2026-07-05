@@ -34,10 +34,11 @@ export default function HowWeWork() {
       <div className="max-w-7xl mx-auto px-6 relative z-10">
         <div className="text-center mb-24">
           <motion.h2 
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            className="text-4xl md:text-5xl font-bold mb-6 text-white"
+            initial={{ opacity: 0, y: 40, backgroundPosition: '200% center' }}
+            whileInView={{ opacity: 1, y: 0, backgroundPosition: '0% center' }}
+            viewport={{ once: true, margin: "-100px" }}
+            transition={{ duration: 0.8, ease: "easeOut" }}
+            className="text-4xl md:text-5xl font-bold mb-6 text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 via-purple-500 to-cyan-400 bg-[length:200%_auto]"
           >
             Cómo Trabajamos
           </motion.h2>

@@ -71,7 +71,11 @@ export const AlmarFeatureTour = () => {
                 <img 
                   src={feature.image} 
                   alt={feature.title} 
-                  className="rounded-3xl border border-white/10 shadow-2xl relative z-10 grayscale hover:grayscale-0 transition-all duration-700"
+                  loading="lazy"
+                  decoding="async"
+                  width="800"
+                  height="600"
+                  className="rounded-3xl border border-white/10 shadow-2xl relative z-10 grayscale hover:grayscale-0 transition-all duration-700 w-full"
                 />
               </motion.div>
             </div>

@@ -29,7 +29,7 @@ export default function SEOIAAttention({ onBack }: { onBack?: () => void }) {
       <nav className="fixed top-0 left-0 right-0 z-50 bg-white/90 backdrop-blur-xl border-b" style={{ borderColor: THEME.border }}>
         <div className="max-w-7xl mx-auto px-6 h-20 flex items-center justify-between">
           <div className="flex items-center gap-3 cursor-pointer" onClick={onBack}>
-            <img src="/assets/logo ritealmar.jpg" alt="Ritealmar Logo" className="h-9 w-auto rounded" />
+            <img src="/assets/logo ritealmar.webp" alt="Ritealmar Logo" className="h-9 w-auto rounded" width="150" height="36" loading="eager" decoding="async" fetchpriority="high" />
             <span className="text-xl font-black tracking-tighter">RITEALMAR</span>
           </div>
           <button 

@@ -160,7 +160,7 @@ export default function BrutalLanding() {
         )}
       </AnimatePresence>
 
-      <main className="pt-32">
+      <div className="pt-32">
         {/* HERO - Massive Vertical Padding, Improved Breathing Room */}
         <section id="ia" className="relative py-24 lg:py-48 flex items-center min-h-[80vh]">
           <div className="container mx-auto max-w-[1400px] px-8 lg:px-16 grid lg:grid-cols-2 gap-24 items-center">
@@ -297,7 +297,7 @@ export default function BrutalLanding() {
             </div>
           </div>
         </section>
-      </main>
+      </div>
 
       <footer className="py-20 border-t border-black/5 bg-white/50">
         <div className="container mx-auto max-w-[1400px] px-8 lg:px-16 flex flex-col lg:flex-row justify-between items-center gap-12">

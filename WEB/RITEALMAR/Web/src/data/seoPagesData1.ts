@@ -1,9 +1,9 @@
 import { SeoLandingProps } from '../components/SeoLandingLayout';
 
 export const disenoWebData: SeoLandingProps = {
-  seoTitle: "Diseño Web Profesional a Medida | Ritealmar",
+  seoTitle: "Diseño Web Profesional para Empresas que Venden | RITEALMAR",
   seoDesc: "Servicios de diseño web premium. Creamos páginas web corporativas rápidas, optimizadas para SEO y orientadas a convertir visitantes en clientes.",
-  h1: "Diseño Web Profesional: Tu Escaparate Digital de Alta Conversión",
+  h1: "Diseño web profesional para empresas que quieren captar clientes",
   subtitle: "Creamos páginas web que no solo destacan por su diseño atractivo, sino que están estructuradas para atraer tráfico cualificado y multiplicar tus ventas online.",
   introParagraphs: [
     "En la era digital actual, tener una página web no es opcional, es una necesidad absoluta para cualquier empresa que quiera sobrevivir y crecer. Sin embargo, no sirve cualquier diseño. Tu sitio web es a menudo la primera impresión que tienen tus clientes potenciales de tu negocio. Si encuentran una página lenta, desactualizada o difícil de navegar, se irán a la competencia en cuestión de segundos. En Ritealmar, entendemos que el diseño web profesional va mucho más allá de la estética visual; se trata de crear una experiencia de usuario impecable que guíe al visitante hacia la conversión.",
@@ -18,6 +18,13 @@ export const disenoWebData: SeoLandingProps = {
     { title: "Velocidad de Carga Extrema", desc: "Optimizamos cada imagen y script para que tu web cargue en milisegundos, reduciendo la tasa de rebote y mejorando la retención de usuarios." },
     { title: "Adaptabilidad Total (Responsive)", desc: "Tu sitio web se verá y funcionará perfectamente en smartphones, tablets y ordenadores de escritorio, llegando a tus clientes dondequiera que estén." },
     { title: "Seguridad y Estabilidad", desc: "Implementamos los más altos estándares de seguridad web para proteger los datos de tu empresa y los de tus clientes frente a cualquier amenaza digital." }
+  ],
+  processTitle: "Nuestro proceso de trabajo",
+  process: [
+    { step: "01", title: "Estrategia", desc: "Definimos los objetivos y la estructura ideal para captar a tu cliente ideal." },
+    { step: "02", title: "Diseño UX/UI", desc: "Creamos los prototipos visuales priorizando la experiencia y la conversión." },
+    { step: "03", title: "Desarrollo", desc: "Programamos la web con código limpio y tecnología de última generación." },
+    { step: "04", title: "Lanzamiento", desc: "Publicamos tu web optimizada para SEO y configuramos tu analítica." }
   ],
   includedTitle: "¿Qué incluye nuestro servicio de Diseño Web?",
   included: [
@@ -37,13 +44,17 @@ export const disenoWebData: SeoLandingProps = {
     { q: "¿Están vuestras webs optimizadas para móviles?", a: "Sí, el 100% de nuestros diseños web adoptan un enfoque 'Mobile-First'. Nos aseguramos de que la experiencia en dispositivos móviles sea tan perfecta o mejor que en ordenadores de escritorio, dado que la mayor parte del tráfico actual proviene de smartphones." }
   ],
   ctaText: "Quiero mi nueva página web",
-  whatsappNumber: "34600000000" // Replace with real if known, using generic placeholder so client can edit
+  whatsappNumber: "34600000000",
+  recommendedBlog: {
+    title: "Cómo automatizar la captación de clientes en tu nueva web",
+    url: "/blog/automatizar-captacion-clientes-ia-pyme"
+  }
 };
 
 export const appsEmpresasData: SeoLandingProps = {
-  seoTitle: "Desarrollo de Apps para Empresas | Ritealmar",
+  seoTitle: "Apps para empresas y software a medida | RITEALMAR",
   seoDesc: "Desarrollo de aplicaciones móviles y web a medida para empresas. Digitaliza y automatiza tus procesos internos con software exclusivo.",
-  h1: "Desarrollo de Apps para Empresas: Innovación a Medida",
+  h1: "Apps para empresas y software a medida",
   subtitle: "Creamos aplicaciones móviles y plataformas web personalizadas que optimizan tus procesos internos, mejoran la comunicación con tus clientes y escalan tu negocio.",
   introParagraphs: [
     "El mundo empresarial avanza a un ritmo vertiginoso y las soluciones genéricas de software a menudo se quedan cortas a la hora de resolver problemas específicos. Desarrollar apps para empresas a medida no es un lujo, es una estrategia clave para obtener una ventaja competitiva sostenible. En Ritealmar, nos especializamos en la conceptualización, diseño y desarrollo de aplicaciones personalizadas que se adaptan como un guante a las operativas y necesidades únicas de tu corporación. Ya sea que busques digitalizar el trabajo de campo de tus técnicos, crear un canal de ventas directo para tus clientes o centralizar la gestión de datos, tenemos la experiencia técnica para hacerlo realidad.",
@@ -58,6 +69,13 @@ export const appsEmpresasData: SeoLandingProps = {
     { title: "Mejora de la Experiencia del Cliente", desc: "Si la app es para tus clientes, ofréceles un canal de comunicación directo, rápido y moderno que fidelice y fomente la recurrencia de compra." },
     { title: "Integración con Sistemas Existentes", desc: "Conectamos tu nueva aplicación con las herramientas que ya usas (SAP, Salesforce, bases de datos heredadas) para asegurar una sincronización de datos perfecta." },
     { title: "Escalabilidad Garantizada", desc: "A medida que tu empresa crece, tu aplicación crece contigo. Diseñamos sistemas preparados para soportar más usuarios y nuevas funcionalidades sin requerir reescrituras completas." }
+  ],
+  processTitle: "Fases de Desarrollo de Software",
+  process: [
+    { step: "01", title: "Auditoría Técnica", desc: "Entendemos tus procesos y definimos la arquitectura del software a medida." },
+    { step: "02", title: "Prototipado (UI/UX)", desc: "Diseñamos las pantallas y flujos para validar la usabilidad antes de programar." },
+    { step: "03", title: "Programación Ágil", desc: "Desarrollamos de forma incremental para que puedas ver los avances." },
+    { step: "04", title: "Despliegue y QA", desc: "Realizamos pruebas de estrés y publicamos el sistema en servidores seguros." }
   ],
   includedTitle: "¿Qué incluye nuestro servicio de desarrollo de apps?",
   included: [
@@ -76,13 +94,17 @@ export const appsEmpresasData: SeoLandingProps = {
     { q: "¿Ofrecen servicios de mantenimiento una vez terminada la app?", a: "Por supuesto. El software requiere actualizaciones y mejoras continuas. Ofrecemos planes de mantenimiento para garantizar que tu aplicación siga funcionando perfectamente frente a actualizaciones de sistemas operativos o nuevos requerimientos de seguridad." },
     { q: "¿Cuánto cuesta desarrollar una aplicación para mi empresa?", a: "El coste varía significativamente en función de las funcionalidades, plataformas (iOS, Android, Web) y nivel de integración requerido. Contacta con nosotros para una consultoría gratuita donde evaluaremos el alcance y te proporcionaremos un presupuesto detallado." }
   ],
-  ctaText: "Solicitar presupuesto para mi app"
+  ctaText: "Solicitar presupuesto para mi app",
+  recommendedBlog: {
+    title: "Descubre por qué la automatización de WhatsApp es esencial para tu app B2B",
+    url: "/blog/automatizar-whatsapp-pyme"
+  }
 };
 
 export const automatizacionesIaData: SeoLandingProps = {
-  seoTitle: "Automatizaciones con IA | Ritealmar",
+  seoTitle: "Automatizaciones IA para reducir tareas manuales | RITEALMAR",
   seoDesc: "Implementamos automatizaciones con Inteligencia Artificial para eliminar tareas repetitivas, reducir costes y escalar la productividad de tu empresa.",
-  h1: "Automatizaciones con Inteligencia Artificial para Empresas",
+  h1: "Automatizaciones IA para reducir tareas manuales",
   subtitle: "Multiplica la eficiencia de tu equipo delegando las tareas repetitivas, la extracción de datos y la gestión de flujos de trabajo a sistemas impulsados por Inteligencia Artificial.",
   introParagraphs: [
     "La automatización de procesos ya no se limita a simples reglas condicionales; la verdadera revolución empresarial llega con las automatizaciones impulsadas por Inteligencia Artificial. En Ritealmar, diseñamos e implementamos sistemas inteligentes capaces de razonar, entender el lenguaje natural y tomar decisiones en tiempo real, transformando por completo la forma en que operan las organizaciones. Las automatizaciones con IA permiten a las empresas hacer más con menos, liberando al talento humano de tareas tediosas, manuales y propensas a errores, para que puedan enfocarse en el pensamiento estratégico, la creatividad y la atención personalizada al cliente.",
@@ -97,6 +119,13 @@ export const automatizacionesIaData: SeoLandingProps = {
     { title: "Escalabilidad Inmediata", desc: "Tus sistemas automatizados pueden gestionar picos de demanda repentinos (por ejemplo, en soporte o procesamiento de pedidos) sin requerir reestructuraciones operativas." },
     { title: "Toma de Decisiones Basada en Datos", desc: "La IA puede analizar grandes conjuntos de datos en tiempo real, extrayendo insights y patrones que ayudan a la directiva a tomar decisiones estratégicas más informadas." },
     { title: "Mejora del Bienestar Laboral", desc: "Al eliminar el trabajo monótono y repetitivo, los empleados experimentan una mayor satisfacción laboral, pudiendo dedicar su tiempo a tareas de mayor valor añadido y creatividad." }
+  ],
+  processTitle: "Cómo integramos la IA en tu empresa",
+  process: [
+    { step: "01", title: "Consultoría Inicial", desc: "Identificamos los procesos manuales que están consumiendo más recursos." },
+    { step: "02", title: "Prueba de Concepto", desc: "Validamos la viabilidad técnica con un proceso piloto rápido." },
+    { step: "03", title: "Integración de API", desc: "Conectamos los modelos de IA con tu ERP, CRM y herramientas actuales." },
+    { step: "04", title: "Puesta en Producción", desc: "Desplegamos la automatización y formamos a tu equipo para utilizarla." }
   ],
   includedTitle: "¿Qué incluye nuestra consultoría e implementación de IA?",
   included: [
@@ -115,5 +144,9 @@ export const automatizacionesIaData: SeoLandingProps = {
     { q: "¿Son seguros mis datos al utilizar modelos de lenguaje IA?", a: "La seguridad es nuestra prioridad. Implementamos soluciones de IA utilizando proveedores que garantizan el cumplimiento normativo (como GDPR) y aseguramos que tus datos no se utilicen para entrenar modelos públicos sin tu consentimiento explícito." },
     { q: "¿Cuánto tardan en verse los resultados tras implementar una automatización?", a: "Los resultados en términos de ahorro de tiempo y reducción de errores son inmediatos desde el momento del despliegue. Muchos de nuestros clientes reportan un retorno de inversión en los primeros meses de uso de la nueva infraestructura inteligente." }
   ],
-  ctaText: "Auditar mis procesos y automatizar"
+  ctaText: "Auditar mis procesos y automatizar",
+  recommendedBlog: {
+    title: "Cómo automatizar la captación de clientes con IA en una PYME",
+    url: "/blog/automatizar-captacion-clientes-ia-pyme"
+  }
 };

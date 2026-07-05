@@ -2,16 +2,49 @@ import React, { useState } from 'react';
 import ServiceLayout from '../components/ServiceLayout';
 import { ModalController } from '../components/ModalController';
 import { Brain, Search, Code, CheckCircle2, Zap } from 'lucide-react';
+import RecursosRecomendados from '../components/RecursosRecomendados';
+import { trackEvent } from '../utils/analytics';
 
 export default function AgentesIA() {
-  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [modalConfig, setModalConfig] = useState<{ isOpen: boolean; title?: string; subtitle?: string; submitText?: string }>({ isOpen: false });
+
+  const breadcrumbSchema = {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    "itemListElement": [
+      {
+        "@type": "ListItem",
+        "position": 1,
+        "name": "Home",
+        "item": "https://ritealmar.es/"
+      },
+      {
+        "@type": "ListItem",
+        "position": 2,
+        "name": "Servicios",
+        "item": "https://ritealmar.es/servicios"
+      },
+      {
+        "@type": "ListItem",
+        "position": 3,
+        "name": "Agentes IA",
+        "item": "https://ritealmar.es/servicios/agentes-ia"
+      }
+    ]
+  };
 
   return (
     <>
+      <script 
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbSchema) }}
+      />
       <ServiceLayout 
         title="Agentes de Inteligencia Artificial"
-        subtitle="Sistemas autónomos que no solo responden, sino que ejecutan tareas complejas, toman decisiones basadas en datos y operan como empleados digitales de alto rendimiento."
-        onOpenCalendly={() => setIsModalOpen(true)}
+        subtitle="Sistemas autónomos que no solo responden, sino que ejecutan tareas complejas, toman decisiones basadas en datos y operan como empleados digitales."
+        onOpenCalendly={(config) => setModalConfig({ isOpen: true, ...(config || {}) })}
+        seoTitle="Agentes de IA Autónomos para Negocios | Empleados Digitales"
+        seoDesc="Desarrollamos agentes de inteligencia artificial que ejecutan flujos de trabajo completos, toman decisiones y operan herramientas sin supervisión humana."
       >
         
         {/* Intro Section */}
@@ -22,7 +55,7 @@ export default function AgentesIA() {
               Mientras que un chatbot está diseñado principalmente para conversar, un Agente de Inteligencia Artificial es un sistema autónomo capaz de ejecutar flujos de trabajo completos. Entienden un objetivo, planifican los pasos necesarios y utilizan herramientas (como enviar correos, buscar en internet o usar tu CRM) para lograrlo.
             </p>
             <p className="font-medium leading-relaxed">
-              Imagina tener un analista de datos, un asistente de reservas o un cualificador de leads que trabaja 24/7 sin descanso, tomando decisiones inteligentes en tiempo real.
+              Imagina tener un analista de datos, un asistente de reservas o un cualificador de leads que trabaja 24/7 sin descanso, tomando decisiones inteligentes en tiempo real. Esta es la base de la <a href="/blog/automatizar-captacion-clientes-ia-pyme" onClick={() => trackEvent('internal_link', { link: 'blog-captacion' })} className="text-[#00D4FF] hover:underline">captación moderna con IA</a>, donde el agente no solo responde, sino que acciona el cierre de la venta.
             </p>
           </div>
         </section>
@@ -73,11 +106,17 @@ export default function AgentesIA() {
           </div>
         </section>
 
+        {/* Casos de éxito relacionados */}
+        <RecursosRecomendados />
+
       </ServiceLayout>
 
       <ModalController 
-        isOpen={isModalOpen} 
-        onClose={() => setIsModalOpen(false)} 
+        isOpen={modalConfig.isOpen} 
+        onClose={() => setModalConfig(prev => ({ ...prev, isOpen: false }))} 
+        title={modalConfig.title}
+        subtitle={modalConfig.subtitle}
+        submitText={modalConfig.submitText}
       />
     </>
   );

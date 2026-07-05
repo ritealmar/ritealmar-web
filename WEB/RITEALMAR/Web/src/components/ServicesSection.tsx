@@ -158,7 +158,11 @@ export default function ServicesSection() {
                 <div className="h-64 md:h-auto relative">
                   <img 
                     src={selectedService.image} 
-                    alt={selectedService.title} 
+                    alt={`Imagen ilustrativa del servicio ${selectedService.title}`} 
+                    loading="lazy"
+                    decoding="async"
+                    width="800"
+                    height="600"
                     className="absolute inset-0 w-full h-full object-cover"
                   />
                   <div className="absolute inset-0 bg-gradient-to-t from-[#0A0F24] via-[#0A0F24]/50 to-transparent md:bg-gradient-to-r"></div>

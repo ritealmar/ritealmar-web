@@ -62,7 +62,11 @@ export const AboutSection = () => {
           >
             <img 
               src="https://images.unsplash.com/photo-1581091226825-a6a2a5aee158?auto=format&fit=crop&q=80&w=800" 
-              alt="Ingeniería RITEALMAR" 
+              alt="Ingeniería y automatización RITEALMAR" 
+              loading="lazy"
+              decoding="async"
+              width="800"
+              height="1000"
               className="w-full aspect-[4/5] object-cover opacity-60 grayscale group-hover:grayscale-0 group-hover:opacity-100 transition-all duration-1000"
             />
             <div className="absolute inset-0 bg-gradient-to-t from-midnight via-transparent to-transparent opacity-80" />

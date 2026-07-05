@@ -5,7 +5,7 @@ import { X } from 'lucide-react';
 export default function CalendlyModal({ isOpen, onClose }: { isOpen: boolean, onClose: () => void }) {
   // Nota: De momento usamos una URL genérica de Calendly en el iframe.
   // Cuando tengas el link de Calendly real de Ritealmar, puedes sustituirlo aquí.
-  const calendlyUrl = "https://calendly.com/ritealmar";
+  const calendlyUrl = "https://calendly.com/ritealmar/30min";
 
   return (
     <AnimatePresence>

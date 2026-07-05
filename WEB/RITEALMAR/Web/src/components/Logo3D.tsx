@@ -52,6 +52,11 @@ export default function Logo3D() {
         <img 
           src="/logo.webp" 
           alt="Ritealmar IA" 
+          width="550"
+          height="550"
+          loading="eager"
+          decoding="async"
+          fetchpriority="high"
           className="w-full h-auto object-contain filter brightness-110 contrast-110"
           onError={(e) => {
             (e.target as HTMLImageElement).src = '/logo.png';

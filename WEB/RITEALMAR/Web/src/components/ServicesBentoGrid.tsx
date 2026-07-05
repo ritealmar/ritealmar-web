@@ -12,12 +12,16 @@ export default function ServicesBentoGrid({ onOpenForm }: { onOpenForm: () => vo
           <span className="text-[10px] font-black uppercase tracking-[0.3em] text-cyan-400 block mb-4">
             // ARQUITECTURA DE SISTEMAS
           </span>
-          <h2 className="text-4xl md:text-6xl font-black text-white uppercase tracking-tight leading-none">
+          <motion.h2 
+            initial={{ opacity: 0, y: 40, backgroundPosition: '200% center' }}
+            whileInView={{ opacity: 1, y: 0, backgroundPosition: '0% center' }}
+            viewport={{ once: true, margin: "-100px" }}
+            transition={{ duration: 0.8, ease: "easeOut" }}
+            className="text-4xl md:text-6xl font-black uppercase tracking-tight leading-none text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 via-purple-500 to-cyan-400 bg-[length:200%_auto]"
+          >
             Infraestructura digital <br />
-            <span className="text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 to-purple-500">
-              diseñada para escalar.
-            </span>
-          </h2>
+            diseñada para escalar.
+          </motion.h2>
         </div>
 
         {/* Estructura Bento Grid Avanzada */}
@@ -110,7 +114,7 @@ export default function ServicesBentoGrid({ onOpenForm }: { onOpenForm: () => vo
             </div>
             
             <div className="mt-12 pt-6 border-t border-slate-800/40 flex items-center justify-between">
-              <div className="flex items-center gap-2 text-xs text-slate-500 font-bold uppercase tracking-wider">
+              <div className="flex items-center gap-2 text-xs text-slate-400 font-bold uppercase tracking-wider">
                 <ShieldCheck size={14} className="text-emerald-400" /> Propiedad 100% de tu código
               </div>
               <button onClick={onOpenForm} className="text-xs font-black uppercase tracking-widest text-cyan-400 flex items-center gap-2 group-hover:text-white transition-colors">

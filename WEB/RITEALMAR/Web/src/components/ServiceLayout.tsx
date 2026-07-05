@@ -3,23 +3,37 @@ import { motion } from 'motion/react';
 import Navbar from './Navbar';
 import LegalFooter from './LegalFooter';
 import ContactForm from './ContactForm';
+import SEO from './SEO';
 
 interface ServiceLayoutProps {
   title: string;
   subtitle: string;
   heroImage?: string;
   children: React.ReactNode;
-  onOpenCalendly: () => void;
+  onOpenCalendly: (config?: any) => void;
+  seoTitle?: string;
+  seoDesc?: string;
 }
 
 export default function ServiceLayout({ 
   title, 
   subtitle, 
   children, 
-  onOpenCalendly 
+  onOpenCalendly,
+  seoTitle,
+  seoDesc
 }: ServiceLayoutProps) {
+  // Optimizamos los fallbacks para SEO
+  const finalSeoTitle = seoTitle || `${title} | Agencia RITEALMAR`;
+  const finalSeoDesc = seoDesc || subtitle.substring(0, 155) + (subtitle.length > 155 ? '...' : '');
+
   return (
     <div className="min-h-screen bg-[#0A1628] text-slate-100 font-sans selection:bg-[#00D4FF]/30">
+      <SEO 
+        title={finalSeoTitle}
+        description={finalSeoDesc}
+        canonical={typeof window !== 'undefined' ? window.location.href : undefined}
+      />
       <Navbar onOpenCalendly={onOpenCalendly} />
       
       {/* Service Hero */}
@@ -33,14 +47,16 @@ export default function ServiceLayout({
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6 }}
           >
-            <h1 className="text-5xl md:text-6xl lg:text-7xl font-bold text-white leading-[1.1] mb-6 tracking-tight">
+            <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold text-white leading-tight mb-6 tracking-tight">
               {title}
             </h1>
             <p className="text-xl font-medium text-slate-300 leading-relaxed mb-10 max-w-3xl mx-auto">
               {subtitle}
             </p>
             <button 
-              onClick={onOpenCalendly} 
+              onClick={() => {
+                window.location.href = '/auditoria-ia-gratis';
+              }} 
               className="btn-primary"
             >
               Solicitar Auditoría Gratuita
@@ -50,12 +66,12 @@ export default function ServiceLayout({
       </section>
 
       {/* Main Content */}
-      <main className="relative z-10">
+      <div className="relative z-10">
         {children}
-      </main>
+      </div>
 
       {/* Global CTA */}
-      <section className="py-32 bg-gradient-to-br from-[#0F172A] to-[#0A1628] border-y border-white/5 relative overflow-hidden">
+      <section className="py-24 bg-gradient-to-br from-[#0F172A] to-[#0A1628] border-y border-white/5 relative overflow-hidden">
         <div className="absolute inset-0 bg-grid-pattern opacity-30"></div>
         <div className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 w-full h-full bg-[#FF006E]/10 rounded-full blur-[150px] pointer-events-none mix-blend-screen"></div>
         
@@ -65,7 +81,9 @@ export default function ServiceLayout({
             Analizamos tu empresa y te mostramos qué procesos pueden automatizarse y cuánto tiempo podrías ahorrar.
           </p>
           <button 
-            onClick={onOpenCalendly} 
+            onClick={() => {
+              window.open("https://calendly.com/ritealmar/30min", "_blank", "noopener,noreferrer");
+            }} 
             className="btn-primary"
           >
             Reservar Sesión Gratuita

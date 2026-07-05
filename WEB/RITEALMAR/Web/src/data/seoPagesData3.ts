@@ -1,9 +1,9 @@
 import { SeoLandingProps } from '../components/SeoLandingLayout';
 
 export const inmobiliariasData: SeoLandingProps = {
-  seoTitle: "Inteligencia Artificial y Automatización para Inmobiliarias | Ritealmar",
+  seoTitle: "IA para inmobiliarias: más leads y visitas organizadas | RITEALMAR",
   seoDesc: "Soluciones de IA para el sector inmobiliario. Automatiza la captación de leads, cualifica compradores 24/7 y agiliza la venta de inmuebles.",
-  h1: "Transformación Tecnológica y Automatización para Inmobiliarias",
+  h1: "IA para inmobiliarias: más leads y visitas organizadas",
   subtitle: "Revoluciona tu agencia inmobiliaria captando y calificando leads en piloto automático, programando visitas al instante y gestionando grandes carteras con Inteligencia Artificial.",
   introParagraphs: [
     "El sector inmobiliario es altamente competitivo y depende de la rapidez de respuesta. Cuando un cliente potencial solicita información sobre una propiedad, cada minuto cuenta; si no se le responde con inmediatez, es muy probable que acabe contactando a otra agencia o viendo un inmueble similar en un portal de la competencia. Sin embargo, los agentes inmobiliarios pasan gran parte de su día en visitas físicas, reuniones de captación o gestionando burocracia, lo que hace imposible atender las consultas de internet o llamadas de manera instantánea. Aquí es donde la automatización y la Inteligencia Artificial intervienen para marcar una diferencia radical en la cuenta de resultados de tu agencia.",
@@ -40,9 +40,9 @@ export const inmobiliariasData: SeoLandingProps = {
 };
 
 export const ecommerceData: SeoLandingProps = {
-  seoTitle: "Automatización e IA para E-commerce | Ritealmar",
+  seoTitle: "IA para e-commerce: soporte, carritos y postventa automatizada | RITEALMAR",
   seoDesc: "Optimiza tu tienda online con automatizaciones e Inteligencia Artificial. Aumenta el ticket medio, recupera carritos abandonados y escala tu facturación.",
-  h1: "Impulsa tu E-commerce con Automatización e Inteligencia Artificial",
+  h1: "IA para e-commerce: soporte, carritos y postventa automatizada",
   subtitle: "Multiplica las conversiones de tu tienda online mediante personalización dinámica, recuperación automática de carritos y soporte al cliente sin esperas.",
   introParagraphs: [
     "Gestionar un e-commerce va mucho más allá de subir productos a una página web. Implica optimizar constantemente las conversiones, lidiar con tasas alarmantes de abandono de carrito, gestionar incidencias logísticas de última milla y responder a clientes impacientes que demandan atención a cualquier hora del día. En el entorno altamente saturado del comercio electrónico, aquellas marcas que no aprovechan el poder de la tecnología están destinadas a perder márgenes de beneficio a causa de las ineficiencias operativas. En Ritealmar, llevamos tu tienda online al siguiente nivel implementando soluciones de Inteligencia Artificial y arquitecturas de automatización avanzadas que transforman la rentabilidad del negocio.",

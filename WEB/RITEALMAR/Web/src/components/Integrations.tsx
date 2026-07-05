@@ -20,7 +20,7 @@ export default function Integrations() {
   return (
     <section className="py-12 bg-[#020617] border-b border-white/5 overflow-hidden">
       <div className="max-w-7xl mx-auto px-6 mb-6">
-        <p className="text-center text-sm font-medium tracking-widest text-gray-500 uppercase">
+        <p className="text-center text-sm font-medium tracking-widest text-gray-400 uppercase">
           Se integra perfectamente con tus herramientas actuales
         </p>
       </div>

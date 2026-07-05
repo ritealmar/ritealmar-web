@@ -1,9 +1,12 @@
 import React, { useEffect } from 'react';
-import { motion } from 'framer-motion';
+
 import { CalendarCheck, ShieldCheck, UserCheck, Activity, Users, Clock, ArrowRight } from 'lucide-react';
 import { AnalyticsTracker } from '../utils/analyticsTracker';
+import SEO from '../components/SEO';
+import JsonLd from '../components/JsonLd';
+import RecursosRecomendados from '../components/RecursosRecomendados';
 
-export default function ClinicasV2({ onOpenForm }: { onOpenForm: () => void }) {
+export default function ClinicasV2({ onOpenForm }: { onOpenForm: (config?: any) => void }) {
   useEffect(() => {
     AnalyticsTracker.trackSectorView('clinicas');
   }, []);
@@ -32,8 +35,46 @@ export default function ClinicasV2({ onOpenForm }: { onOpenForm: () => void }) {
     }
   ];
 
+  const faqs = [
+    { q: "¿Es seguro usar IA con datos de pacientes?", a: "Absolutamente. Diseñamos nuestras arquitecturas cumpliendo estrictamente con la Ley Orgánica de Protección de Datos (LOPD/RGPD). Los datos de salud están anonimizados en las interacciones de IA y protegidos mediante encriptación de nivel empresarial." },
+    { q: "¿El sistema se puede integrar con el software de la clínica que ya usamos?", a: "Sí, siempre y cuando su software de gestión actual disponga de una API abierta, podemos integrar las soluciones de automatización." }
+  ];
+
+  const serviceSchema = {
+    "@context": "https://schema.org",
+    "@type": "Service",
+    "name": "IA para clínicas: más citas, mejor seguimiento y menos tareas manuales",
+    "description": "Agentes de IA para clínicas. Multiplica tus pacientes, automatiza tu agenda y mejora el seguimiento post-tratamiento.",
+    "provider": {
+      "@type": "Organization",
+      "name": "RITEALMAR",
+      "url": "https://ritealmar.es"
+    },
+    "areaServed": "ES",
+    "url": window.location.href
+  };
+
+  const faqSchema = {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "mainEntity": faqs.map(f => ({
+      "@type": "Question",
+      "name": f.q,
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": f.a
+      }
+    }))
+  };
+
   return (
     <div className="min-h-screen bg-[#030712] text-gray-100 overflow-hidden relative">
+      <SEO 
+        title="IA para Clínicas | Ritealmar" 
+        description="Agentes de IA para clínicas. Multiplica tus pacientes, automatiza tu agenda y mejora el seguimiento post-tratamiento." 
+      />
+      <JsonLd data={serviceSchema} />
+      <JsonLd data={faqSchema} />
       {/* Luces de Neón Ambientales (Estilo Dark Neon) */}
       <div className="absolute top-1/4 right-0 w-[500px] h-[500px] bg-cyan-950/20 blur-[120px] rounded-full pointer-events-none" />
       <div className="absolute bottom-1/4 left-0 w-[500px] h-[500px] bg-purple-950/20 blur-[120px] rounded-full pointer-events-none" />
@@ -44,18 +85,19 @@ export default function ClinicasV2({ onOpenForm }: { onOpenForm: () => void }) {
           <span className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-cyan-500/5 border border-cyan-500/20 text-xs font-bold text-cyan-400 uppercase tracking-widest mb-6">
             Ritealmar Healthcare Solutions
           </span>
-          <h1 className="text-4xl sm:text-6xl font-black tracking-tight leading-[1.1] mb-6 uppercase">
-            Automatiza la agenda de tu clínica. <br />
-            <span className="text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 via-purple-400 to-indigo-400">
-              Multiplica tus pacientes.
-            </span>
+          <h1 className="text-4xl sm:text-5xl lg:text-6xl font-black tracking-tight leading-[1.1] mb-6 uppercase text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 via-purple-400 to-indigo-400">
+            IA para clínicas: más citas, mejor seguimiento y menos tareas manuales
           </h1>
           <p className="text-lg text-slate-400 max-w-xl mb-10 font-medium">
-            Sustituye las tareas mecánicas de recepción por un sistema inteligente que gestiona citas, optimiza huecos libres y atiende 24/7 sin saturar a tu equipo humano.
+            Sustituye las tareas mecánicas de recepción por un sistema inteligente que gestiona citas, optimiza huecos libres y atiende 24/7 sin saturar a tu equipo humano, integrando una potente <a href="/blog/automatizar-whatsapp-pyme" className="text-cyan-400 hover:underline">automatización de WhatsApp</a>.
           </p>
           <div className="flex flex-col sm:flex-row gap-5 justify-center lg:justify-start">
             <button 
-              onClick={onOpenForm}
+              onClick={() => onOpenForm({
+                title: "Solicitar auditoría IA gratuita",
+                subtitle: "Cuéntanos brevemente tu negocio y revisaremos qué procesos puedes automatizar para ahorrar tiempo, captar más clientes o mejorar tu atención comercial.",
+                submitText: "Solicitar auditoría gratuita"
+              })}
               className="px-8 py-4 rounded-xl bg-gradient-to-r from-cyan-500 to-blue-600 font-bold text-sm tracking-wider uppercase hover:shadow-[0_0_30px_rgba(6,182,212,0.4)] hover:scale-105 transition-all flex items-center justify-center gap-2 group"
             >
               Auditar Agenda Gratis <ArrowRight size={16} className="group-hover:translate-x-1 transition-transform" />
@@ -119,6 +161,10 @@ export default function ClinicasV2({ onOpenForm }: { onOpenForm: () => void }) {
           ))}
         </div>
       </section>
+
+      {/* Recursos Recomendados Sector Salud */}
+      <RecursosRecomendados type="clinicas" />
+
     </div>
   );
 }
