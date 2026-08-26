@@ -4,14 +4,27 @@
    Flow: Request -> Security -> Validation -> AI Scoring -> Google Sheets Memory -> Response
 */
 
-// CONSTANTES DE CONFIGURACIÓN
-const ALLOWED_ORIGINS = [
+const ALLOWED_PRODUCTION_ORIGINS = [
   "https://ritealmar.es",
-  "https://www.ritealmar.es",
-  "http://localhost:5173",
-  "http://localhost:4173",
-  "http://localhost:3000"
+  "https://www.ritealmar.es"
 ];
+
+const isPreviewOrigin = (origin) => {
+  if (!origin.startsWith("https://")) return false;
+  try {
+    const hostname = new URL(origin).hostname;
+    // Strict exact suffix matching (prevents https://fake-ritealmar.pages.dev.attacker.example)
+    return hostname.endsWith(".ritealmar.pages.dev");
+  } catch {
+    return false;
+  }
+};
+
+const checkAllowedOrigin = (origin, env) => {
+  if (ALLOWED_PRODUCTION_ORIGINS.includes(origin)) return true;
+  if (env.ALLOW_LOCALHOST && origin.startsWith("http://localhost")) return true;
+  return isPreviewOrigin(origin);
+};
 
 const MAX_FIELD_LENGTH = {
   nombre: 100,
@@ -28,7 +41,7 @@ const URGENCIA_ESPERADA = ["Esta semana", "Este mes", "Más adelante", "Alta", "
 export default {
   async fetch(request, env, ctx) {
     const origin = request.headers.get("Origin") || "";
-    const isAllowedOrigin = ALLOWED_ORIGINS.includes(origin) || origin.startsWith("http://localhost") || origin.endsWith(".ritealmar.pages.dev");
+    const isAllowedOrigin = checkAllowedOrigin(origin, env);
     
     // Si no es un origen permitido, denegamos CORS inmediatamente (fail-closed CORS)
     const corsOrigin = isAllowedOrigin ? origin : "https://ritealmar.es";
@@ -156,11 +169,18 @@ export default {
             });
           }
           
-          if (outcome.hostname && !outcome.hostname.endsWith('ritealmar.es') && !outcome.hostname.endsWith('.pages.dev') && !outcome.hostname.includes('localhost')) {
-             return new Response(JSON.stringify({ success: false, error: "Origen de token inválido." }), {
-                status: 400,
-                headers: { ...corsHeaders, "Content-Type": "application/json" },
-             });
+          const tokenHostname = outcome.hostname;
+          if (tokenHostname) {
+             const isProdToken = tokenHostname === 'ritealmar.es' || tokenHostname === 'www.ritealmar.es';
+             const isPreviewToken = tokenHostname.endsWith('.ritealmar.pages.dev');
+             const isLocalToken = env.ALLOW_LOCALHOST && tokenHostname === 'localhost';
+
+             if (!isProdToken && !isPreviewToken && !isLocalToken) {
+                 return new Response(JSON.stringify({ success: false, error: "Origen de token inválido." }), {
+                    status: 403,
+                    headers: { ...corsHeaders, "Content-Type": "application/json" },
+                 });
+             }
           }
         } catch (e) {
           console.error("Error contactando API Turnstile:", e.message);

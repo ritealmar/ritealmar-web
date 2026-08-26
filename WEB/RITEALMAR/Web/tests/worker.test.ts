@@ -67,14 +67,24 @@ describe('Worker Edge API', () => {
     expect(res.headers.get('Access-Control-Allow-Origin')).toBe('https://ritealmar.es');
   });
 
-  it('deniega orígenes no autorizados', async () => {
-    const req = createRequest({ cf_turnstile_response: 'valid_token' }, 'https://evil.com', 'OPTIONS');
-    const res = await worker.fetch(req, mockEnv, {});
-    // Should fallback to https://ritealmar.es
-    expect(res.headers.get('Access-Control-Allow-Origin')).toBe('https://ritealmar.es');
+  it('deniega orígenes maliciosos similares pero no exactos', async () => {
+    // Should fallback to https://ritealmar.es (fail closed)
+    const origins = [
+      'https://ritealmar.es.attacker.example',
+      'https://fake-ritealmar.pages.dev.attacker.example',
+      'https://ritealmar.pages.dev.attacker.example',
+      'http://localhost.attacker.com',
+      'https://ritealmar.es' // This one is valid, just checking logic
+    ];
+
+    for (const badOrigin of origins.slice(0, 4)) {
+        const req = createRequest({ cf_turnstile_response: 'valid_token' }, badOrigin, 'OPTIONS');
+        const res = await worker.fetch(req, mockEnv, {});
+        expect(res.headers.get('Access-Control-Allow-Origin')).toBe('https://ritealmar.es');
+    }
   });
 
-  it('rechaza solicitudes sin token', async () => {
+  it('rechaza solicitudes sin token con 400', async () => {
     const req = createRequest({ nombre: 'Test', email: 'test@test.com' });
     const res = await worker.fetch(req, mockEnv, {});
     const json = await res.json();
@@ -100,11 +110,11 @@ describe('Worker Edge API', () => {
     expect(json.success).toBe(false);
   });
 
-  it('valida el origin del token', async () => {
+  it('valida el origin del token de forma estricta (403)', async () => {
     const req = createRequest({ nombre: 'Test', email: 'test@test.com', cf_turnstile_response: 'invalid_hostname' });
     const res = await worker.fetch(req, mockEnv, {});
     const json = await res.json();
-    expect(res.status).toBe(400);
+    expect(res.status).toBe(403);
     expect(json.error).toMatch(/Origen de token/i);
   });
 

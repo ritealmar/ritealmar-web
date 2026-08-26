@@ -57,17 +57,28 @@ export default function Privacidad() {
             </section>
 
             <section>
-              <h2 className="text-2xl font-bold text-white mb-4">3. Conservación de los Datos</h2>
+              <h2 className="text-2xl font-bold text-white mb-4">3. Destinatarios y Encargados del Tratamiento</h2>
+              <p>Para la correcta gestión operativa y técnica de las solicitudes enviadas a través de nuestros formularios web, le informamos de que los datos recogidos pueden ser procesados a través de proveedores de servicios tecnológicos que actúan como encargados del tratamiento o intermediarios técnicos. Entre ellos se incluyen:</p>
+              <ul className="list-disc pl-6 mt-4 space-y-2 text-slate-400">
+                <li><strong>Cloudflare (Workers & Pages):</strong> Infraestructura de red, proxy de seguridad, validación de Turnstile y alojamiento frontend (EE.UU./Global, amparado por cláusulas contractuales tipo o marcos de privacidad aplicables).</li>
+                <li><strong>Google LLC (Google Sheets / Google Workspace):</strong> Almacenamiento organizativo heurístico de las solicitudes (EE.UU./Global).</li>
+                <li><strong>FormSubmit:</strong> Proveedor de enrutamiento y envío transaccional de correos electrónicos.</li>
+              </ul>
+              <p className="mt-4 text-sm text-slate-500">Nota: RITEALMAR realiza sus mejores esfuerzos para seleccionar proveedores que ofrezcan garantías adecuadas de cumplimiento normativo (GDPR), si bien las transferencias internacionales de datos dependen de las políticas de privacidad, infraestructuras globales y acuerdos legales específicos de cada uno de estos proveedores tecnológicos.</p>
+            </section>
+
+            <section>
+              <h2 className="text-2xl font-bold text-white mb-4">4. Conservación de los Datos</h2>
               <p>Los datos personales proporcionados se conservarán mientras se mantenga la relación mercantil, no se solicite su supresión por el interesado y durante el tiempo en el que puedan derivarse responsabilidades legales por los servicios prestados.</p>
             </section>
 
             <section>
-              <h2 className="text-2xl font-bold text-white mb-4">4. Legitimación para el Tratamiento</h2>
+              <h2 className="text-2xl font-bold text-white mb-4">5. Legitimación para el Tratamiento</h2>
               <p>La base legal para el tratamiento de sus datos es la prestación de su consentimiento explícito a través del envío de formularios web para la atención de sus consultas, así como la ejecución de un contrato o medidas precontractuales en caso de contratar nuestros servicios tecnológicos y de captación de leads.</p>
             </section>
 
             <section>
-              <h2 className="text-2xl font-bold text-white mb-4">5. Derechos del Usuario</h2>
+              <h2 className="text-2xl font-bold text-white mb-4">6. Derechos del Usuario</h2>
               <p>Cualquier persona tiene derecho a obtener confirmación sobre si en RITEALMAR estamos tratando datos personales que les conciernan, o no.</p>
               <p className="mt-4">Como usuario, tiene los siguientes derechos:</p>
               <ul className="list-disc pl-6 mt-4 space-y-2 text-slate-400">

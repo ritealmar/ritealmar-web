@@ -125,7 +125,8 @@ export default function ContactForm(props: ContactFormProps) {
           }
         }
       } else {
-        const errorMsg = data.error || 'Error al enviar el formulario.';
+        let errorMsg = 'Rechazo del servidor. Por favor, inténtalo de nuevo.';
+        if (data && data.error) errorMsg = data.error;
         setValidationError(errorMsg);
         setStatus('error');
         throw new Error(errorMsg);
@@ -133,7 +134,7 @@ export default function ContactForm(props: ContactFormProps) {
     } catch (error) {
       if (status !== 'error') {
          setStatus('error');
-         setValidationError('Error de conexión temporal con el servidor.');
+         setValidationError('El servidor está inaccesible temporalmente.');
       }
 
       trackEvent('form_error', {
@@ -338,17 +339,19 @@ export default function ContactForm(props: ContactFormProps) {
                   </div>
                 )}
 
-                {status === 'error' && !validationError && (
-                  <div className="p-4 bg-red-500/10 border border-red-500/20 rounded-xl text-red-400 text-sm font-bold text-center">
-                    Ocurrió un error al enviar. Por favor, inténtalo de nuevo más tarde.
-                  </div>
-                )}
-
                 <div className="mt-2">
                   <TurnstileWidget
-                    onVerify={(token) => setTurnstileToken(token)}
-                    onError={() => setStatus('error')}
-                    onExpire={() => setTurnstileToken('')}
+                    onVerify={(token) => {
+                       setTurnstileToken(token);
+                       if (validationError && validationError.includes('caducado')) {
+                           setValidationError(null);
+                       }
+                    }}
+                    onExpire={() => {
+                        setTurnstileToken('');
+                        setValidationError('El token de seguridad ha caducado. Por favor, complétalo de nuevo.');
+                        setStatus('idle');
+                    }}
                   />
                 </div>
 
