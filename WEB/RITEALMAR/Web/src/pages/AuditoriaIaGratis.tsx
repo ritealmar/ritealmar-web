@@ -16,18 +16,7 @@ export default function AuditoriaIaGratis() {
     { q: "¿Qué tipo de soluciones puede proponer RITEALMAR?", a: "Automatizaciones, chatbots, agentes de IA, formularios conectados, CRM, diseño web, software a medida y sistemas de seguimiento comercial." }
   ];
 
-  const faqSchema = {
-    "@context": "https://schema.org",
-    "@type": "FAQPage",
-    "mainEntity": faqs.map(f => ({
-      "@type": "Question",
-      "name": f.q,
-      "acceptedAnswer": {
-        "@type": "Answer",
-        "text": f.a
-      }
-    }))
-  };
+  // FAQ Schema temporalmente desactivado para SEO P0
 
   return (
     <div className="bg-[#030712] min-h-screen text-white pt-24 pb-12 lg:pb-20">
@@ -36,7 +25,6 @@ export default function AuditoriaIaGratis() {
         description="Solicita una auditoría gratuita de IA y automatización para tu empresa. Detectamos procesos repetitivos, oportunidades de captación y mejoras con inteligencia artificial."
         canonical={typeof window !== 'undefined' ? window.location.href : undefined}
       />
-      <JsonLd data={faqSchema} />
       
       {/* 1. HERO SECTION */}
       <section className="relative px-6 pt-10 pb-16 lg:py-32 overflow-hidden flex items-center">
@@ -176,33 +164,54 @@ export default function AuditoriaIaGratis() {
         </div>
       </section>
 
-      {/* 4. PARA QUIÉN ES */}
+      {/* 4. PARA QUIÉN ES Y PARA QUIÉN NO ES */}
       <section className="px-6 py-20 relative z-10">
         <div className="max-w-4xl mx-auto text-center mb-12">
-          <h2 className="text-3xl md:text-4xl font-bold text-white mb-6">Para quién es</h2>
-          <p className="text-slate-400 text-lg">Esta auditoría está pensada para negocios que quieren ahorrar tiempo, responder mejor a sus clientes y no perder oportunidades por falta de seguimiento.</p>
+          <h2 className="text-3xl md:text-4xl font-bold text-white mb-6">Para quién es y para quién NO es</h2>
+          <p className="text-slate-400 text-lg">Esta auditoría está pensada para negocios que reciben clientes recurrentemente y tienen procesos manuales que les quitan tiempo. No es una consultoría completa, es un diagnóstico inicial estratégico.</p>
         </div>
-        <div className="max-w-5xl mx-auto grid grid-cols-2 md:grid-cols-3 gap-6">
-          {[
-            { label: "Clínicas" },
-            { label: "Inmobiliarias" },
-            { label: "Comercios" },
-            { label: "Empresas de servicios" },
-            { label: "Profesionales independientes" },
-            { label: "PYMEs que reciben contactos por web, WhatsApp o formularios" },
-          ].map((item, i) => (
-            <motion.div 
-              key={i}
-              initial={{ opacity: 0, scale: 0.95 }}
-              whileInView={{ opacity: 1, scale: 1 }}
-              viewport={{ once: true }}
-              transition={{ delay: i * 0.1 }}
-              className="bg-[#0A1628]/50 p-6 rounded-2xl border border-white/5 flex flex-col items-center justify-center gap-3 text-center"
-            >
-              <Building2 className="text-[#00D4FF]" size={28} />
-              <span className="font-bold text-slate-200">{item.label}</span>
-            </motion.div>
-          ))}
+        <div className="max-w-6xl mx-auto grid grid-cols-1 md:grid-cols-2 gap-12">
+          <div>
+            <h3 className="text-2xl font-bold text-[#00D4FF] mb-6 text-center">Sí es para ti si...</h3>
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+              {[
+                { label: "Clínicas con muchas citas" },
+                { label: "Inmobiliarias" },
+                { label: "Comercios con stock" },
+                { label: "Empresas B2B" },
+                { label: "Profesionales saturados" },
+                { label: "Negocios con mucho WhatsApp" },
+              ].map((item, i) => (
+                <motion.div 
+                  key={`yes-${i}`}
+                  initial={{ opacity: 0, scale: 0.95 }}
+                  whileInView={{ opacity: 1, scale: 1 }}
+                  viewport={{ once: true }}
+                  transition={{ delay: i * 0.1 }}
+                  className="bg-[#0A1628]/50 p-4 rounded-xl border border-white/5 flex flex-col items-center justify-center gap-2 text-center"
+                >
+                  <Building2 className="text-[#00D4FF]" size={24} />
+                  <span className="font-bold text-slate-200 text-sm">{item.label}</span>
+                </motion.div>
+              ))}
+            </div>
+          </div>
+          <div>
+            <h3 className="text-2xl font-bold text-[#FF006E] mb-6 text-center">NO es para ti si...</h3>
+            <div className="space-y-4">
+              {[
+                "Buscas una consultoría estratégica empresarial integral gratuita.",
+                "Prefieres mantener tus procesos 100% analógicos y no deseas incorporar herramientas digitales.",
+                "Tu negocio está en fase de idea y aún no tienes un flujo regular de clientes o tareas que optimizar.",
+                "Buscas desarrollo de IA de investigación profunda o Machine Learning puro."
+              ].map((item, i) => (
+                <div key={`no-${i}`} className="flex items-start gap-3 p-4 rounded-xl bg-red-950/20 border border-red-500/10">
+                  <AlertTriangle className="text-[#FF006E] shrink-0 mt-0.5" size={18} />
+                  <span className="text-slate-300 font-medium text-sm">{item}</span>
+                </div>
+              ))}
+            </div>
+          </div>
         </div>
       </section>
 
@@ -259,8 +268,8 @@ export default function AuditoriaIaGratis() {
 
             <motion.div initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ delay: 0.2 }} className="text-center">
               <div className="w-16 h-16 bg-[#00D4FF]/10 text-[#00D4FF] rounded-full flex items-center justify-center text-2xl font-black mx-auto mb-6">3</div>
-              <h3 className="text-xl font-bold mb-3">Recibes recomendaciones claras</h3>
-              <p className="text-slate-400">Te explicamos qué automatizar primero y qué solución tendría sentido para tu negocio.</p>
+              <h3 className="text-xl font-bold mb-3">Qué ocurre después</h3>
+              <p className="text-slate-400">Te enviamos una propuesta orientativa con costes y tiempos reales. Si te encaja, trabajamos juntos. Si no, te llevas el diagnóstico gratis.</p>
             </motion.div>
           </div>
 

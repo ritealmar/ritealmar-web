@@ -35,6 +35,7 @@ const lazyWithRetry = (componentImport: () => Promise<any>) =>
   });
 
 import ProcessAutomation from './pages/ProcessAutomation';
+import CrmAMedida from './pages/CrmAMedida';
 import ChatbotsInteligentes from './pages/ChatbotsInteligentes';
 import AgentesIA from './pages/AgentesIA';
 import GenericServicePage from './pages/GenericServicePage';
@@ -139,6 +140,7 @@ export default function App() {
       case '/diseno-web': return <DisenoWebPage />;
       case '/apps-para-empresas': return <AppsEmpresasPage />;
       case '/servicios/automatizacion-procesos': return <ProcessAutomation />;
+      case '/servicios/crm-a-medida': return <CrmAMedida />;
       case '/chatbots-ia': return <ChatbotsIaPage />;
       case '/seo-posicionamiento-web': return <SeoPosicionamientoPage />;
       case '/sectores': return <Sectores />;

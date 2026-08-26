@@ -40,11 +40,11 @@ export default function ProcessAutomation() {
         dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbSchema) }}
       />
       <ServiceLayout 
-        title="Automatización de Procesos Operativos"
-        subtitle="Transformamos las tareas manuales y repetitivas de tu equipo en flujos de trabajo autónomos que operan 24/7, reduciendo errores y optimizando recursos."
+        title="Automatización de Procesos para PYMES"
+        subtitle="Transformamos tareas manuales en flujos autónomos (facturas, correos, citas, CRM) para que tu equipo ahorre horas cada semana."
         onOpenCalendly={(config) => setModalConfig({ isOpen: true, ...(config || {}) })}
-        seoTitle="Automatización de Procesos para PYMES | Ahorra Tiempo y Costes"
-        seoDesc="Automatiza las tareas mecánicas de tu empresa. Conectamos tu CRM, correo y bases de datos para que operen solos 24/7. Solicita tu auditoría gratuita."
+        seoTitle="Automatización de Procesos para PYMES | RITEALMAR"
+        seoDesc="Descubre cómo automatizar tareas repetitivas en tu PYME: volcado de datos, facturas, seguimiento de clientes y conexión con tu CRM. Auditoría gratuita."
       >
         
         {/* Intro Section */}
@@ -52,9 +52,7 @@ export default function ProcessAutomation() {
           <div className="mx-auto text-slate-300">
             <h2 className="text-3xl font-bold mb-6 text-white">¿Qué es la automatización de procesos?</h2>
             <p className="font-medium mb-6 leading-relaxed">
-              La automatización consiste en utilizar tecnología e inteligencia artificial para realizar tareas repetitivas de forma automática, sin necesidad de intervención constante de los empleados.
-            </p>
-            <p className="font-medium leading-relaxed">
+              La automatización de procesos mediante Inteligencia Artificial (IA) no es ciencia ficción ni está reservada para multinacionales. Consiste en identificar aquellas tareas repetitivas, manuales y propensas a errores que consumen el tiempo de tu equipo (como copiar datos de un Excel a tu <a href="/servicios/crm-a-medida" className="text-cyan-400 hover:underline">CRM a medida</a>, enviar presupuestos estándar o responder consultas frecuentes), y delegarlas en sistemas informáticos inteligentes.
               En Ritealmar analizamos los procesos de tu negocio y desarrollamos soluciones personalizadas que trabajan por ti las 24 horas del día. Esto permite que tu equipo dedique más tiempo a actividades de valor mientras los procesos repetitivos se ejecutan de forma autónoma, como puedes ver en nuestra guía sobre <a href="/blog/automatizar-captacion-clientes-ia-pyme" onClick={() => trackEvent('internal_link', { link: 'blog-captacion' })} className="text-[#00D4FF] hover:underline">cómo automatizar la captación de clientes</a>.
             </p>
             <p className="font-medium leading-relaxed mt-4">
@@ -211,27 +209,27 @@ export default function ProcessAutomation() {
 
         {/* Preguntas Frecuentes */}
         <section className="py-20 px-6 max-w-3xl mx-auto bg-[#0A1628]">
-          <h2 className="text-3xl font-bold mb-12 text-center text-white">Preguntas Frecuentes</h2>
+          <h2 className="text-3xl font-bold mb-12 text-center text-white">Preguntas Frecuentes sobre Automatización</h2>
           <div className="space-y-6">
             <div className="p-6 rounded-xl glass-card border border-white/10 hover:border-[#00D4FF]/30 transition-colors">
-              <h3 className="font-bold text-lg mb-2 text-white">¿Necesito conocimientos técnicos?</h3>
-              <p className="font-medium text-slate-300">No. Nosotros nos encargamos de toda la configuración, integración y puesta en marcha para que tú solo disfrutes de los resultados.</p>
+              <h3 className="font-bold text-lg mb-2 text-white">¿Cuánto cuesta automatizar un proceso en una PYME?</h3>
+              <p className="font-medium text-slate-300">Depende de la complejidad. Una automatización sencilla (ej. volcar contactos de un formulario a un Excel o enviar respuestas automáticas) requiere una inversión muy baja. Integrar un <a href="/servicios/crm-a-medida" className="text-[#00D4FF] hover:underline">CRM a medida</a> con tu facturación es un proyecto mayor. Realizamos un presupuesto exacto tras una auditoría.</p>
             </div>
             <div className="p-6 rounded-xl glass-card border border-white/10 hover:border-[#00D4FF]/30 transition-colors">
-              <h3 className="font-bold text-lg mb-2 text-white">¿Se puede integrar con mis programas actuales?</h3>
-              <p className="font-medium text-slate-300">Sí. Trabajamos con múltiples plataformas y herramientas. Conectamos tus sistemas actuales mediante APIs y automatizaciones a medida.</p>
+              <h3 className="font-bold text-lg mb-2 text-white">¿Se puede integrar con los programas que ya uso?</h3>
+              <p className="font-medium text-slate-300">Sí. Evaluamos tu software actual (ERP, correo, bases de datos) y lo conectamos mediante APIs o herramientas de automatización sin necesidad de que cambies tu forma de trabajar.</p>
             </div>
             <div className="p-6 rounded-xl glass-card border border-white/10 hover:border-[#00D4FF]/30 transition-colors">
-              <h3 className="font-bold text-lg mb-2 text-white">¿Cuánto tiempo tarda la implementación?</h3>
-              <p className="font-medium text-slate-300">Depende del proyecto y su complejidad, aunque muchas automatizaciones esenciales pueden estar funcionando en pocos días.</p>
+              <h3 className="font-bold text-lg mb-2 text-white">¿Cuándo NO merece la pena automatizar?</h3>
+              <p className="font-medium text-slate-300">No recomendamos automatizar procesos donde las reglas cambian constantemente, ni tareas que requieran empatía humana o decisiones críticas subjetivas. Si el proceso es mecánico y repetitivo, entonces sí es ideal.</p>
             </div>
             <div className="p-6 rounded-xl glass-card border border-white/10 hover:border-[#00D4FF]/30 transition-colors">
-              <h3 className="font-bold text-lg mb-2 text-white">¿Cuánto cuesta automatizar un proceso?</h3>
-              <p className="font-medium text-slate-300">Depende de las necesidades exactas de tu negocio. Solicita una auditoría gratuita y te proporcionaremos un presupuesto sin compromiso.</p>
+              <h3 className="font-bold text-lg mb-2 text-white">¿Es seguro automatizar datos de mis clientes?</h3>
+              <p className="font-medium text-slate-300">Sí. Utilizamos protocolos seguros, conexiones encriptadas y APIs oficiales orientadas al cumplimiento normativo (RGPD). Tus datos comerciales no se exponen ni se utilizan para entrenar modelos de IA públicos.</p>
             </div>
             <div className="p-6 rounded-xl glass-card border border-white/10 hover:border-[#00D4FF]/30 transition-colors">
-              <h3 className="font-bold text-lg mb-2 text-white">¿Es necesario cambiar mi forma de trabajar?</h3>
-              <p className="font-medium text-slate-300">No. Adaptamos la solución a la idiosincrasia de tu empresa para que la curva de aprendizaje sea nula.</p>
+              <h3 className="font-bold text-lg mb-2 text-white">¿Qué pasa si una de las herramientas integradas falla o se actualiza?</h3>
+              <p className="font-medium text-slate-300">Ofrecemos planes de mantenimiento para monitorizar activamente tus flujos de trabajo. Si hay un cambio en la herramienta de terceros, nuestro equipo lo adapta rápidamente para que el proceso no se interrumpa.</p>
             </div>
           </div>
         </section>

@@ -20,7 +20,7 @@ export default function ClinicasV2({ onOpenForm }: { onOpenForm: (config?: any) 
   const blocks = [
     {
       title: "Automatización de Agenda y Citas",
-      desc: "Un Agente de IA coordinado con tu software médico que agenda, cancela y mueve citas por WhatsApp 24/7 de forma humana.",
+      desc: "Un Agente de IA coordinado con tu software médico que agenda, cancela y mueve citas por WhatsApp 24/7 de forma humana. Aprende más sobre nuestros asistentes en la página de chatbots de IA.",
       icon: CalendarCheck
     },
     {
@@ -30,14 +30,18 @@ export default function ClinicasV2({ onOpenForm }: { onOpenForm: (config?: any) 
     },
     {
       title: "Atención Post-Tratamiento Autónoma",
-      desc: "Seguimiento automatizado tras intervenciones para asegurar el bienestar del paciente y capturar reseñas positivas en Google.",
+      desc: "Envío automático de mensajes recordatorios tras las intervenciones para confirmar la satisfacción del paciente y facilitar la captación de reseñas en Google.",
       icon: Activity
     }
   ];
 
   const faqs = [
-    { q: "¿Es seguro usar IA con datos de pacientes?", a: "Absolutamente. Diseñamos nuestras arquitecturas cumpliendo estrictamente con la Ley Orgánica de Protección de Datos (LOPD/RGPD). Los datos de salud están anonimizados en las interacciones de IA y protegidos mediante encriptación de nivel empresarial." },
-    { q: "¿El sistema se puede integrar con el software de la clínica que ya usamos?", a: "Sí, siempre y cuando su software de gestión actual disponga de una API abierta, podemos integrar las soluciones de automatización." }
+    { q: "¿Cuánto cuesta automatizar la gestión de mi clínica?", a: "Depende del volumen de pacientes y la profundidad de la integración con tu software actual. Diseñamos sistemas ajustados para que la reducción de citas fallidas (no-shows) amortice la inversión rápidamente. Evaluamos el presupuesto en una auditoría gratuita." },
+    { q: "¿Se integra con las herramientas existentes que ya usamos?", a: "Sí. Si tu software médico (ej. Clinic Cloud, Archivex) dispone de API, nuestra Inteligencia Artificial se conecta para agendar citas directamente en el calendario del especialista." },
+    { q: "¿Cuánto tiempo se tarda en implantar?", a: "Habitualmente entre 3 y 5 semanas. Realizamos pruebas exhaustivas antes de lanzar para asegurar que la agenda se mantiene organizada y los pacientes reciben la mejor atención." },
+    { q: "¿Es seguro para la privacidad de los datos médicos?", a: "Diseñamos nuestras integraciones priorizando la privacidad y facilitando el cumplimiento de la RGPD/LOPD. Los datos viajan encriptados (TLS/SSL) y los asistentes IA no retienen las conversaciones de pacientes para entrenar modelos públicos." },
+    { q: "¿Es difícil de usar para nuestro equipo de recepción?", a: "No. La automatización actúa de forma transparente, gestionando el volumen por WhatsApp. Tu equipo de recepción solo interviene si la IA detecta una urgencia clínica o una petición que requiera empatía humana." },
+    { q: "¿Qué incluye el mantenimiento técnico?", a: "Nos encargamos de monitorizar que la conexión entre WhatsApp y tu sistema médico siga siendo estable. Si tu software actualiza su versión, nosotros adaptamos la integración sin coste de desarrollo adicional." }
   ];
 
   const serviceSchema = {
@@ -54,18 +58,7 @@ export default function ClinicasV2({ onOpenForm }: { onOpenForm: (config?: any) 
     "url": window.location.href
   };
 
-  const faqSchema = {
-    "@context": "https://schema.org",
-    "@type": "FAQPage",
-    "mainEntity": faqs.map(f => ({
-      "@type": "Question",
-      "name": f.q,
-      "acceptedAnswer": {
-        "@type": "Answer",
-        "text": f.a
-      }
-    }))
-  };
+  // FAQ Schema temporalmente desactivado para SEO P0
 
   return (
     <div className="min-h-screen bg-[#030712] text-gray-100 overflow-hidden relative">
@@ -74,7 +67,6 @@ export default function ClinicasV2({ onOpenForm }: { onOpenForm: (config?: any) 
         description="Agentes de IA para clínicas. Multiplica tus pacientes, automatiza tu agenda y mejora el seguimiento post-tratamiento." 
       />
       <JsonLd data={serviceSchema} />
-      <JsonLd data={faqSchema} />
       {/* Luces de Neón Ambientales (Estilo Dark Neon) */}
       <div className="absolute top-1/4 right-0 w-[500px] h-[500px] bg-cyan-950/20 blur-[120px] rounded-full pointer-events-none" />
       <div className="absolute bottom-1/4 left-0 w-[500px] h-[500px] bg-purple-950/20 blur-[120px] rounded-full pointer-events-none" />
@@ -157,6 +149,19 @@ export default function ClinicasV2({ onOpenForm }: { onOpenForm: (config?: any) 
               </div>
               <h3 className="text-xl font-bold mb-3 text-white">{b.title}</h3>
               <p className="text-sm text-slate-400 leading-relaxed font-medium">{b.desc}</p>
+            </div>
+          ))}
+        </div>
+      </section>
+
+      {/* FAQs Visibles */}
+      <section className="relative z-10 max-w-4xl mx-auto px-6 py-20 border-t border-slate-900">
+        <h2 className="text-3xl font-bold uppercase mb-10 text-center">Preguntas Frecuentes</h2>
+        <div className="space-y-6">
+          {faqs.map((f, i) => (
+            <div key={i} className="bg-slate-900/40 p-6 rounded-xl border border-slate-800/60">
+              <h3 className="font-bold text-lg text-white mb-2">{f.q}</h3>
+              <p className="text-slate-400 font-medium text-sm leading-relaxed">{f.a}</p>
             </div>
           ))}
         </div>
