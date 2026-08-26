@@ -8,7 +8,7 @@ interface SEOProps {
   ogType?: string;
 }
 
-export default function SEO({ title, description, canonical, ogImage = "https://ritealmar.es/logo.webp", ogType = "website" }: SEOProps) {
+export default function SEO({ title, description, canonical, ogImage = "https://ritealmar.es/og-image.jpg", ogType = "website" }: SEOProps) {
   useEffect(() => {
     document.title = title;
 

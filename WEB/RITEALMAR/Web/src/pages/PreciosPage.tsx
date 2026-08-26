@@ -115,7 +115,7 @@ export default function PreciosPage({ onOpenForm }: PreciosPageProps) {
   return (
     <div className="min-h-screen bg-[#030712] text-gray-100 overflow-hidden relative pb-32">
       <SEO 
-        title="Precios y Planes de Servicios Digitales | Ritealmar" 
+        title="Precios y Planes de Servicios Digitales | RITEALMAR" 
         description="Conoce nuestros precios orientativos para diseño web, desarrollo de apps, chatbots y automatización con inteligencia artificial. Soluciones escalables para empresas." 
       />
       <JsonLd data={faqSchema} />
