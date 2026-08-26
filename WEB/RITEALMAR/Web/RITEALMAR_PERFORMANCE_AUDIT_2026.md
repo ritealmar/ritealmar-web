@@ -118,3 +118,111 @@ Se proponen las siguientes correcciones arquitectónicas, de más a menos urgent
 - **QA:** Sin regresiones funcionales ni visuales en producción. Navegación SPA fluida, hidratación correcta de CSS y correcto funcionamiento de modales/Turnstile tras navegación por rutas lazy.
 - **Errores:** Ninguno detectado.
 - **Pendientes:** Fase P1 (ROICalculator, BlogBanner, framer-motion diferido) y Fase P2 (optimización render móvil, GTM diferido).
+
+---
+
+## FASE P1 — OPTIMIZACIÓN JAVASCRIPT Y RENDER BLOCKING
+
+### 1. Bundle P0 vs P1 (Diferencia Real)
+- **Bundle JS Principal Minificado (P0):** 490.35 kB
+- **Bundle JS Principal Minificado (P1):** 475.59 kB
+- **Diferencia Absoluta:** -14.76 kB
+- **Bundle JS Principal Gzip (P0):** 147.50 kB
+- **Bundle JS Principal Gzip (P1):** 143.82 kB
+- **Diferencia Absoluta Gzip:** -3.68 kB
+
+### 2. ROICalculator y BlogBanner
+- Ambos componentes fueron convertidos a `React.lazy()` en `Home.tsx` y encapsulados en un `<Suspense>` con un `min-h-[800px]` para mitigar un posible CLS (Cumulative Layout Shift) en móviles, dado que ocupan bastante espacio vertical. 
+- **Resultado:** Fueron abstraídos del bundle inicial exitosamente, provocando la reducción de ~15 kB de lógica (fórmulas, estado y contenido).
+
+### 3. Estado de Framer-Motion
+- **¿Sigue en el bundle inicial?** SÍ.
+- **¿Qué componentes lo provocan?** 
+  1. `ModalController` (Importado sincrónicamente y de forma global en `App.tsx`).
+  2. Componentes importados sincrónicamente en `Home.tsx` que están *below the fold*: `TargetAudienceSection`, `ServicesBentoGrid`, `BeforeAfterSection`, `ContactForm`, `TestimonialsSection` y `WhoIsBehind`.
+- **Análisis de `ModalController` a Lazy:** Se podría envolver en un `React.lazy()` en `App.tsx`. No obstante, no eliminaría `framer-motion` del bundle inicial, dado que `Home.tsx` (que no es lazy para no impactar LCP) sigue importando sincrónicamente otras secciones que usan la misma librería de animación.
+- **Resolución temporal:** No se ha migrado `framer-motion` a lazy ni a la API `m` en esta fase para evitar riesgos de pérdida de animación inicial en la Home (Hero, Navbar) y porque requeriría refactorizar gran parte del árbol de componentes de la página de inicio.
+
+### 4. Recursos Render-Blocking Identificados (Ahorro Estimado Lighthouse: 990ms)
+- **El CSS Principal (`index-XXXXX.css`):** Vite inyecta esta hoja de estilo como render-blocking (comportamiento normal).
+- **Google Fonts CSS (`fonts.googleapis.com`):** Al trasladarlo al HTML se adelantó la petición, pero sigue bloqueando el primer pintado visual (FCP) porque el navegador pausa el renderizado hasta descargar el mapa de fuentes.
+- **¿Opciones a futuro?** 
+  - Usar `&display=swap` ayuda con FOIT (ya aplicado).
+  - El *self-hosting* de la fuente `Inter` o un inline CSS crítico podrían mitigar los 990ms, pero requieren refactorizar el proceso de build de Vite o la plantilla estática, por lo cual se descarta en P1 hasta ver su necesidad.
+
+### 5. Origen de los 363 KiB de JS Sin Usar
+- Provienen casi exclusivamente de los componentes de la **Home** que están *below the fold* y que Vite empaqueta en `index.js`. Al cargar la página, el navegador descarga la lógica de `Integrations`, `IndustrySolutions`, `ProcessSection`, `FAQ`, etc., pero el usuario no los ve inicialmente.
+- Adicionalmente, el core de `framer-motion` contribuye sustancialmente a este aviso, dado que trae mucha lógica de animación de la cual el *Hero* solo usa una pequeña parte.
+
+### 6. Tareas Largas en el Main Thread (6 tareas)
+- **Origen:** Evaluación del Script (`index.js`), Reconciliación / Initial Render de React (montar el VDOM de todos los componentes de la Home) y cálculo de layouts/proyecciones de `framer-motion`.
+
+### 7. Cambios Realizados y QA
+- **Cambios Realizados:** 
+  - `ROICalculator` y `BlogBanner` portados a Code-Splitting / Lazy en `Home.tsx`.
+- **QA & Riesgos:**
+  - Build compilado con Exit Code 0.
+  - El fallback del Suspense mitiga de forma razonable el layout shift (comprobado en emulación mobile y desktop).
+  - Formularios, tracking, modales, y enrutamiento SPA siguen estables (sin regresiones de hidratación).
+
+### 8. Recomendación para Siguiente Fase
+- Dado que el "JS sin usar" es culpa de los componentes *below the fold* de `Home.tsx`, la siguiente fase más agresiva sería convertirlos también a `React.lazy` (ej. `ServicesBentoGrid`, `FAQ`, `ProcessSection`). Al hacerlo, `framer-motion` se caería automáticamente del bundle inicial del FCP/LCP de la Home.
+
+---
+
+## FASE P1B — LAZY LOAD HOME BELOW THE FOLD
+
+### 1. Componentes Convertidos a Lazy
+Los siguientes componentes de `Home.tsx` fueron convertidos a `React.lazy()` con `<Suspense>` y fallback de altura fija para evitar CLS:
+
+| Componente | Usa framer-motion | Motivo |
+|---|---|---|
+| `BlogBanner` | No | Below-the-fold (ya lazy desde P1) |
+| `ROICalculator` | Sí | Below-the-fold (ya lazy desde P1) |
+| `TargetAudienceSection` | Sí | Below-the-fold, no crítico para conversión inicial |
+| `ServicesBentoGrid` | Sí | Below-the-fold, CTA secundario |
+| `IndustrySolutions` | No | Below-the-fold |
+| `BeforeAfterSection` | Sí | Below-the-fold |
+| `PortfolioSection` | No | Below-the-fold |
+| `ProcessSection` | Sí | Below-the-fold |
+| `FAQ` | No | Below-the-fold |
+| `Integrations` | No | Below-the-fold |
+
+### 2. Componentes Descartados (siguen síncronos)
+| Componente | Motivo |
+|---|---|
+| `Hero` | Above-the-fold, crítico para LCP |
+| `Benefits` | Ligero, sin framer-motion, posición alta en flujo |
+| `ContactForm` | Contiene formulario principal con Turnstile; riesgo funcional si es lazy |
+| `Navbar` | Global, crítico para interacción inicial |
+| `ModalController` | Global, crítico para apertura de modales y conversión |
+
+### 3. Bundle Antes / Después
+
+| Métrica | P1 (Baseline) | P1B (Resultado) | Diferencia | % |
+|---|---|---|---|---|
+| JS Principal Minificado | 475.59 kB | **432.02 kB** | -43.57 kB | **-9.16%** |
+| JS Principal Gzip | 143.82 kB | **135.02 kB** | -8.80 kB | **-6.12%** |
+| Reducción total vs. original (691.64 kB) | — | 432.02 kB | **-259.62 kB** | **-37.54%** |
+
+### 4. Estado de Framer-Motion
+- **¿Sigue en el bundle inicial?** Sí.
+- **Origen confirmado:** `ModalController` (importado de forma global y síncrona en `App.tsx`) y `ContactForm` (mantenido síncrono por seguridad funcional). Ambos contienen `import { motion, AnimatePresence } from 'framer-motion'`.
+- Para eliminar `framer-motion` del chunk inicial sería necesario convertir `ModalController` a lazy en `App.tsx`, lo que conlleva riesgo de apertura de modal sin feedback visual si el chunk tarda en cargarse.
+
+### 5. CLS
+- Cada sección lazy dispone de un `<Suspense fallback={<div className="min-h-[Xpx] w-full" />}>` con altura estimada según el bloque. Esto reserva espacio en el DOM durante la carga, minimizando el CLS visible.
+
+### 6. QA
+- Build: Exit Code 0.
+- Scroll progresivo con aparición dinámica de secciones: funcional.
+- Hero, CTA principal, Navbar, formulario, modales, WhatsApp y Calendly: sin regresión detectada.
+- Consola limpia (sin errores de chunk ni referencias rotas).
+
+### 7. Riesgos
+- Los fallbacks de `min-h-[Xpx]` son estimaciones estáticas. Si el tamaño real del componente difiere en móvil, puede haber CLS residual al cargar. Se recomienda medir con Lighthouse post-deploy.
+- `ContactForm` sigue síncrono: aporta peso al bundle pero garantiza disponibilidad inmediata del formulario principal.
+
+### 8. Recomendación de Deploy
+- **Sí se recomienda hacer commit y deploy.** La reducción acumulada desde el baseline original es de **-259.62 kB minificado / -61.15 kB gzip** (aprox. -37.54% sobre el `index.js` original de 691.64 kB). El siguiente paso para eliminar `framer-motion` del bundle inicial requeriría evaluar el impacto en UX de convertir `ModalController` a lazy loading.
+
