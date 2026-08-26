@@ -1,7 +1,7 @@
-import React, { useState, useRef } from 'react';
+import React, { useLayoutEffect, useRef, useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Send, Loader2 } from 'lucide-react';
-import TurnstileWidget from './TurnstileWidget';
+import TurnstileWidget, { type TurnstileWidgetHandle } from './TurnstileWidget';
 import { trackEvent } from '../utils/analytics';
 
 interface ContactFormProps {
@@ -35,7 +35,8 @@ export default function ContactForm(props: ContactFormProps) {
   const [privacyAccepted, setPrivacyAccepted] = useState(false);
   const [turnstileToken, setTurnstileToken] = useState<string>('');
   const [status, setStatus] = useState<'idle' | 'sending' | 'sent' | 'error'>('idle');
-  const [validationError, setValidationError] = useState<string>('');
+  const [validationError, setValidationError] = useState<string | null>(null);
+  const turnstileRef = useRef<TurnstileWidgetHandle>(null);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -114,28 +115,17 @@ export default function ContactForm(props: ContactFormProps) {
         setForm(initialFormState);
         setPrivacyAccepted(false);
         setTurnstileToken('');
-        // Resetea Turnstile globalmente si la función existe
-        if (window.turnstile && typeof window.turnstile.reset === 'function') {
-          // Asumiendo que el componente TurnstileWidget maneja el ID o podemos resetear el último
-          // En caso de StrictMode es preferible no usar document.querySelector, pero como API general:
-          const widgetEl = document.querySelector('[data-turnstile-widget-id]');
-          if (widgetEl) {
-             const widgetId = widgetEl.getAttribute('data-turnstile-widget-id');
-             if (widgetId) window.turnstile.reset(widgetId);
-          }
-        }
+        turnstileRef.current?.reset();
       } else {
         let errorMsg = 'Rechazo del servidor. Por favor, inténtalo de nuevo.';
         if (data && data.error) errorMsg = data.error;
         setValidationError(errorMsg);
         setStatus('error');
-        throw new Error(errorMsg);
+        return;
       }
     } catch (error) {
-      if (status !== 'error') {
-         setStatus('error');
-         setValidationError('El servidor está inaccesible temporalmente.');
-      }
+      setStatus('error');
+      setValidationError('El servidor está inaccesible temporalmente.');
 
       trackEvent('form_error', {
         form_name: eventName,
@@ -159,8 +149,37 @@ export default function ContactForm(props: ContactFormProps) {
     });
   };
 
+  const sectionRef = useRef<HTMLElement>(null);
+
+  useLayoutEffect(() => {
+    let firstFrame = 0;
+    let secondFrame = 0;
+
+    const scrollToContact = () => {
+      if (window.location.hash !== '#contacto' || !sectionRef.current) return;
+      const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+      firstFrame = requestAnimationFrame(() => {
+        secondFrame = requestAnimationFrame(() => {
+          sectionRef.current?.scrollIntoView({
+            behavior: prefersReducedMotion ? 'auto' : 'smooth',
+            block: 'start'
+          });
+        });
+      });
+    };
+
+    scrollToContact();
+    window.addEventListener('hashchange', scrollToContact);
+
+    return () => {
+      window.removeEventListener('hashchange', scrollToContact);
+      cancelAnimationFrame(firstFrame);
+      cancelAnimationFrame(secondFrame);
+    };
+  }, []);
+
   return (
-    <section id="contacto" className="py-24 md:py-32 relative bg-[#030712] overflow-hidden border-t border-white/5">
+    <section id="contacto" ref={sectionRef} className="py-24 md:py-32 relative bg-[#030712] overflow-hidden border-t border-white/5 scroll-mt-24">
       <div className="absolute inset-0 bg-gradient-to-b from-[#030712] to-[#0A1628]"></div>
 
       <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[80%] max-w-[600px] h-[500px] bg-cyan-500/5 rounded-full blur-[120px] pointer-events-none"></div>
@@ -341,6 +360,8 @@ export default function ContactForm(props: ContactFormProps) {
 
                 <div className="mt-2">
                   <TurnstileWidget
+                    ref={turnstileRef}
+                    action="contact"
                     onVerify={(token) => {
                        setTurnstileToken(token);
                        if (validationError && validationError.includes('caducado')) {
@@ -350,6 +371,11 @@ export default function ContactForm(props: ContactFormProps) {
                     onExpire={() => {
                         setTurnstileToken('');
                         setValidationError('El token de seguridad ha caducado. Por favor, complétalo de nuevo.');
+                        setStatus('idle');
+                    }}
+                    onError={() => {
+                        setTurnstileToken('');
+                        setValidationError('No se pudo completar la validación de seguridad. Inténtalo de nuevo.');
                         setStatus('idle');
                     }}
                   />

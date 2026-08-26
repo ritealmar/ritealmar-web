@@ -1,11 +1,13 @@
-import React, { useEffect, useRef } from 'react';
+import React, { forwardRef, useEffect, useImperativeHandle, useRef } from 'react';
 
 declare global {
   interface TurnstileOptions {
     sitekey: string;
+    action?: string;
     callback?: (token: string) => void;
     'error-callback'?: () => void;
     'expired-callback'?: () => void;
+    'timeout-callback'?: () => void;
     theme?: 'light' | 'dark' | 'auto';
     [key: string]: unknown;
   }
@@ -24,124 +26,142 @@ interface TurnstileWidgetProps {
   onVerify: (token: string) => void;
   onError?: () => void;
   onExpire?: () => void;
+  action?: string;
 }
 
-export default function TurnstileWidget({ onVerify, onError, onExpire }: TurnstileWidgetProps) {
-  const containerRef = useRef<HTMLDivElement>(null);
-  
-  // VARIABLE CLOUDFLARE PAGES (Frontend)
-  // Configurar en Cloudflare Pages -> Settings -> Environment variables
-  // Clave: VITE_TURNSTILE_SITE_KEY | Valor: Tu Site Key pública
-  const siteKey = import.meta.env.VITE_TURNSTILE_SITE_KEY;
-  const widgetIdRef = useRef<string | null>(null);
-  const isKeyMissingLogged = useRef(false);
+export interface TurnstileWidgetHandle {
+  reset: () => void;
+}
 
-  // Guardamos las referencias actualizadas de los callbacks para no reiniciar el widget
-  const onVerifyRef = useRef(onVerify);
-  const onErrorRef = useRef(onError);
-  const onExpireRef = useRef(onExpire);
+let turnstileScriptPromise: Promise<void> | null = null;
 
-  useEffect(() => {
-    onVerifyRef.current = onVerify;
-    onErrorRef.current = onError;
-    onExpireRef.current = onExpire;
-  }, [onVerify, onError, onExpire]);
+function ensureTurnstileScript(): Promise<void> {
+  if (window.turnstile) return Promise.resolve();
+  if (turnstileScriptPromise) return turnstileScriptPromise;
 
-  useEffect(() => {
-    // Si no hay Site Key, lanzamos error y no simulamos el token.
-    if (!siteKey) {
-      if (!isKeyMissingLogged.current) {
-        console.error("ERROR CRÍTICO: Turnstile no está configurado (VITE_TURNSTILE_SITE_KEY). El formulario no podrá enviarse.");
-        isKeyMissingLogged.current = true;
-      }
-      if (onErrorRef.current) onErrorRef.current();
-      return;
-    }
+  turnstileScriptPromise = new Promise<void>((resolve, reject) => {
+    const existingScript = document.getElementById('turnstile-script') as HTMLScriptElement | null;
+    const script = existingScript ?? document.createElement('script');
+    let timeoutId: number | undefined;
 
-    // Prevenir ejecución doble en Strict Mode si ya estamos inicializando
-    if (widgetIdRef.current) return;
-
-    let isMounted = true;
-
-    // Verificar si ya existe window.turnstile
-    const renderWidget = () => {
-      if (window.turnstile && containerRef.current && !widgetIdRef.current && isMounted) {
-        try {
-          widgetIdRef.current = window.turnstile.render(containerRef.current, {
-            sitekey: siteKey,
-            callback: (token: string) => {
-              if (onVerifyRef.current) onVerifyRef.current(token);
-            },
-            'error-callback': () => {
-              console.error("Error al cargar o verificar Turnstile.");
-              if (onErrorRef.current) onErrorRef.current();
-            },
-            'expired-callback': () => {
-              if (onExpireRef.current) onExpireRef.current();
-            },
-            'timeout-callback': () => {
-              console.error("Turnstile timeout.");
-              if (onErrorRef.current) onErrorRef.current();
-            },
-            theme: 'dark' // Ajustado al diseño corporativo de Ritealmar
-          });
-        } catch (err) {
-          console.error("Fallo al renderizar Turnstile", err);
-          if (onErrorRef.current) onErrorRef.current();
-        }
-      }
+    const cleanup = () => {
+      script.removeEventListener('load', handleLoad);
+      script.removeEventListener('error', handleError);
+      if (timeoutId !== undefined) window.clearTimeout(timeoutId);
+    };
+    const handleLoad = () => {
+      cleanup();
+      if (window.turnstile) resolve();
+      else reject(new Error('La API de Turnstile no quedó disponible.'));
+    };
+    const handleError = () => {
+      cleanup();
+      reject(new Error('No se pudo cargar el script de Turnstile.'));
     };
 
-    if (!document.getElementById('turnstile-script')) {
-      const script = document.createElement('script');
+    script.addEventListener('load', handleLoad, { once: true });
+    script.addEventListener('error', handleError, { once: true });
+
+    if (!existingScript) {
       script.id = 'turnstile-script';
       script.src = 'https://challenges.cloudflare.com/turnstile/v0/api.js?render=explicit';
       script.async = true;
       script.defer = true;
-      script.onload = () => {
-        if (isMounted) renderWidget();
-      };
       document.head.appendChild(script);
-    } else {
-      // Script ya cargado, solo renderizar
-      if (window.turnstile) {
-        renderWidget();
-      } else {
-        // En caso de que el script esté en proceso de carga
-        const checkTurnstile = setInterval(() => {
-          if (window.turnstile) {
-            clearInterval(checkTurnstile);
-            if (isMounted) renderWidget();
-          }
-        }, 100);
-      }
     }
 
-    return () => {
-      isMounted = false;
-      // Limpiar widget al desmontar
-      if (window.turnstile && widgetIdRef.current) {
-        try {
-          window.turnstile.remove(widgetIdRef.current);
-          widgetIdRef.current = null;
-        } catch (e) {
-          // Ignorar posibles errores al desmontar
+    timeoutId = window.setTimeout(() => {
+      if (window.turnstile) handleLoad();
+      else handleError();
+    }, 10_000);
+  }).catch((error) => {
+    turnstileScriptPromise = null;
+    throw error;
+  });
+
+  return turnstileScriptPromise;
+}
+
+const TurnstileWidget = forwardRef<TurnstileWidgetHandle, TurnstileWidgetProps>(
+  function TurnstileWidget({ onVerify, onError, onExpire, action = 'contact' }, ref) {
+    const containerRef = useRef<HTMLDivElement>(null);
+    const widgetIdRef = useRef<string | null>(null);
+    const onVerifyRef = useRef(onVerify);
+    const onErrorRef = useRef(onError);
+    const onExpireRef = useRef(onExpire);
+    const siteKey = import.meta.env.VITE_TURNSTILE_SITE_KEY;
+
+    useEffect(() => {
+      onVerifyRef.current = onVerify;
+      onErrorRef.current = onError;
+      onExpireRef.current = onExpire;
+    }, [onVerify, onError, onExpire]);
+
+    useImperativeHandle(ref, () => ({
+      reset: () => {
+        if (window.turnstile && widgetIdRef.current) {
+          window.turnstile.reset(widgetIdRef.current);
         }
       }
-    };
-  }, [siteKey]);
+    }), []);
 
-  if (!siteKey) {
+    useEffect(() => {
+      if (!siteKey) {
+        onErrorRef.current?.();
+        return;
+      }
+
+      let cancelled = false;
+
+      void ensureTurnstileScript()
+        .then(() => {
+          if (cancelled || !window.turnstile || !containerRef.current || widgetIdRef.current) return;
+
+          const widgetId = window.turnstile.render(containerRef.current, {
+            sitekey: siteKey,
+            action,
+            theme: 'dark',
+            callback: (token: string) => onVerifyRef.current(token),
+            'error-callback': () => onErrorRef.current?.(),
+            'expired-callback': () => onExpireRef.current?.(),
+            'timeout-callback': () => onErrorRef.current?.()
+          });
+
+          if (cancelled) {
+            window.turnstile.remove(widgetId);
+            return;
+          }
+
+          widgetIdRef.current = widgetId;
+          containerRef.current.dataset.turnstileWidgetId = widgetId;
+        })
+        .catch(() => {
+          if (!cancelled) onErrorRef.current?.();
+        });
+
+      return () => {
+        cancelled = true;
+        if (window.turnstile && widgetIdRef.current) {
+          window.turnstile.remove(widgetIdRef.current);
+        }
+        widgetIdRef.current = null;
+      };
+    }, [action, siteKey]);
+
+    if (!siteKey) {
+      return (
+        <div role="alert" className="bg-red-950/50 border border-red-500/50 text-red-400 p-4 rounded-xl text-sm mb-4">
+          La protección contra bots no está disponible en este momento. Por favor, inténtalo más tarde.
+        </div>
+      );
+    }
+
     return (
-      <div className="bg-red-950/50 border border-red-500/50 text-red-400 p-4 rounded-xl text-sm mb-4">
-        La protección contra bots (Turnstile) no está configurada. Por favor, contacta con soporte.
+      <div className="w-full flex justify-center my-4 min-h-[65px]">
+        <div ref={containerRef} className="max-w-full overflow-hidden" />
       </div>
     );
   }
+);
 
-  return (
-    <div className="w-full flex justify-center my-4 min-h-[65px]">
-      <div ref={containerRef} className="max-w-full overflow-hidden"></div>
-    </div>
-  );
-}
+export default TurnstileWidget;

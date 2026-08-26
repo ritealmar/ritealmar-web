@@ -2,7 +2,7 @@ import React, { Suspense } from 'react';
 import Hero from '../components/Hero';
 import SEO from '../components/SEO';
 import Benefits from '../components/Benefits';
-const ContactForm = React.lazy(() => import('../components/ContactForm'));
+import ContactForm from '../components/ContactForm';
 
 const ROICalculator = React.lazy(() => import('../components/ROICalculator'));
 const ServicesBentoGrid = React.lazy(() => import('../components/ServicesBentoGrid'));
@@ -84,9 +84,7 @@ export default function Home({ onOpenCalendly }: { onOpenCalendly?: (config?: an
       </section>
 
       {/* 8. Formulario final */}
-      <Suspense fallback={<div className="h-20" />}>
-        <ContactForm />
-      </Suspense>
+      <ContactForm />
 
     </div>
   );

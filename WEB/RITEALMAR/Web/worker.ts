@@ -87,7 +87,7 @@ export default {
         }
 
         const token = body.cf_turnstile_response;
-        if (!token || token === "dev_no_token") {
+        if (typeof token !== "string" || token.length === 0 || token.length > 2048 || token === "dev_no_token") {
           return new Response(JSON.stringify({ success: false, error: "Validación anti-spam requerida." }), {
             status: 400,
             headers: { ...corsHeaders, "Content-Type": "application/json" },
@@ -105,9 +105,11 @@ export default {
 
           const cfResponse = await fetch("https://challenges.cloudflare.com/turnstile/v0/siteverify", {
             method: "POST",
-            body: formData
+            body: formData,
+            signal: AbortSignal.timeout(10_000)
           });
-          
+          if (!cfResponse.ok) throw new Error(`Siteverify respondió ${cfResponse.status}`);
+
           const outcome = await cfResponse.json();
           if (!outcome.success) {
             console.error("Fallo validación Turnstile:", outcome['error-codes']);
@@ -117,19 +119,28 @@ export default {
             });
           }
           
-          const tokenHostname = outcome.hostname;
-          if (tokenHostname) {
-             const isProdToken = tokenHostname === 'ritealmar.es' || tokenHostname === 'www.ritealmar.es';
-             const isPreviewToken = tokenHostname.endsWith('.ritealmar.pages.dev');
-             const isLocalToken = env.ALLOW_LOCALHOST && tokenHostname === 'localhost';
-             const isTestToken = tokenHostname === 'dummy-domain.com' || tokenHostname === 'example.com';
+          const expectedHostnames = new Set([
+            'ritealmar.es',
+            'www.ritealmar.es',
+            ...(env.TURNSTILE_HOSTNAMES || '').split(',').map((value) => value.trim()).filter(Boolean)
+          ]);
+          if (env.TURNSTILE_TEST_MODE === 'true') {
+            expectedHostnames.add('dummy-domain.com');
+            expectedHostnames.add('example.com');
+          }
 
-             if (!isProdToken && !isPreviewToken && !isLocalToken && !isTestToken) {
-                 return new Response(JSON.stringify({ success: false, error: "Origen de token inválido: " + tokenHostname }), {
-                    status: 403,
-                    headers: { ...corsHeaders, "Content-Type": "application/json" },
-                 });
-             }
+          if (outcome.action !== 'contact') {
+            return new Response(JSON.stringify({ success: false, error: "Acción de seguridad inválida." }), {
+              status: 403,
+              headers: { ...corsHeaders, "Content-Type": "application/json" },
+            });
+          }
+
+          if (typeof outcome.hostname !== 'string' || !expectedHostnames.has(outcome.hostname)) {
+            return new Response(JSON.stringify({ success: false, error: "Origen del token inválido." }), {
+              status: 403,
+              headers: { ...corsHeaders, "Content-Type": "application/json" },
+            });
           }
         } catch (e) {
           console.error("Error contactando API Turnstile:", e.message);

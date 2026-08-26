@@ -16,11 +16,15 @@ describe('Worker Edge API', () => {
          const response = body.get('response');
          
          if (response === 'valid_token') {
-             return new Response(JSON.stringify({ success: true, hostname: 'ritealmar.es' }));
+             return new Response(JSON.stringify({ success: true, hostname: 'ritealmar.es', action: 'contact' }));
          }
          
          if (response === 'invalid_hostname') {
-             return new Response(JSON.stringify({ success: true, hostname: 'evil.com' }));
+             return new Response(JSON.stringify({ success: true, hostname: 'evil.com', action: 'contact' }));
+         }
+
+         if (response === 'invalid_action') {
+             return new Response(JSON.stringify({ success: true, hostname: 'ritealmar.es', action: 'login' }));
          }
 
          if (response === 'siteverify_down') {
@@ -115,7 +119,15 @@ describe('Worker Edge API', () => {
     const res = await worker.fetch(req, mockEnv, {});
     const json = await res.json();
     expect(res.status).toBe(403);
-    expect(json.error).toMatch(/Origen de token/i);
+    expect(json.error).toMatch(/Origen del token/i);
+  });
+
+  it('rechaza tokens emitidos para otra acción', async () => {
+    const req = createRequest({ nombre: 'Test', email: 'test@test.com', cf_turnstile_response: 'invalid_action' });
+    const res = await worker.fetch(req, mockEnv, {});
+    const json = await res.json();
+    expect(res.status).toBe(403);
+    expect(json.error).toMatch(/acción/i);
   });
 
   it('rechaza payload demasiado grande (campos muy largos)', async () => {
@@ -155,7 +167,8 @@ describe('Worker Edge API', () => {
     const json = await res.json();
     expect(res.status).toBe(200);
     expect(json.success).toBe(true);
-    expect(json.email_sent).toBe(true);
+    expect(json.message).toMatch(/recibida correctamente/);
+    expect(json.ai).toBeUndefined();
     
     // Verifica que fetch fue llamado a google sheets y formsubmit
     const urls = vi.mocked(global.fetch).mock.calls.map(c => c[0]);
@@ -172,8 +185,8 @@ describe('Worker Edge API', () => {
     });
     const res = await worker.fetch(req, mockEnv, {});
     const json = await res.json();
-    expect(res.status).toBe(200);
-    expect(json.success).toBe(true);
-    expect(json.email_sent).toBe(false); // Porque dimos error 500 en formsubmit
+    expect(res.status).toBe(502);
+    expect(json.success).toBe(false);
+    expect(json.error).toMatch(/correo no está disponible/i);
   });
 });
