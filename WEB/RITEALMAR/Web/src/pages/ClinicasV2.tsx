@@ -11,44 +11,45 @@ export default function ClinicasV2({ onOpenForm }: { onOpenForm: (config?: any) 
     AnalyticsTracker.trackSectorView('clinicas');
   }, []);
 
-  const metrics = [
-    { value: "-21%", label: "Absentismo (No-Shows)", desc: "Recordatorios inteligentes vía WhatsApp." },
-    { value: "85%", label: "Consultas Automatizadas", desc: "Resolución de dudas frecuentes sin recepcionista." },
-    { value: "+31%", label: "Facturación Mensual", desc: "Lista de espera automática para cubrir cancelaciones." },
+  const casosDeUsoList = [
+    { title: "Gestión de Citas", desc: "Confirmar citas, enviar recordatorios y gestionar cancelaciones automáticamente." },
+    { title: "Consultas Iniciales", desc: "Responder preguntas frecuentes no clínicas (horarios, seguros, ubicación)." },
+    { title: "Seguimiento Administrativo", desc: "Crear tareas de seguimiento y reactivar pacientes inactivos mediante comunicaciones administrativas." },
   ];
 
   const blocks = [
     {
-      title: "Automatización de Agenda y Citas",
-      desc: "Un Agente de IA coordinado con tu software médico que agenda, cancela y mueve citas por WhatsApp 24/7 de forma humana. Aprende más sobre nuestros asistentes en la página de chatbots de IA.",
-      icon: CalendarCheck
-    },
-    {
-      title: "Cualificación de Pacientes Nuevos",
-      desc: "Filtra de manera automática los tratamientos solicitados antes de agendar, asegurando consultas de alto valor para tus especialistas.",
+      title: "Atención y Recepción 24/7",
+      desc: "Automatiza la gestión de solicitudes de información y recopila datos administrativos previos conectando tus canales con tu software de clínica dental.",
       icon: Users
     },
     {
-      title: "Atención Post-Tratamiento Autónoma",
-      desc: "Envío automático de mensajes recordatorios tras las intervenciones para confirmar la satisfacción del paciente y facilitar la captación de reseñas en Google.",
+      title: "WhatsApp para Clínicas",
+      desc: "Utiliza asistentes inteligentes para enviar recordatorios de agenda, evitando ausencias sin requerir que tu equipo llame uno por uno.",
+      icon: CalendarCheck
+    },
+    {
+      title: "Sin Tareas Repetitivas",
+      desc: "La tecnología se encarga de conectar formularios y gestionar comunicaciones administrativas, mientras el personal humano atiende con empatía lo que realmente importa.",
       icon: Activity
     }
   ];
 
   const faqs = [
-    { q: "¿Cuánto cuesta automatizar la gestión de mi clínica?", a: "Depende del volumen de pacientes y la profundidad de la integración con tu software actual. Diseñamos sistemas ajustados para que la reducción de citas fallidas (no-shows) amortice la inversión rápidamente. Evaluamos el presupuesto en una auditoría gratuita." },
-    { q: "¿Se integra con las herramientas existentes que ya usamos?", a: "Sí. Si tu software médico (ej. Clinic Cloud, Archivex) dispone de API, nuestra Inteligencia Artificial se conecta para agendar citas directamente en el calendario del especialista." },
-    { q: "¿Cuánto tiempo se tarda en implantar?", a: "Habitualmente entre 3 y 5 semanas. Realizamos pruebas exhaustivas antes de lanzar para asegurar que la agenda se mantiene organizada y los pacientes reciben la mejor atención." },
-    { q: "¿Es seguro para la privacidad de los datos médicos?", a: "Diseñamos nuestras integraciones priorizando la privacidad y facilitando el cumplimiento de la RGPD/LOPD. Los datos viajan encriptados (TLS/SSL) y los asistentes IA no retienen las conversaciones de pacientes para entrenar modelos públicos." },
-    { q: "¿Es difícil de usar para nuestro equipo de recepción?", a: "No. La automatización actúa de forma transparente, gestionando el volumen por WhatsApp. Tu equipo de recepción solo interviene si la IA detecta una urgencia clínica o una petición que requiera empatía humana." },
-    { q: "¿Qué incluye el mantenimiento técnico?", a: "Nos encargamos de monitorizar que la conexión entre WhatsApp y tu sistema médico siga siendo estable. Si tu software actualiza su versión, nosotros adaptamos la integración sin coste de desarrollo adicional." }
+    { q: "¿Qué tareas puede automatizar una clínica dental?", a: "Principalmente tareas administrativas: confirmar citas, enviar recordatorios, recopilar datos previos y responder consultas generales no clínicas." },
+    { q: "¿Puede la IA gestionar citas?", a: "Sí, puede coordinarse con la agenda para ofrecer huecos libres, procesar cancelaciones y mover pacientes, todo de forma automática." },
+    { q: "¿Puede integrarse con WhatsApp?", a: "Por supuesto. WhatsApp es un canal muy efectivo para que la clínica interactúe rápidamente con los pacientes sin saturar la centralita telefónica." },
+    { q: "¿Se conecta con el software de la clínica?", a: "Sí, diseñamos soluciones que se integran con el software de gestión actual de la clínica (si dispone de API) o con sistemas a medida." },
+    { q: "¿Cómo se protege la información?", a: "El sistema está diseñado teniendo en cuenta la privacidad y la protección de datos en todo momento. No se emplean los datos para entrenar modelos públicos." },
+    { q: "¿Cuánto cuesta automatizar una clínica dental?", a: "El coste depende del volumen de interacciones y de las integraciones necesarias. Analizamos cada caso para proponer una solución ajustada." },
+    { q: "¿La IA sustituye al personal de recepción?", a: "En absoluto. La IA no sustituye al profesional sanitario ni a la recepción; los libera de tareas repetitivas para que ofrezcan un trato humano de mayor calidad." }
   ];
 
   const serviceSchema = {
     "@context": "https://schema.org",
     "@type": "Service",
-    "name": "IA para clínicas: más citas, mejor seguimiento y menos tareas manuales",
-    "description": "Agentes de IA para clínicas. Multiplica tus pacientes, automatiza tu agenda y mejora el seguimiento post-tratamiento.",
+    "name": "Automatización y IA para Clínicas Dentales",
+    "description": "Automatización e inteligencia artificial para clínicas dentales. Gestiona citas, recordatorios por WhatsApp y seguimiento administrativo.",
     "provider": {
       "@type": "Organization",
       "name": "RITEALMAR",
@@ -63,8 +64,8 @@ export default function ClinicasV2({ onOpenForm }: { onOpenForm: (config?: any) 
   return (
     <div className="min-h-screen bg-[#030712] text-gray-100 overflow-hidden relative">
       <SEO 
-        title="IA para Clínicas | Ritealmar" 
-        description="Agentes de IA para clínicas. Multiplica tus pacientes, automatiza tu agenda y mejora el seguimiento post-tratamiento." 
+        title="IA para Clínicas Dentales | Automatización de Citas | RITEALMAR" 
+        description="Automatización e inteligencia artificial para clínicas dentales. Gestiona citas, recordatorios por WhatsApp y seguimiento administrativo." 
       />
       <JsonLd data={serviceSchema} />
       {/* Luces de Neón Ambientales (Estilo Dark Neon) */}
@@ -78,21 +79,21 @@ export default function ClinicasV2({ onOpenForm }: { onOpenForm: (config?: any) 
             Ritealmar Healthcare Solutions
           </span>
           <h1 className="text-4xl sm:text-5xl lg:text-6xl font-black tracking-tight leading-[1.1] mb-6 uppercase text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 via-purple-400 to-indigo-400">
-            IA para clínicas: más citas, mejor seguimiento y menos tareas manuales
+            Inteligencia Artificial y Automatización para Clínicas Dentales
           </h1>
           <p className="text-lg text-slate-400 max-w-xl mb-10 font-medium">
-            Sustituye las tareas mecánicas de recepción por un sistema inteligente que gestiona citas, optimiza huecos libres y atiende 24/7 sin saturar a tu equipo humano, integrando una potente <a href="/blog/automatizar-whatsapp-pyme" className="text-cyan-400 hover:underline">automatización de WhatsApp</a>.
+            Sustituye tareas mecánicas por un sistema que gestiona citas, optimiza huecos y atiende consultas 24/7. Una solución ideal para <a href="/clinicas" className="text-cyan-400 hover:underline">clínicas</a> que buscan integrar <a href="/servicios/automatizacion-procesos" className="text-cyan-400 hover:underline">automatización de procesos</a>, <a href="/chatbots-ia" className="text-cyan-400 hover:underline">chatbots IA</a> y un <a href="/servicios/crm-a-medida" className="text-cyan-400 hover:underline">CRM a medida</a>.
           </p>
           <div className="flex flex-col sm:flex-row gap-5 justify-center lg:justify-start">
             <button 
               onClick={() => onOpenForm({
                 title: "Solicitar auditoría IA gratuita",
-                subtitle: "Cuéntanos brevemente tu negocio y revisaremos qué procesos puedes automatizar para ahorrar tiempo, captar más clientes o mejorar tu atención comercial.",
-                submitText: "Solicitar auditoría gratuita"
+                subtitle: "Analizamos los procesos de tu clínica dental y detectamos oportunidades de automatización orientadas a reducir tareas repetitivas y mejorar la organización.",
+                submitText: "Solicitar auditoría"
               })}
               className="px-8 py-4 rounded-xl bg-gradient-to-r from-cyan-500 to-blue-600 font-bold text-sm tracking-wider uppercase hover:shadow-[0_0_30px_rgba(6,182,212,0.4)] hover:scale-105 transition-all flex items-center justify-center gap-2 group"
             >
-              Auditar Agenda Gratis <ArrowRight size={16} className="group-hover:translate-x-1 transition-transform" />
+              Solicitar Auditoría IA Gratuita <ArrowRight size={16} className="group-hover:translate-x-1 transition-transform" />
             </button>
           </div>
         </div>
@@ -121,14 +122,16 @@ export default function ClinicasV2({ onOpenForm }: { onOpenForm: (config?: any) 
         </div>
       </section>
 
-      {/* Métricas de Impacto */}
+      {/* Ejemplos de Casos de Uso */}
       <section className="relative z-10 py-20 border-y border-slate-900 bg-slate-950/20 backdrop-blur-3xl">
+        <div className="max-w-7xl mx-auto px-6 text-center mb-12">
+          <h2 className="text-3xl font-bold uppercase text-white mb-4">Ejemplos de Aplicación en la Clínica</h2>
+        </div>
         <div className="max-w-7xl mx-auto px-6 grid md:grid-cols-3 gap-12 text-center">
-          {metrics.map((m, i) => (
-            <div key={i} className="space-y-2">
-              <p className="text-5xl font-black text-cyan-400 tracking-tight">{m.value}</p>
-              <p className="text-sm font-bold uppercase tracking-wider text-slate-200">{m.label}</p>
-              <p className="text-xs text-slate-400 font-medium">{m.desc}</p>
+          {casosDeUsoList.map((m, i) => (
+            <div key={i} className="space-y-4 p-6 bg-slate-900/40 rounded-xl border border-slate-800 hover:border-cyan-500/50 transition-colors">
+              <h3 className="text-lg font-bold uppercase tracking-wider text-cyan-400">{m.title}</h3>
+              <p className="text-sm text-slate-400 font-medium">{m.desc}</p>
             </div>
           ))}
         </div>
@@ -164,6 +167,26 @@ export default function ClinicasV2({ onOpenForm }: { onOpenForm: (config?: any) 
               <p className="text-slate-400 font-medium text-sm leading-relaxed">{f.a}</p>
             </div>
           ))}
+        </div>
+      </section>
+
+      {/* CTA Final */}
+      <section className="relative z-10 max-w-5xl mx-auto px-6 py-24 text-center">
+        <div className="bg-gradient-to-r from-slate-900 to-[#0A1628] border border-cyan-500/20 rounded-3xl p-12">
+          <h2 className="text-3xl md:text-4xl font-bold text-white mb-6">¿Quieres mejorar la organización administrativa?</h2>
+          <p className="text-lg text-slate-300 mb-10 max-w-2xl mx-auto">
+            Revisamos los procesos administrativos de tu clínica dental y detectamos oportunidades de automatización para ahorrar tiempo y optimizar la gestión de citas.
+          </p>
+          <button 
+            onClick={() => onOpenForm({
+              title: "Solicitar auditoría IA gratuita",
+              subtitle: "Revisamos los procesos administrativos de tu clínica dental y detectamos oportunidades de automatización para ahorrar tiempo y optimizar citas.",
+              submitText: "Solicitar auditoría"
+            })}
+            className="inline-flex items-center gap-2 px-8 py-4 rounded-xl bg-cyan-600 hover:bg-cyan-500 text-white font-bold uppercase tracking-wider transition-all"
+          >
+            Solicitar Auditoría IA Gratuita <ArrowRight size={18} />
+          </button>
         </div>
       </section>
 
