@@ -11,6 +11,28 @@ export default function BlogIndex() {
 
   const articles = [
     {
+      title: "¿Cuánto cuesta automatizar una PYME en España?",
+      description: "Descubre los costes reales, herramientas necesarias y cuándo es verdaderamente rentable invertir en automatización.",
+      category: "Estrategia",
+      readTime: "8 min",
+      url: "/blog/cuanto-cuesta-automatizar-pyme",
+      icon: <BookOpen size={24} className="text-amber-400" />,
+      gradient: "from-amber-400/20 to-orange-500/20",
+      borderGlow: "group-hover:border-amber-400/50",
+      buttonColor: "text-amber-400 group-hover:text-white bg-amber-400/10 group-hover:bg-amber-400"
+    },
+    {
+      title: "CRM estándar vs CRM a medida: ¿qué necesita tu PYME?",
+      description: "Comparamos costes, escalabilidad y mantenimiento entre licencias SaaS (HubSpot, Pipedrive) y el desarrollo de un software propio.",
+      category: "Software a Medida",
+      readTime: "9 min",
+      url: "/blog/crm-estandar-vs-medida-pyme",
+      icon: <Settings size={24} className="text-blue-400" />,
+      gradient: "from-blue-400/20 to-cyan-500/20",
+      borderGlow: "group-hover:border-blue-400/50",
+      buttonColor: "text-blue-400 group-hover:text-white bg-blue-400/10 group-hover:bg-blue-400"
+    },
+    {
       title: "Automatización de procesos para pymes: ejemplos y costes en 2026",
       description: "Guía práctica para empresas y pymes sobre qué procesos automatizar primero, ejemplos reales de flujos, uso de inteligencia artificial, costes y criterios para priorizar automatizaciones.",
       category: "IA y Automatización",

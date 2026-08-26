@@ -76,6 +76,8 @@ const BlogAutomatizarWhatsApp = lazyWithRetry(() => import('./pages/BlogAutomati
 const BlogCitasClinicas = lazyWithRetry(() => import('./pages/BlogCitasClinicas'));
 const BlogInmobiliariasIa = lazyWithRetry(() => import('./pages/BlogInmobiliariasIa'));
 const BlogAutomatizacionProcesosPymes = lazyWithRetry(() => import('./pages/BlogAutomatizacionProcesosPymes'));
+const BlogCuantoCuestaAutomatizar = lazyWithRetry(() => import('./pages/BlogCuantoCuestaAutomatizar'));
+const BlogCrmEstandarVsMedida = lazyWithRetry(() => import('./pages/BlogCrmEstandarVsMedida'));
 const CasoExitoClinicaIA = lazyWithRetry(() => import('./pages/CasoExitoClinicaIA'));
 const CasoExitoInmobiliariaIA = lazyWithRetry(() => import('./pages/CasoExitoInmobiliariaIA'));
 const CasoExitoEcommerceIA = lazyWithRetry(() => import('./pages/CasoExitoEcommerceIA'));
@@ -182,6 +184,8 @@ export default function App() {
       case '/blog/automatizacion-citas-clinicas-ia': return <BlogCitasClinicas />;
       case '/blog/ia-inmobiliarias-captacion-ventas': return <BlogInmobiliariasIa />;
       case '/blog/automatizacion-procesos-pymes': return <BlogAutomatizacionProcesosPymes />;
+      case '/blog/cuanto-cuesta-automatizar-pyme': return <BlogCuantoCuestaAutomatizar />;
+      case '/blog/crm-estandar-vs-medida-pyme': return <BlogCrmEstandarVsMedida />;
 
       // Páginas Legales
       case '/aviso-legal': return <AvisoLegal />;
