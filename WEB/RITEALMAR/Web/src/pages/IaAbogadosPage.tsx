@@ -5,8 +5,8 @@ import { trackEvent } from '../utils/analytics';
 
 export default function IaAbogadosPage() {
   const seoData = {
-    title: "IA para despachos de abogados | Automatización legal para bufetes",
-    description: "Automatiza consultas iniciales, formularios, seguimiento de clientes y tareas administrativas en tu despacho de abogados con IA. Solicita una auditoría gratuita."
+    title: "IA para Despachos de Abogados | Automatización | RITEALMAR",
+    description: "Automatización e inteligencia artificial para despachos de abogados. Mejora la gestión de consultas, seguimiento, tareas administrativas y atención al cliente."
   };
 
   const handleOpenModal = () => {
@@ -21,7 +21,7 @@ export default function IaAbogadosPage() {
 
   return (
     <ServiceLayout 
-      title="IA para despachos de abogados"
+      title="Inteligencia Artificial y Automatización para Despachos de Abogados"
       subtitle="Automatiza consultas iniciales, formularios, seguimiento de clientes y tareas administrativas sin perder el trato profesional."
       seoTitle={seoData.title}
       seoDesc={seoData.description}
@@ -124,7 +124,7 @@ export default function IaAbogadosPage() {
             </div>
             <div>
               <h3 className="text-xl font-bold text-white mb-2">Asesoría Jurídica y Mercantil</h3>
-              <p className="text-slate-400">Automatización de solicitudes de presupuesto corporativo, envío de tarifas estándar y seguimiento de contactos B2B, permitiendo cerrar reuniones comerciales altamente cualificadas.</p>
+              <p className="text-slate-400">Automatización de solicitudes de presupuesto corporativo y seguimiento de contactos B2B, conectando directamente con un <a href="/servicios/crm-a-medida" className="text-[#FF006E] hover:underline">CRM a medida</a> o estándar para cerrar reuniones altamente cualificadas.</p>
             </div>
           </div>
         </div>
@@ -170,11 +170,45 @@ export default function IaAbogadosPage() {
         </div>
       </section>
 
+      {/* Preguntas Frecuentes (FAQs) */}
+      <section className="py-24 max-w-4xl mx-auto px-6">
+        <h2 className="text-3xl font-bold mb-12 text-white text-center">Preguntas Frecuentes sobre IA y Automatización para Despachos</h2>
+        <div className="space-y-6">
+          {[
+            {
+              q: "¿Qué tareas puede automatizar un despacho de abogados?",
+              a: "Principalmente tareas administrativas: clasificación de consultas iniciales, reserva de citas, envío de recordatorios, recogida de documentación previa y conexión de datos con el software de gestión."
+            },
+            {
+              q: "¿La IA puede sustituir al abogado?",
+              a: "No. La inteligencia artificial no toma decisiones jurídicas ni asesora legalmente. Su función es descargar al equipo de tareas repetitivas para que los profesionales puedan centrarse en el trabajo de alto valor."
+            },
+            {
+              q: "¿Se puede conectar con el CRM del despacho?",
+              a: "Sí, es posible integrar la automatización y los asistentes virtuales con herramientas de mercado o con un sistema desarrollado a medida, facilitando el seguimiento de los expedientes."
+            },
+            {
+              q: "¿Puede integrarse con WhatsApp o email?",
+              a: "Por supuesto. Es uno de los canales más demandados para responder consultas iniciales rápidas o enviar recordatorios automáticos de reuniones o documentación faltante."
+            },
+            {
+              q: "¿Cómo se protege la información?",
+              a: "Se utilizan entornos seguros y privados. La IA se configura para procesar información sin entrenar modelos públicos, asegurando que los datos sensibles del despacho y de los clientes permanezcan confidenciales."
+            }
+          ].map((faq, i) => (
+            <div key={i} className="bg-[#0F172A] p-6 rounded-xl border border-white/5">
+              <h3 className="text-lg font-bold text-white mb-2">{faq.q}</h3>
+              <p className="text-slate-400">{faq.a}</p>
+            </div>
+          ))}
+        </div>
+      </section>
+
       {/* CTA Final */}
       <section className="py-32 px-6 bg-[radial-gradient(ellipse_at_center,_var(--tw-gradient-stops))] from-cyan-900/40 via-[#0A1628] to-[#0A1628] text-center border-t border-white/5">
         <h2 className="text-4xl md:text-5xl font-black mb-8 text-white tracking-tight">¿Quieres saber qué puede automatizar tu despacho?</h2>
         <p className="text-xl text-slate-300 mb-12 max-w-2xl mx-auto">
-          Solicita una auditoría gratuita y revisamos contigo oportunidades reales de mejora para que ahorres tiempo en tareas administrativas.
+          Analizamos los procesos de tu despacho y detectamos oportunidades de automatización orientadas a reducir tareas administrativas repetitivas y mejorar la organización comercial.
         </p>
         <div className="flex flex-col sm:flex-row items-center justify-center gap-6">
           <a 
@@ -184,7 +218,7 @@ export default function IaAbogadosPage() {
             }}
             className="btn-primary w-full sm:w-auto"
           >
-            Solicitar auditoría gratuita
+            Solicitar Auditoría IA Gratuita
           </a>
         </div>
       </section>
