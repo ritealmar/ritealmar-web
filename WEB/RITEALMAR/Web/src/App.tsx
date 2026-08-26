@@ -34,33 +34,31 @@ const lazyWithRetry = (componentImport: () => Promise<any>) =>
     }
   });
 
-import ProcessAutomation from './pages/ProcessAutomation';
-import CrmAMedida from './pages/CrmAMedida';
-import ChatbotsInteligentes from './pages/ChatbotsInteligentes';
-import AgentesIA from './pages/AgentesIA';
-import GenericServicePage from './pages/GenericServicePage';
-import GenericProjectPage from './pages/GenericProjectPage';
-import GenericIndustryPage from './pages/GenericIndustryPage';
-import ClinicasV2 from './pages/ClinicasV2';
-import VerticalesIndustria from './pages/VerticalesIndustria';
-import PreciosPage from './pages/PreciosPage';
-import AuditoriaIaGratis from './pages/AuditoriaIaGratis';
-import EstadoPlataforma from './pages/EstadoPlataforma';
-import IaAbogadosPage from './pages/IaAbogadosPage';
+const ProcessAutomation = lazyWithRetry(() => import('./pages/ProcessAutomation'));
+const CrmAMedida = lazyWithRetry(() => import('./pages/CrmAMedida'));
+const ChatbotsInteligentes = lazyWithRetry(() => import('./pages/ChatbotsInteligentes'));
+const AgentesIA = lazyWithRetry(() => import('./pages/AgentesIA'));
+const GenericServicePage = lazyWithRetry(() => import('./pages/GenericServicePage'));
+const GenericProjectPage = lazyWithRetry(() => import('./pages/GenericProjectPage'));
+const GenericIndustryPage = lazyWithRetry(() => import('./pages/GenericIndustryPage'));
+const ClinicasV2 = lazyWithRetry(() => import('./pages/ClinicasV2'));
+const VerticalesIndustria = lazyWithRetry(() => import('./pages/VerticalesIndustria'));
+const PreciosPage = lazyWithRetry(() => import('./pages/PreciosPage'));
+const AuditoriaIaGratis = lazyWithRetry(() => import('./pages/AuditoriaIaGratis'));
+const EstadoPlataforma = lazyWithRetry(() => import('./pages/EstadoPlataforma'));
+const IaAbogadosPage = lazyWithRetry(() => import('./pages/IaAbogadosPage'));
 
-import {
-  DisenoWebPage,
-  AppsEmpresasPage,
-  AutomatizacionesIaPage,
-  ChatbotsIaPage,
-  SeoPosicionamientoPage,
-  DisenoWebClinicasDentalesPage,
-  AutomatizacionIaClinicasPage,
-  ChatbotIaInmobiliariasPage,
-  DisenoWebInmobiliariasPage,
-  AutomatizacionWhatsappPage,
-  AuditoriaIaPymesPage
-} from './pages/SeoPages';
+const DisenoWebPage = lazyWithRetry(() => import('./pages/SeoPages').then(m => ({ default: m.DisenoWebPage })));
+const AppsEmpresasPage = lazyWithRetry(() => import('./pages/SeoPages').then(m => ({ default: m.AppsEmpresasPage })));
+const AutomatizacionesIaPage = lazyWithRetry(() => import('./pages/SeoPages').then(m => ({ default: m.AutomatizacionesIaPage })));
+const ChatbotsIaPage = lazyWithRetry(() => import('./pages/SeoPages').then(m => ({ default: m.ChatbotsIaPage })));
+const SeoPosicionamientoPage = lazyWithRetry(() => import('./pages/SeoPages').then(m => ({ default: m.SeoPosicionamientoPage })));
+const DisenoWebClinicasDentalesPage = lazyWithRetry(() => import('./pages/SeoPages').then(m => ({ default: m.DisenoWebClinicasDentalesPage })));
+const AutomatizacionIaClinicasPage = lazyWithRetry(() => import('./pages/SeoPages').then(m => ({ default: m.AutomatizacionIaClinicasPage })));
+const ChatbotIaInmobiliariasPage = lazyWithRetry(() => import('./pages/SeoPages').then(m => ({ default: m.ChatbotIaInmobiliariasPage })));
+const DisenoWebInmobiliariasPage = lazyWithRetry(() => import('./pages/SeoPages').then(m => ({ default: m.DisenoWebInmobiliariasPage })));
+const AutomatizacionWhatsappPage = lazyWithRetry(() => import('./pages/SeoPages').then(m => ({ default: m.AutomatizacionWhatsappPage })));
+const AuditoriaIaPymesPage = lazyWithRetry(() => import('./pages/SeoPages').then(m => ({ default: m.AuditoriaIaPymesPage })));
 
 // Páginas Legales
 const AvisoLegal = lazyWithRetry(() => import('./pages/AvisoLegal'));
