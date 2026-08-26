@@ -105,3 +105,16 @@ Se proponen las siguientes correcciones arquitectónicas, de más a menos urgent
 
 **10. Recomendación P1:**
 - **Sí merece la pena proceder a la Fase P1**. Haber quitado ~200kb de código inútil de páginas no visitadas reduce memoria y ancho de banda, pero el TBT real dictado por la CPU móvil se ve impactado por el `parseo` de `framer-motion`. Aplicar lazy loading a `ROICalculator` o diferir `framer-motion` proveerá un beneficio enorme en Core Web Vitals (TBT/INP).
+
+---
+
+## DEPLOY FASE P0
+
+- **Commit:** perf: reduce initial bundle and improve font loading
+- **Hash:** ecd78e0b1d27333228416b4ea4bea7787fbfd89a
+- **URL Preview:** https://f181ff73.ritealmar.pages.dev
+- **Producción:** https://ritealmar.es
+- **Bundle final:** 490.35 kB minificado / 147.50 kB gzip.
+- **QA:** Sin regresiones funcionales ni visuales en producción. Navegación SPA fluida, hidratación correcta de CSS y correcto funcionamiento de modales/Turnstile tras navegación por rutas lazy.
+- **Errores:** Ninguno detectado.
+- **Pendientes:** Fase P1 (ROICalculator, BlogBanner, framer-motion diferido) y Fase P2 (optimización render móvil, GTM diferido).
