@@ -226,3 +226,17 @@ Los siguientes componentes de `Home.tsx` fueron convertidos a `React.lazy()` con
 ### 8. RecomendaciÃ³n de Deploy
 - **SÃ­ se recomienda hacer commit y deploy.** La reducciÃ³n acumulada desde el baseline original es de **-259.62 kB minificado / -61.15 kB gzip** (aprox. -37.54% sobre el `index.js` original de 691.64 kB). El siguiente paso para eliminar `framer-motion` del bundle inicial requerirÃ­a evaluar el impacto en UX de convertir `ModalController` a lazy loading.
 
+
+---
+
+## DEPLOY FASE P1B
+
+- **Commit:** perf: lazy load below-fold home sections
+- **Hash:** e3cd27389f999555d504957a5883d381f8a0784e
+- **URL Preview:** https://ce5ddc79.ritealmar.pages.dev
+- **Producción:** https://ritealmar.es
+- **Bundle final:** 432.02 kB minificado / 135.02 kB gzip.
+- **QA:** HTTP 200 en Home y rutas lazy. Sin errores de chunk. Bloques lazy aparecen progresivamente durante scroll. WhatsApp, Calendly, ModalController y ContactForm sin regresión.
+- **CLS:** Mitigado mediante fallbacks de min-h fija por cada bloque Suspense. Requiere validación post-deploy con Lighthouse para confirmar CLS real en móvil.
+- **Errores:** Ninguno detectado.
+- **Pendientes:** P2 — evaluación de ModalController lazy y eliminación de framer-motion del bundle inicial.
