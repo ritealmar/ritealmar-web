@@ -15,6 +15,7 @@ import IndustrySolutions from '../components/IndustrySolutions';
 
 import BeforeAfterSection from '../components/BeforeAfterSection';
 import PortfolioSection from '../components/PortfolioSection';
+import WhoIsBehind from '../components/WhoIsBehind';
 import ProcessSection from '../components/ProcessSection';
 import ContactForm from '../components/ContactForm';
 import Integrations from '../components/Integrations';
@@ -68,6 +69,7 @@ export default function Home({ onOpenCalendly }: { onOpenCalendly?: (config?: an
         <TargetAudienceSection />
         
         {/* Nuevas secciones de la Home rediseñada */}
+        {/* <WhoIsBehind /> - Oculto hasta disponer de datos reales */}
         <Benefits />
         <ServicesBentoGrid onOpenForm={onOpenCalendly || (() => {})} />
 

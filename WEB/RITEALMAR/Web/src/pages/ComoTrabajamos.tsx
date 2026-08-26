@@ -47,7 +47,7 @@ export default function ComoTrabajamos() {
     { q: "¿Los datos de mis clientes son privados?", a: "Absolutamente. Desplegamos soluciones Enterprise cumpliendo con el GDPR europeo. Los LLMs que utilizamos mediante API no entrenan modelos públicos con tus datos privados." },
     { q: "¿Qué tecnología base utilizan para los Agentes IA?", a: "Empleamos una combinación de la infraestructura API de OpenAI para la comprensión del lenguaje (NLP) orquestada con lenguajes nativos y plataformas de automatización empresariales." },
     { q: "¿Se puede calcular el Retorno de Inversión (ROI) antes de empezar?", a: "Sí. Durante la fase de Análisis de Procesos, proyectamos las horas que la automatización liberará y las multiplicamos por el coste horario para obtener un ROI claro." },
-    { q: "¿Ofrecen soporte técnico post-implantación?", a: "Sí, todos los proyectos incluyen monitoreo de infraestructura y soporte técnico garantizado para asegurar disponibilidades superiores al 99.9% en todos tus agentes automatizados." }
+    { q: "¿Ofrecen soporte técnico post-implantación?", a: "Sí, todos los proyectos incluyen monitoreo de infraestructura y soporte técnico para asegurar la máxima disponibilidad en tus agentes automatizados." }
   ];
 
   const breadcrumbSchema = {
@@ -215,6 +215,7 @@ export default function ComoTrabajamos() {
               <span className="text-[10px] font-bold text-slate-500 uppercase tracking-widest">Tiempo Respuesta Bots</span>
             </div>
           </div>
+          <p className="text-sm text-slate-500 italic mt-6 text-center md:text-right">Métricas orientativas basadas en escenarios estándar.</p>
         </div>
       </section>
 
@@ -284,7 +285,7 @@ export default function ComoTrabajamos() {
             onClick={(e) => handleNavigation(e, '/auditoria-ia-gratis')}
             className="inline-flex items-center justify-center gap-2 px-8 py-4 bg-gradient-to-r from-cyan-500 to-blue-600 text-white rounded-xl font-bold uppercase tracking-wider hover:scale-105 transition-all shadow-[0_0_30px_rgba(6,182,212,0.3)]"
           >
-            Solicitar auditoría IA gratuita <ArrowRight size={18} />
+            Solicitar auditoría gratuita <ArrowRight size={18} />
           </a>
         </div>
       </section>

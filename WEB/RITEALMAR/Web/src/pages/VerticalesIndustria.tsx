@@ -94,7 +94,7 @@ export default function VerticalesIndustria({ type, onOpenForm }: IndustryPagePr
         { q: "¿Puede la IA leer planos y hacer presupuestos sola?", a: "Nuestros sistemas pueden extraer datos de planos (PDF/CAD) y fotos para generar pre-mediciones y borradores de presupuestos, que luego valida un técnico, ahorrando un 70% del trabajo manual." },
         { q: "¿Cómo filtra la IA a los clientes que piden reformas?", a: "A través de un agente conversacional de WhatsApp o web que solicita al cliente datos clave (presupuesto estimado, metros cuadrados, urgencia) antes de pasarlo al equipo de ventas." },
         { q: "¿Es compatible con nuestro software de gestión actual?", a: "Sí, desarrollamos conectores API a medida para integrar las automatizaciones con tu ERP o CRM actual, garantizando que no haya duplicidad de datos." },
-        { q: "¿Qué pasa con la privacidad de los documentos y facturas?", a: "Cumplimos estrictamente con el marco legal europeo (GDPR y AI Act) utilizando infraestructuras cloud blindadas para el procesamiento documental privado." },
+        { q: "¿Qué pasa con la privacidad de los documentos y facturas?", a: "Diseñamos cada solución teniendo en cuenta privacidad, control de accesos, trazabilidad y tratamiento responsable de los datos. Las medidas técnicas y organizativas concretas dependen de las herramientas, proveedores, integraciones y tipo de información utilizados en cada proyecto." },
         { q: "¿Necesitamos conocimientos técnicos para usarlo?", a: "En absoluto. Entregamos el sistema 'llave en mano'. Tu equipo simplemente interactúa con su WhatsApp, correo electrónico o CRM como lo hace habitualmente." },
         { q: "¿Cuánto tiempo lleva implementar la IA en nuestra constructora?", a: "Depende del volumen, pero un sistema de clasificación comercial inicial (Chatbots + CRM) puede estar operativo en menos de 4 semanas." }
       ],
@@ -153,7 +153,7 @@ export default function VerticalesIndustria({ type, onOpenForm }: IndustryPagePr
           </p>
           <button 
             onClick={() => onOpenForm({
-              title: "Solicitar auditoría IA gratuita",
+              title: "Solicitar auditoría gratuita",
               subtitle: "Cuéntanos brevemente tu negocio y revisaremos qué procesos puedes automatizar para ahorrar tiempo, captar más clientes o mejorar tu atención comercial.",
               submitText: "Solicitar auditoría gratuita"
             })}
@@ -166,7 +166,8 @@ export default function VerticalesIndustria({ type, onOpenForm }: IndustryPagePr
         {/* Simulación del Pipeline del Worker en Tiempo Real */}
         <div className="bg-slate-900/40 border border-slate-800/80 rounded-3xl p-6 backdrop-blur-xl shadow-2xl relative">
           <div className="flex items-center justify-between border-b border-slate-800/60 pb-4 mb-6">
-            <div className="flex gap-1.5">
+            <div className="flex gap-1.5 items-center">
+              <span className="text-[10px] text-slate-500 italic mr-2">Ejemplo</span>
               <div className="w-2.5 h-2.5 rounded-full bg-cyan-500/40 animate-pulse" />
               <div className="w-2.5 h-2.5 rounded-full bg-purple-500/40 animate-pulse" />
             </div>
@@ -206,6 +207,7 @@ export default function VerticalesIndustria({ type, onOpenForm }: IndustryPagePr
               <p className="text-xs text-slate-400 font-medium">{m.desc}</p>
             </div>
           ))}
+          <p className="text-sm text-slate-500 italic mt-8 col-span-full">Datos ilustrativos basados en escenarios del sector.</p>
         </div>
       </section>
 

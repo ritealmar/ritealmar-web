@@ -92,7 +92,7 @@ export const preciosData: SeoLandingProps = {
   benefits: [
     { title: "Retorno de Inversión (ROI) Demostrable", desc: "Diseñamos soluciones tecnológicas con un enfoque comercial, orientadas no solo a verse bien, sino a recuperar y multiplicar la inversión inicial en el menor tiempo posible." },
     { title: "Presupuestos Cerrados y Claros", desc: "Nos alejamos de las sorpresas. En los proyectos llave en mano, el presupuesto es cerrado tras definir el alcance, sin cargos ocultos ni sobrecostes de última hora." },
-    { title: "Propiedad Intelectual Garantizada", desc: "Al finalizar el desarrollo del software o las automatizaciones a medida, te entregamos el código fuente y el control total de la infraestructura. Eres el dueño." },
+    { title: "Propiedad Intelectual", desc: "Al finalizar el desarrollo del software o las automatizaciones a medida, te entregamos el código fuente y el control total de la infraestructura. Eres el dueño." },
     { title: "Arquitecturas Escalables", desc: "No tendrás que rehacer tu sistema en un año. Construimos bases sólidas que te permiten crecer de 10 a 10.000 clientes sin que la tecnología se rompa." },
     { title: "Soporte Técnico Especializado", desc: "A diferencia de contratar freelancers temporales, cuentas con el respaldo de una agencia estructurada, capaz de ofrecer mantenimiento robusto y resolución rápida de incidencias." },
     { title: "Exclusividad y Calidad Premium", desc: "No creamos productos genéricos en masa. Seleccionamos proyectos en los que podemos aportar un valor masivo, garantizando atención dedicación y acabados de alta gama." }

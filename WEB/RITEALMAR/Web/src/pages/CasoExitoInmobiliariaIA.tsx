@@ -18,7 +18,7 @@ export default function CasoExitoInmobiliariaIA() {
   return (
     <div className="min-h-screen bg-[#0A1628] text-slate-100 font-sans selection:bg-[#00D4FF]/30">
       <SEO 
-        title="Caso de Éxito Inmobiliarias IA: Captación Automática | RITEALMAR"
+        title="Caso de Uso Inmobiliarias IA: Captación Automática | RITEALMAR"
         description="Descubre cómo esta agencia inmobiliaria logró responder en menos de 1 minuto y aumentó un 275% sus conversiones integrando un Chatbot IA y WhatsApp."
         canonical="https://ritealmar.es/casos-de-exito/inmobiliaria-captacion-ia"
         ogType="article"
@@ -38,7 +38,7 @@ export default function CasoExitoInmobiliariaIA() {
           "itemListElement": [
             { "@type": "ListItem", "position": 1, "name": "Inicio", "item": "https://ritealmar.es" },
             { "@type": "ListItem", "position": 2, "name": "Casos de Éxito", "item": "https://ritealmar.es/casos-de-exito" },
-            { "@type": "ListItem", "position": 3, "name": "Caso de Éxito Inmobiliaria IA", "item": "https://ritealmar.es/casos-de-exito/inmobiliaria-captacion-ia" }
+            { "@type": "ListItem", "position": 3, "name": "Caso de Uso Inmobiliaria IA", "item": "https://ritealmar.es/casos-de-exito/inmobiliaria-captacion-ia" }
           ]
         },
         {
@@ -409,6 +409,7 @@ export default function CasoExitoInmobiliariaIA() {
                     </div>
                   </div>
                 </div>
+                <p className="text-sm text-slate-500 italic mt-6 text-center">Datos ilustrativos basados en un caso de uso estándar.</p>
               </motion.div>
 
               {/* CTA */}
@@ -430,7 +431,7 @@ export default function CasoExitoInmobiliariaIA() {
                   }}
                   className="block w-full py-4 bg-[#FF006E] hover:bg-[#ff1a7f] text-white rounded-xl font-bold transition-all shadow-[0_0_15px_rgba(255,0,110,0.3)] hover:shadow-[0_0_25px_rgba(255,0,110,0.5)] text-center no-underline"
                 >
-                  Solicitar Auditoría IA Gratuita
+                  Solicitar auditoría gratuita
                 </a>
               </motion.div>
             </div>

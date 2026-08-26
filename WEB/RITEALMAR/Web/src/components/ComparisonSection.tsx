@@ -14,7 +14,7 @@ export const ComparisonSection = () => {
   const after = [
     'Sistemas automatizados que trabajan solos',
     'Procesos conectados y centralizados',
-    'Cero errores manuales y datos íntegros',
+    'Reducción de errores y datos íntegros',
     'Control total y visibilidad en tiempo real',
     'Foco en tareas de valor y crecimiento'
   ];

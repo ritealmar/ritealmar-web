@@ -7,7 +7,7 @@ export default function PortfolioSection() {
     {
       title: "ALMAR FSM",
       category: "SaaS",
-      tag: "Caso real",
+      tag: "Solución interna",
       description: "Control logístico automatizado con agentes IA.",
       problema: "Descoordinación en rutas y gestión manual de operarios.",
       solucion: "Sistema inteligente para asignar rutas en tiempo real.",
@@ -43,7 +43,7 @@ export default function PortfolioSection() {
     {
       title: "Panel Central",
       category: "Dashboard",
-      tag: "Demo funcional",
+      tag: "Solución demostrativa",
       description: "Control centralizado para gestión empresarial.",
       problema: "Datos de negocio dispersos en múltiples plataformas.",
       solucion: "Panel de control visual que integra distintas APIs en tiempo real.",
@@ -55,7 +55,7 @@ export default function PortfolioSection() {
     {
       title: "STYLIO",
       category: "SaaS",
-      tag: "Demo funcional",
+      tag: "Solución demostrativa",
       description: "SaaS All-in-one para gestión y reservas automatizadas.",
       problema: "Pérdida de clientes por procesos de reserva manuales o telefónicos.",
       solucion: "Portal de autogestión de citas con recordatorios automáticos.",
@@ -79,7 +79,7 @@ export default function PortfolioSection() {
     {
       title: "Rehab-IA Web",
       category: "Portal Web",
-      tag: "Demo funcional",
+      tag: "Solución demostrativa",
       description: "Ecosistema digital corporativo para captación B2B.",
       problema: "Escasa captación de leads cualificados a través del entorno web.",
       solucion: "Landing pages optimizadas (SEO) con formularios dinámicos y chatbots.",
@@ -92,10 +92,10 @@ export default function PortfolioSection() {
 
   const getTagColor = (tag: string) => {
     switch(tag) {
-      case 'Caso real': return 'bg-emerald-500/20 text-emerald-400 border-emerald-500/30';
+      case 'Solución interna': return 'bg-emerald-500/20 text-emerald-400 border-emerald-500/30';
       case 'Solución propia': return 'bg-purple-500/20 text-purple-400 border-purple-500/30';
       case 'Prototipo': return 'bg-amber-500/20 text-amber-400 border-amber-500/30';
-      default: return 'bg-cyan-500/20 text-cyan-400 border-cyan-500/30'; // Demo funcional
+      default: return 'bg-cyan-500/20 text-cyan-400 border-cyan-500/30'; // Solución demostrativa
     }
   };
 

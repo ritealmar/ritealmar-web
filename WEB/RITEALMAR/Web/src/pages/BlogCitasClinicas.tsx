@@ -219,7 +219,7 @@ export default function BlogCitasClinicas() {
           <ul>
             <li>Si el paciente responde "Confirmar", la cita se bloquea en el CRM.</li>
             <li>Si el paciente responde "Cancelar", el sistema libera el hueco en la agenda.</li>
-            <li><strong>Lo revolucionario:</strong> Inmediatamente tras la cancelación, el sistema de IA revisa la <em>lista de espera</em> y envía un WhatsApp a los pacientes pendientes ofreciéndoles el hueco recién liberado. Un hueco perdido se convierte en facturación recuperada en cuestión de minutos.</li>
+            <li><strong>La ventaja clave:</strong> Inmediatamente tras la cancelación, el sistema de IA revisa la <em>lista de espera</em> y envía un WhatsApp a los pacientes pendientes ofreciéndoles el hueco recién liberado. Un hueco perdido se convierte en facturación recuperada en cuestión de minutos.</li>
           </ul>
 
           <h2 id="automatizacion" className="text-3xl mt-12 mb-6">5. Automatización de procesos de Back-Office</h2>
@@ -316,7 +316,7 @@ export default function BlogCitasClinicas() {
             En un mercado sanitario cada vez más competitivo, liderado por grandes cadenas y franquicias, la tecnología es la gran igualadora. Permite a las clínicas independientes operar con una eficiencia financiera y una excelencia en el servicio al cliente superior a la de las grandes corporaciones.
           </p>
           <p>
-            La implementación de Agentes de IA y automatizaciones de back-office no es un gasto, es una inversión en infraestructura digital que escala sin límites. Un software puede atender a 10 pacientes o a 10.000 exactamente con el mismo coste operativo y la misma amabilidad programada.
+            La implementación de Agentes de IA y automatizaciones de back-office no es un gasto, es una inversión en infraestructura digital que escala de forma eficiente. Un software puede atender a 10 pacientes o a 10.000 exactamente con el mismo coste operativo y la misma amabilidad programada.
           </p>
 
           <h2 id="auditoria" className="text-3xl mt-16 mb-6 text-center">Inicia tu transformación digital con RITEALMAR</h2>

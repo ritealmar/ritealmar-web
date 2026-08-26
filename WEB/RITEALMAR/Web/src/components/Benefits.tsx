@@ -16,13 +16,13 @@ export default function Benefits() {
     },
     {
       icon: ShieldCheck,
-      title: "Cero errores humanos",
-      desc: "Los sistemas automatizados no se cansan ni se equivocan. Precisión absoluta 24/7."
+      title: "Reducción de errores",
+      desc: "Los sistemas automatizados minimizan los fallos operativos. Operatividad continua 24/7."
     },
     {
       icon: Zap,
-      title: "Resultados inmediatos",
-      desc: "Implementamos soluciones rápidas que generan retorno de inversión desde el primer mes."
+      title: "Resultados medibles",
+      desc: "Implementamos soluciones orientadas a generar un retorno de inversión comprobable a corto plazo."
     }
   ];
 

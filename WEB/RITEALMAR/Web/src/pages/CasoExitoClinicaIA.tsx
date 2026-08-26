@@ -18,7 +18,7 @@ export default function CasoExitoClinicaIA() {
   return (
     <div className="min-h-screen bg-[#0A1628] text-slate-100 font-sans selection:bg-[#00D4FF]/30">
       <SEO 
-        title="Caso de Éxito Clínicas IA: Cómo reducir 70% de llamadas | RITEALMAR"
+        title="Caso de Uso Clínicas IA: Cómo reducir 70% de llamadas | RITEALMAR"
         description="Descubre cómo esta clínica redujo un 70% sus llamadas y eliminó las ausencias (no-shows) integrando un Agente IA y Chatbots en WhatsApp Business."
         canonical="https://ritealmar.es/casos-de-exito/clinica-reduccion-llamadas-ia"
         ogType="article"
@@ -38,7 +38,7 @@ export default function CasoExitoClinicaIA() {
           "itemListElement": [
             { "@type": "ListItem", "position": 1, "name": "Inicio", "item": "https://ritealmar.es" },
             { "@type": "ListItem", "position": 2, "name": "Casos de Éxito", "item": "https://ritealmar.es/casos-de-exito" },
-            { "@type": "ListItem", "position": 3, "name": "Caso de Éxito Clínica IA", "item": "https://ritealmar.es/casos-de-exito/clinica-reduccion-llamadas-ia" }
+            { "@type": "ListItem", "position": 3, "name": "Caso de Uso Clínica IA", "item": "https://ritealmar.es/casos-de-exito/clinica-reduccion-llamadas-ia" }
           ]
         },
         {

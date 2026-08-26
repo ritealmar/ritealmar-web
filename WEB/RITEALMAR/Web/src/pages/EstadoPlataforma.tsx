@@ -211,10 +211,10 @@ export default function EstadoPlataforma() {
           </p>
           <a 
             href="/auditoria-ia-gratis"
-            onClick={() => trackEvent('audit_request_click', { cta_text: 'Solicitar diagnóstico para mi empresa', location: 'estado_plataforma' })}
+            onClick={() => trackEvent('audit_request_click', { cta_text: 'Solicitar auditoría gratuita', location: 'estado_plataforma' })}
             className="inline-flex items-center justify-center gap-3 bg-white text-black px-6 md:px-10 py-4 rounded-xl font-bold text-base md:text-lg tracking-wide transition-all hover:scale-105 w-full sm:w-auto shadow-[0_0_20px_rgba(255,255,255,0.2)]"
           >
-            Solicitar diagnóstico para mi empresa
+            Solicitar auditoría gratuita
             <ArrowRight size={20} />
           </a>
         </div>

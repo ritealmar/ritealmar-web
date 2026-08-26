@@ -18,7 +18,7 @@ export default function CasoExitoEcommerceIA() {
   return (
     <div className="min-h-screen bg-[#0A1628] text-slate-100 font-sans selection:bg-[#00D4FF]/30">
       <SEO 
-        title="Caso de Éxito Ecommerce IA: Recuperación de Carritos | RITEALMAR"
+        title="Caso de Uso Ecommerce IA: Recuperación de Carritos | RITEALMAR"
         description="Descubre cómo una tienda online aumentó un 42% su facturación recuperando carritos abandonados con un Agente IA conectado a WhatsApp."
         canonical="https://ritealmar.es/casos-de-exito/ecommerce-recuperacion-carritos-ia"
         ogType="article"
@@ -38,7 +38,7 @@ export default function CasoExitoEcommerceIA() {
           "itemListElement": [
             { "@type": "ListItem", "position": 1, "name": "Inicio", "item": "https://ritealmar.es" },
             { "@type": "ListItem", "position": 2, "name": "Casos de Éxito", "item": "https://ritealmar.es/casos-de-exito" },
-            { "@type": "ListItem", "position": 3, "name": "Caso de Éxito Ecommerce IA", "item": "https://ritealmar.es/casos-de-exito/ecommerce-recuperacion-carritos-ia" }
+            { "@type": "ListItem", "position": 3, "name": "Caso de Uso Ecommerce IA", "item": "https://ritealmar.es/casos-de-exito/ecommerce-recuperacion-carritos-ia" }
           ]
         },
         {
@@ -146,7 +146,7 @@ export default function CasoExitoEcommerceIA() {
               <h2 className="text-3xl font-bold mb-6 text-white border-b border-white/10 pb-4">Situación Inicial y Problemas Detectados</h2>
               <div className="prose prose-invert prose-lg text-slate-300">
                 <p>
-                  Un <a href="/ecommerce" onClick={(e) => { e.preventDefault(); window.history.pushState({}, '', '/ecommerce'); window.dispatchEvent(new PopStateEvent('popstate')); }} className="text-[#00D4FF] hover:underline">ecommerce</a> líder en ventas de productos de alta rotación invertía miles de euros mensuales en publicidad digital, logrando un tráfico inmenso, pero sufría una severa caída de rentabilidad en el último paso del embudo.
+                  Un <a href="/ecommerce" onClick={(e) => { e.preventDefault(); window.history.pushState({}, '', '/ecommerce'); window.dispatchEvent(new PopStateEvent('popstate')); }} className="text-[#00D4FF] hover:underline">ecommerce</a> referente en ventas de productos de alta rotación invertía miles de euros mensuales en publicidad digital, logrando un tráfico inmenso, pero sufría una severa caída de rentabilidad en el último paso del embudo.
                 </p>
                 <p>Detectamos cuatro problemas principales:</p>
                 <ul>

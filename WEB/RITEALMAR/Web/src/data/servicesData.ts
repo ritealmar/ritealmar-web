@@ -19,8 +19,8 @@ export const servicesData: Record<string, any> = {
       { title: "Sincronización", desc: "Los datos se envían automáticamente a tus bases de datos." }
     ],
     benefits: [
-      { title: "Ahorro del 90% del tiempo", desc: "Lo que un humano tarda minutos en leer, la IA lo procesa en milisegundos." },
-      { title: "Cero errores de tecleo", desc: "Elimina los fallos comunes al transcribir datos manualmente." },
+      { title: "Ahorro significativo de tiempo", desc: "Lo que un humano tarda minutos en leer, la IA lo procesa en cuestión de segundos." },
+      { title: "Reducción de errores de tecleo", desc: "Minimiza los fallos comunes al transcribir datos manualmente." },
       { title: "Buscador inteligente", desc: "Encuentra cualquier cláusula o dato en miles de documentos al instante." }
     ]
   },
@@ -104,7 +104,7 @@ export const servicesData: Record<string, any> = {
     subtitle: "Desarrollo de ecosistemas digitales premium, ultrarrápidos y optimizados para la conversión.",
     whatIsIt: "El escaparate digital perfecto",
     description1: "Tu página web no debe ser solo un folleto digital, debe ser tu mejor vendedor trabajando 24/7. En RITEALMAR construimos plataformas web de última generación enfocadas en captar leads y cerrar ventas.",
-    description2: "Utilizamos las mismas tecnologías que las grandes empresas tecnológicas (React, Next.js) para crear experiencias de usuario impecables, con tiempos de carga milisegundos y un SEO técnico insuperable.",
+    description2: "Utilizamos las mismas tecnologías que las grandes empresas tecnológicas (React, Next.js) para crear experiencias de usuario fluidas, con tiempos de carga optimizados y un SEO técnico sólido.",
     problemsResolvedTitle: "¿Por qué cambiar tu web actual?",
     problems: [
       "Webs lentas que hacen que los clientes huyan.",
@@ -119,7 +119,7 @@ export const servicesData: Record<string, any> = {
       { title: "Lanzamiento", desc: "Desplegamos tu web en servidores de alto rendimiento globales." }
     ],
     benefits: [
-      { title: "Máxima Autoridad", desc: "Transmite instantáneamente ser líder en tu sector." },
+      { title: "Máxima Autoridad", desc: "Transmite instantáneamente ser referente en tu sector." },
       { title: "Alta Conversión", desc: "Diseño estratégico para convertir visitantes en clientes." },
       { title: "Velocidad Extrema", desc: "Tiempos de carga que enamoran a Google y a tus usuarios." }
     ]

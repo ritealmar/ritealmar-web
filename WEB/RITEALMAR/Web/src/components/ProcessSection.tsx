@@ -6,8 +6,8 @@ export default function ProcessSection() {
   const steps = [
     {
       icon: ClipboardCheck,
-      title: "Diagnóstico inicial",
-      desc: "Analizamos tu negocio, tus procesos actuales y los puntos donde pierdes tiempo, dinero o clientes."
+      title: "Auditoría técnica inicial",
+      desc: "Analizamos tus procesos actuales y calculamos exactamente cuántas horas, recursos y clientes potenciales puedes optimizar."
     },
     {
       icon: FileText,
@@ -17,7 +17,7 @@ export default function ProcessSection() {
     {
       icon: Code2,
       title: "Diseño y desarrollo",
-      desc: "Creamos la web, automatización, agente IA, app o sistema necesario manteniendo comunicación continua."
+      desc: "Implementamos la IA y las automatizaciones en tus herramientas (WhatsApp, Excel, CRM) manteniendo comunicación continua y sin que tengas que aprender programas nuevos."
     },
     {
       icon: Rocket,
@@ -112,10 +112,10 @@ export default function ProcessSection() {
           className="text-center mt-24"
         >
           <a 
-            href="#contacto" 
+            href="/auditoria-ia-gratis" 
             className="inline-flex items-center justify-center gap-3 px-10 py-5 rounded-xl bg-gradient-to-r from-cyan-400 to-purple-500 text-white font-bold text-sm tracking-widest uppercase shadow-[0_0_30px_rgba(0,212,255,0.3)] hover:shadow-[0_0_50px_rgba(0,212,255,0.5)] hover:scale-105 transition-all group"
           >
-            Empezar con diagnóstico gratuito <ArrowRight size={20} className="group-hover:translate-x-1 transition-transform" />
+            Solicitar auditoría gratuita <ArrowRight size={20} className="group-hover:translate-x-1 transition-transform" />
           </a>
         </motion.div>
 

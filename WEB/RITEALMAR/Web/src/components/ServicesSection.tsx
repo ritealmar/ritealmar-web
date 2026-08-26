@@ -54,7 +54,7 @@ export default function ServicesSection() {
       benefit: "Capacitamos a tus empleados para producir el doble.",
       example: "Taller práctico para recursos humanos.",
       image: "https://images.unsplash.com/photo-1524178232363-1fb2b075b655?auto=format&fit=crop&w=800&q=80",
-      details: "La mejor IA no sirve de nada si tu equipo no la sabe usar. Impartimos formaciones prácticas (1 a 1 o grupales) para enseñar a tu plantilla a redactar mejores prompts, usar asistentes en su día a día y aumentar su productividad radicalmente."
+      details: "La tecnología más avanzada no sirve de nada si tu equipo no la sabe usar. Impartimos formaciones prácticas (1 a 1 o grupales) para enseñar a tu plantilla a redactar mejores prompts, usar asistentes en su día a día y aumentar su productividad radicalmente."
     },
     {
       id: 6,
@@ -74,7 +74,7 @@ export default function ServicesSection() {
       benefit: "Webs optimizadas, rápidas y orientadas a la venta.",
       example: "Rediseño corporativo de tu agencia.",
       image: "https://images.unsplash.com/photo-1498050108023-c5249f4df085?auto=format&fit=crop&w=800&q=80",
-      details: "Tu web es el mejor comercial 24/7. Desarrollamos páginas corporativas y landing pages enfocadas en conversión, con diseños modernos, velocidad de carga instantánea y optimización técnica para posicionar en Google."
+      details: "Tu web es un escaparate activo 24/7. Desarrollamos páginas corporativas y landing pages enfocadas en conversión, con diseños modernos, velocidad de carga óptima y optimización técnica para posicionar en Google."
     },
     {
       id: 8,

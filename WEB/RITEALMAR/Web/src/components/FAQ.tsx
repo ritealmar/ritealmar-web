@@ -25,7 +25,7 @@ export default function FAQ() {
     },
     {
       q: "¿Cuánto cuesta automatizar mi empresa?",
-      a: "Mucho menos que contratar a un empleado extra para hacer tareas mecánicas. Realizamos una auditoría gratuita donde analizamos tus necesidades y te damos un presupuesto cerrado basado en el ahorro garantizado que vas a obtener."
+      a: "Mucho menos que contratar a un empleado extra para hacer tareas mecánicas. Realizamos una auditoría gratuita donde analizamos tus necesidades y te damos un presupuesto cerrado basado en el ahorro proyectado que podrías obtener."
     },
     {
       q: "¿La IA cumple con la normativa de protección de datos (RGPD)?",

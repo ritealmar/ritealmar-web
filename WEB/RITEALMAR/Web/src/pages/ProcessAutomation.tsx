@@ -41,7 +41,7 @@ export default function ProcessAutomation() {
       />
       <ServiceLayout 
         title="Automatización de Procesos Operativos"
-        subtitle="Transformamos las tareas manuales y repetitivas de tu equipo en flujos de trabajo autónomos que operan 24/7 sin margen de error."
+        subtitle="Transformamos las tareas manuales y repetitivas de tu equipo en flujos de trabajo autónomos que operan 24/7, reduciendo errores y optimizando recursos."
         onOpenCalendly={(config) => setModalConfig({ isOpen: true, ...(config || {}) })}
         seoTitle="Automatización de Procesos para PYMES | Ahorra Tiempo y Costes"
         seoDesc="Automatiza las tareas mecánicas de tu empresa. Conectamos tu CRM, correo y bases de datos para que operen solos 24/7. Solicita tu auditoría gratuita."
@@ -56,6 +56,9 @@ export default function ProcessAutomation() {
             </p>
             <p className="font-medium leading-relaxed">
               En Ritealmar analizamos los procesos de tu negocio y desarrollamos soluciones personalizadas que trabajan por ti las 24 horas del día. Esto permite que tu equipo dedique más tiempo a actividades de valor mientras los procesos repetitivos se ejecutan de forma autónoma, como puedes ver en nuestra guía sobre <a href="/blog/automatizar-captacion-clientes-ia-pyme" onClick={() => trackEvent('internal_link', { link: 'blog-captacion' })} className="text-[#00D4FF] hover:underline">cómo automatizar la captación de clientes</a>.
+            </p>
+            <p className="font-medium leading-relaxed mt-4">
+              Si estás valorando por dónde empezar, consulta nuestra guía sobre <a href="/blog/automatizacion-procesos-pymes" onClick={() => trackEvent('internal_link', { link: 'blog-automatizacion-procesos-pymes' })} className="text-[#00D4FF] hover:underline">automatización de procesos para pymes</a>.
             </p>
           </div>
         </section>

@@ -1,50 +1,42 @@
 # Validación de Analítica en Producción - RITEALMAR
 
-**Fecha de intento de deploy:** 2026-08-26
-**Commit desplegado:** Pendiente
-**Resultado del build:** Éxito (Exit Code 0)
-**URL de producción:** https://ritealmar.es
+**Fecha de publicación:** 2026-08-26
+**Commit desplegado:** `feat: improve conversion flow and analytics tracking`
+**Hash corto del commit:** `491f51a`
+**Versión publicada:** Producción (Main)
+**URL Pages:** https://b2ed679e.ritealmar.pages.dev
+**URL Principal:** https://ritealmar.es
+
+### 📂 Archivos Principales de Analítica y Conversión Incluidos
+* `src/components/ContactForm.tsx`
+* `src/components/Hero.tsx`
+* `src/components/Navbar.tsx`
+* `src/components/ServicesBentoGrid.tsx`
+* `src/components/WhatsAppFloatingButton.tsx`
+* `src/components/CalendlyModal.tsx`
+* `src/pages/Home.tsx`
+* Informes de auditoría y QA (`.md`)
 
 ---
 
-### ⚠️ AVISO SOBRE EL DEPLOY A PRODUCCIÓN
+### 🔍 PASOS PARA VALIDAR GA4 (Verificación Manual)
 
-Se ha intentado desplegar automáticamente mediante `npx wrangler pages deploy dist --project-name ritealmar`, pero la CLI de Cloudflare ha rechazado la subida por un error de autenticación con el Account ID cacheado para este proyecto:
-```
-A request to the Cloudflare API (/accounts/0519a285ce1d2fb6b41c4d866e41fc63/pages/projects/ritealmar) failed. Authentication error [code: 10000]
-```
-Por este motivo, **los cambios se encuentran en local y compilados**, pero aún no son visibles en la URL pública.
+Para asegurar la recolección correcta de datos sin romper la privacidad (PII), se requiere realizar el siguiente procedimiento interactivo desde la cuenta propietaria:
 
----
+1. **Abrir Consola GA4**: Iniciar sesión en [Google Analytics 4](https://analytics.google.com).
+2. **Modo Debug**: Entrar a **Administrar > DebugView** (o usar la extensión de Chrome de GA Debugger).
+3. **Navegación Activa**: Abrir en paralelo la URL de producción: https://ritealmar.es.
+4. **Interacción Paso a Paso**: Realizar las siguientes acciones en la web y observar si llegan los eventos correspondientes a la línea temporal de DebugView.
 
-### 🔍 VALIDACIÓN TÉCNICA (Código local)
+#### Eventos Pendientes de Comprobación Manual
 
-Se ha auditado el código para asegurar que una vez publicado funcionará correctamente:
+* 🔲 **`cta_primary_click`**: Haz clic en el botón principal del Hero ("Auditoría de IA Gratuita") y botones similares. Comprueba que el evento llega a GA4 y verifica el parámetro `location` y `page_path`.
+* 🔲 **`whatsapp_click`**: Haz clic en el botón flotante verde de WhatsApp. Comprueba que llega el evento.
+* 🔲 **`calendly_click`**: Abre el modal de Calendly desde un botón de llamada a la acción (ej. Navbar). Verifica que el evento llega solo al abrirlo.
+* 🔲 **`calendly_booking_completed`**: Sigue el flujo del modal, selecciona un día, hora, rellena los datos (ficticios) y haz la reserva real de prueba. Confirma que el evento llega **sólo al confirmarse la reserva** (y no al seleccionar fecha u horario).
+* 🔲 **`form_start`**: Dirígete al formulario de contacto e interactúa con el primer campo. Este evento debe saltar inmediatamente (1 sola vez por recarga).
+* 🔲 **`form_submit`**: Pulsa el botón enviar (incluso si hay errores). Comprueba que salta al hacer el intento de envío inicial.
+* 🔲 **`form_error`**: Intenta enviar el formulario con datos inválidos (ej: email sin arroba) y verifica que se envía este evento con el parámetro indicando la causa del error.
+* 🔲 **`form_success`**: Envía un lead válido de prueba. Verifica que este evento salta al aparecer el mensaje de éxito (respuesta HTTP OK) y que **no contiene** nombres ni emails reales, solo los parámetros de `form_name` y validaciones.
 
-#### Eventos Implementados y Verificados a Nivel Código
-* ✅ **`cta_primary_click`**: Configurado correctamente en botones Hero y Navbar.
-* ✅ **`whatsapp_click`**: Asociado exclusivamente al clic del botón flotante de WhatsApp.
-* ✅ **`calendly_click`**: Se dispara cuando el modal de Calendly se abre.
-* ✅ **`calendly_booking_completed`**: Configurado utilizando `window.addEventListener('message')` para capturar específicamente el evento `calendly.event_scheduled` desde el iframe oficial. Se bloquean falsos positivos (como abrir calendario o seleccionar fecha).
-* ✅ **`form_start`**: Controlado por un `useRef` para dispararse solo en la primera interacción (evita duplicidad).
-* ✅ **`form_submit`**: Atado al `e.preventDefault()` inicial del formulario de contacto.
-* ✅ **`form_success`**: Condicionado al bloque lógico que evalúa el response exitoso de la API `formsubmit.co`.
-* ✅ **`form_error`**: Integrado en cada bloque de validación local y en el catch final del fetch, con `error_type` diferenciado.
-
-#### Comprobación de Privacidad (PII)
-* ✅ Ningún evento implementado transmite los valores de los inputs (Nombre Completo, Email, Mensaje).
-* ✅ Solo se mandan parámetros analíticos limpios (`form_name`, `page_path`, `location`, `error_type`, `cta_text`).
-* ✅ La carga del script principal sigue condicionada a `getConsent()`, respetando el aviso de cookies.
-
----
-
-### 🛑 REQUIERE VERIFICACIÓN MANUAL EN GA4
-
-Dado que no tengo acceso directo a la consola en tiempo real de Google Analytics de vuestra propiedad ni se pudo finalizar el deploy por el error de tokens, el propietario de RITEALMAR debe hacer lo siguiente una vez publique los cambios:
-
-1. Iniciar sesión en [Google Analytics 4](https://analytics.google.com).
-2. Entrar a **Administrar > DebugView**.
-3. Navegar en vivo por https://ritealmar.es.
-4. Interactuar con botones, abrir WhatsApp, y completar un formulario ficticio.
-5. Comprobar que en la línea temporal de DebugView aparecen de forma nítida los eventos listados, sin duplicidades.
-6. Programar una cita de prueba en Calendly y verificar que `calendly_booking_completed` solo salta al confirmar la cita.
+Si todos los checks funcionan en DebugView de GA4, la implementación de rastreo en todo el embudo está validada con éxito.

@@ -10,3 +10,5 @@ pages_build_output_dir = "dist"
 # npx wrangler secret put GEMINI_API_KEY
 # npx wrangler secret put RESEND_API_KEY
 # npx wrangler secret put GOOGLE_SHEETS_URL
+
+account_id = "0519a285ce1d2fb6b41c4d866e41fc63"

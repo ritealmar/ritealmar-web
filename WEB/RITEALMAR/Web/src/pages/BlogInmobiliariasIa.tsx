@@ -298,7 +298,7 @@ export default function BlogInmobiliariasIa() {
             <li><strong>Aumento del 35% en Exclusivas:</strong> Al mejorar la percepción tecnológica de la marca y automatizar el seguimiento, más propietarios confían en ceder sus viviendas.</li>
             <li><strong>Reducción de 20h semanales por asesor:</strong> Eliminando la contestación de correos de portales, el cruce de demandas manual y la cualificación telefónica fría.</li>
             <li><strong>Incremento de Conversión en Portales:</strong> Ser la primera agencia en responder a un anuncio de un portal aumenta la probabilidad de cierre en un asombroso 60%.</li>
-            <li><strong>Mejora SEO y Branding:</strong> Automatizar las peticiones de reseñas en Google genera un círculo virtuoso de reputación que posiciona a la agencia como líder local.</li>
+            <li><strong>Mejora SEO y Branding:</strong> Automatizar las peticiones de reseñas en Google genera un círculo virtuoso de reputación que posiciona a la agencia como referente local.</li>
           </ul>
 
           <h2 id="caso-practico" className="text-3xl mt-12 mb-6">11. Caso Práctico Integral: De la tasación online a la firma ante notario</h2>

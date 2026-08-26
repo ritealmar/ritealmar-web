@@ -9,7 +9,7 @@ export default function ServicesGrid() {
     { title: "Extracción de Datos", desc: "Procesamiento de PDFs y facturas sin errores humanos.", icon: FileSearch },
     { title: "Desarrollo Web & Apps", desc: "Páginas y aplicaciones modernas ultrarrápidas.", icon: Layout },
     { title: "Sistemas a Medida", desc: "Software diseñado específicamente para tu operativa.", icon: Smartphone },
-    { title: "Consultoría Estratégica", desc: "Hoja de ruta para implementar IA con ROI garantizado.", icon: Lightbulb }
+    { title: "Consultoría Estratégica", desc: "Hoja de ruta para implementar IA con enfoque en rentabilidad.", icon: Lightbulb }
   ];
 
   return (

@@ -294,7 +294,7 @@ export default function CalculadoraAhorroIA() {
                     }}
                     className="inline-flex items-center justify-center gap-2 px-8 py-4 bg-cyan-500 hover:bg-cyan-400 text-black font-bold rounded-xl transition-all shadow-[0_0_30px_rgba(6,182,212,0.3)]"
                   >
-                    Solicitar auditoría IA gratuita <ArrowRight className="w-5 h-5" />
+                    Solicitar auditoría gratuita <ArrowRight className="w-5 h-5" />
                   </a>
                 </div>
                 <div className="text-center mt-6">
@@ -325,7 +325,7 @@ export default function CalculadoraAhorroIA() {
             <div className="bg-[#0A1628] p-6 rounded-2xl border border-white/5">
               <MessageSquare className="text-purple-400 mb-4" size={24} />
               <h3 className="font-bold text-white mb-2">2. Coste de Soporte</h3>
-              <p className="text-sm text-slate-400">Estimamos que atender una consulta manual de un cliente toma 5 minutos de media. Los <a href="/chatbots-ia" onClick={(e) => handleNavigation(e, '/chatbots-ia')} className="text-purple-400 hover:underline">chatbots</a> resuelven esto en milisegundos a coste 0.</p>
+              <p className="text-sm text-slate-400">Estimamos que atender una consulta manual de un cliente toma 5 minutos de media. Los <a href="/chatbots-ia" onClick={(e) => handleNavigation(e, '/chatbots-ia')} className="text-purple-400 hover:underline">chatbots</a> resuelven esto en cuestión de segundos con un coste operativo mínimo.</p>
             </div>
             <div className="bg-[#0A1628] p-6 rounded-2xl border border-white/5">
               <Zap className="text-[#FF006E] mb-4" size={24} />
@@ -399,7 +399,7 @@ export default function CalculadoraAhorroIA() {
             </p>
             <div className="text-center md:text-left">
               <a href="/auditoria-ia-gratis" onClick={(e) => handleNavigation(e, '/auditoria-ia-gratis')} className="inline-flex items-center gap-2 px-8 py-4 bg-cyan-500 hover:bg-cyan-400 text-black font-bold rounded-xl transition-all shadow-[0_0_30px_rgba(6,182,212,0.3)]">
-                Frenar las pérdidas y Solicitar Auditoría Técnica <ArrowRight size={16} />
+                Solicitar auditoría gratuita <ArrowRight size={16} />
               </a>
             </div>
           </div>

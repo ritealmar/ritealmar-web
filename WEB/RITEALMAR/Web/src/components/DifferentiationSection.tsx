@@ -9,7 +9,7 @@ export default function DifferentiationSection() {
     { title: "Innovación Constante", desc: "Estamos a la vanguardia de los últimos modelos de IA para darte ventaja competitiva." },
     { title: "Transparencia Total", desc: "Sin tecnicismos innecesarios. Hablamos claro y mostramos resultados medibles." },
     { title: "Soporte Especializado", desc: "Un equipo de expertos a tu disposición para asegurar el éxito de cada proyecto." },
-    { title: "Escalabilidad", desc: "Sistemas diseñados para crecer junto con tu negocio sin límites tecnológicos." }
+    { title: "Escalabilidad", desc: "Sistemas diseñados para crecer junto con tu negocio de forma fluida." }
   ];
 
   return (

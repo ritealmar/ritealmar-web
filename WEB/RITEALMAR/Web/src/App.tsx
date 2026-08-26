@@ -5,8 +5,6 @@ import { ModalController } from './components/ModalController';
 import ResponsibleIASection from './components/ResponsibleIASection';
 import CookieBanner from './components/CookieBanner';
 import WhatsAppFloatingButton from './components/WhatsAppFloatingButton';
-import RitealmarAgent from './components/RitealmarAgent';
-import StickyMobileCTA from './components/StickyMobileCTA';
 import AnalyticsPageTracker from './components/AnalyticsPageTracker';
 
 import { projectsData } from './data/projectsData';
@@ -76,6 +74,7 @@ const BlogAutomatizarCaptacion = lazyWithRetry(() => import('./pages/BlogAutomat
 const BlogAutomatizarWhatsApp = lazyWithRetry(() => import('./pages/BlogAutomatizarWhatsApp'));
 const BlogCitasClinicas = lazyWithRetry(() => import('./pages/BlogCitasClinicas'));
 const BlogInmobiliariasIa = lazyWithRetry(() => import('./pages/BlogInmobiliariasIa'));
+const BlogAutomatizacionProcesosPymes = lazyWithRetry(() => import('./pages/BlogAutomatizacionProcesosPymes'));
 const CasoExitoClinicaIA = lazyWithRetry(() => import('./pages/CasoExitoClinicaIA'));
 const CasoExitoInmobiliariaIA = lazyWithRetry(() => import('./pages/CasoExitoInmobiliariaIA'));
 const CasoExitoEcommerceIA = lazyWithRetry(() => import('./pages/CasoExitoEcommerceIA'));
@@ -180,6 +179,7 @@ export default function App() {
       case '/blog/automatizar-whatsapp-pyme': return <BlogAutomatizarWhatsApp />;
       case '/blog/automatizacion-citas-clinicas-ia': return <BlogCitasClinicas />;
       case '/blog/ia-inmobiliarias-captacion-ventas': return <BlogInmobiliariasIa />;
+      case '/blog/automatizacion-procesos-pymes': return <BlogAutomatizacionProcesosPymes />;
 
       // Páginas Legales
       case '/aviso-legal': return <AvisoLegal />;
@@ -265,11 +265,9 @@ export default function App() {
             subtitle={modalConfig.subtitle}
             submitText={modalConfig.submitText}
           />
-          <LegalFooter />
           <ResponsibleIASection />
-          <RitealmarAgent />
+          <LegalFooter />
           <WhatsAppFloatingButton />
-          <StickyMobileCTA />
           <CookieBanner />
         </footer>
       </div>

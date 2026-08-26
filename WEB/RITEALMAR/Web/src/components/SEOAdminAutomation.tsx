@@ -83,8 +83,8 @@ export default function SEOAdminAutomation({ onBack }: { onBack?: () => void }) 
               <div className="space-y-8">
                 {[
                   { 
-                    title: 'Cero Errores en Datos', 
-                    desc: 'La IA extrae información de facturas, albaranes y contratos con una precisión del 99.9%, eliminando el factor humano.',
+                    title: 'Reducción de Errores en Datos', 
+                    desc: 'La IA extrae información de facturas, albaranes y contratos minimizando los fallos operativos y reduciendo la dependencia del factor humano.',
                     icon: FileText
                   },
                   { 

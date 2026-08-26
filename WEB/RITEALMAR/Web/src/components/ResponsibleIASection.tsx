@@ -4,22 +4,22 @@ import { ShieldCheck, Eye, Lock, FileSpreadsheet, Scale } from 'lucide-react';
 export default function ResponsibleIASection() {
   const compliancePoints = [
     {
-      title: "Garantía EU AI Act",
-      desc: "Nuestros agentes y algoritmos heurísticos están clasificados bajo 'Riesgo Mínimo', cumpliendo estrictamente con las obligaciones de transparencia de la nueva normativa europea.",
+      title: "IA diseñada con criterios del EU AI Act",
+      desc: "Evaluamos cada solución según su uso, nivel de riesgo y obligaciones aplicables. Incorporamos medidas de transparencia, supervisión humana y trazabilidad cuando corresponda.",
       icon: Scale,
-      badge: "Cumplimiento 2026"
+      badge: "Marco europeo 2026"
     },
     {
-      title: "Privacidad de Datos Blindada (RGPD)",
-      desc: "Los datos de tus clientes y pacientes se procesan mediante modelos con infraestructura privada. La información empresarial jamás se utiliza para entrenar modelos públicos externos.",
+      title: "Privacidad y Protección de Datos",
+      desc: "Diseñamos cada integración teniendo en cuenta privacidad, control de accesos y tratamiento responsable de los datos. Las medidas concretas dependen de las herramientas, proveedores y tipo de información utilizados.",
       icon: Lock,
-      badge: "Encriptado AES-256"
+      badge: "Seguridad según integración"
     },
     {
-      title: "Trazabilidad Operativa y Logs",
-      desc: "Cada decisión tomada por el pipeline automatizado (SMO-R) queda registrada en un historial de auditoría inmutable, permitiendo la supervisión humana total en cualquier segundo.",
+      title: "Trazabilidad y Registro de Actividad",
+      desc: "Cuando la solución lo requiere, implementamos registros y controles que permiten revisar acciones, flujos y decisiones automatizadas.",
       icon: Eye,
-      badge: "100% Auditable"
+      badge: "Trazabilidad y Registro"
     }
   ];
 
@@ -41,7 +41,7 @@ export default function ResponsibleIASection() {
             </h3>
           </div>
           <p className="text-sm text-slate-400 font-medium leading-relaxed">
-            Implementar automatizaciones sin un marco legal robusto es un riesgo crítico para tu pyme. En Ritealmar diseñamos la infraestructura tecnológica alineada con los estándares de seguridad más exigentes, garantizando tu tranquilidad operativa y jurídica.
+            Implementar automatizaciones sin un marco legal robusto es un riesgo crítico para tu pyme. En Ritealmar diseñamos la infraestructura tecnológica alineada con los estándares de seguridad más exigentes, buscando aportar mayor seguridad operativa y jurídica.
           </p>
         </div>
 
@@ -76,7 +76,7 @@ export default function ResponsibleIASection() {
         <div className="mt-12 bg-emerald-500/5 border border-emerald-500/10 p-4 rounded-xl flex items-center gap-4 max-w-2xl mx-auto justify-center">
           <ShieldCheck size={18} className="text-emerald-400 shrink-0" />
           <span className="text-[10px] font-bold text-slate-300 uppercase tracking-widest text-center">
-            Garantía de Blindaje Jurídico en Procesamiento de Datos Críticos
+            Diseño orientado a privacidad, trazabilidad y supervisión
           </span>
         </div>
 

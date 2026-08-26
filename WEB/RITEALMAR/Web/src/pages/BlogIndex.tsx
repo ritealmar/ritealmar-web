@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react';
 import SEO from '../components/SEO';
 import { motion } from 'framer-motion';
-import { ArrowRight, BookOpen, Clock, BrainCircuit, Zap, Terminal } from 'lucide-react';
+import { ArrowRight, BookOpen, Clock, BrainCircuit, Zap, Terminal, Settings } from 'lucide-react';
 import { trackEvent } from '../utils/analytics';
 
 export default function BlogIndex() {
@@ -10,6 +10,17 @@ export default function BlogIndex() {
   }, []);
 
   const articles = [
+    {
+      title: "Automatización de procesos para pymes: ejemplos y costes en 2026",
+      description: "Guía práctica para empresas y pymes sobre qué procesos automatizar primero, ejemplos reales de flujos, uso de inteligencia artificial, costes y criterios para priorizar automatizaciones.",
+      category: "IA y Automatización",
+      readTime: "10 min",
+      url: "/blog/automatizacion-procesos-pymes",
+      icon: <Settings size={24} className="text-emerald-400" />,
+      gradient: "from-emerald-400/20 to-cyan-500/20",
+      borderGlow: "group-hover:border-emerald-400/50",
+      buttonColor: "text-emerald-400 group-hover:text-white bg-emerald-400/10 group-hover:bg-emerald-400"
+    },
     {
       title: "Automatización de citas para clínicas médicas con IA",
       description: "Guía para reducir ausentismo y automatizar la gestión de pacientes con Inteligencia Artificial, liberando a la recepción de tareas repetitivas.",

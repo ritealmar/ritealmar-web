@@ -133,7 +133,7 @@ export default function CasosExito() {
       answer: "Precisamente en empresas muy pequeñas es donde el tiempo vale más. Si solo sois dos personas, no podéis permitiros el lujo de perder 2 horas al día haciendo presupuestos manuales. La automatización es el empleado invisible que te permite competir con empresas más grandes."
     },
     {
-      question: "¿Cómo empezamos a trabajar en mi propio caso de éxito?",
+      question: "¿Cómo empezamos a trabajar en mi propia empresa?",
       answer: "Todo comienza con una Auditoría Gratuita. Analizamos tus procesos actuales, detectamos los 'cuellos de botella' y te presentamos un plan tecnológico a medida, sin compromiso."
     }
   ];
@@ -151,7 +151,7 @@ export default function CasosExito() {
       {
         "@type": "ListItem",
         "position": 2,
-        "name": "Casos de Éxito",
+        "name": "Casos de Uso",
         "item": "https://ritealmar.es/casos-de-exito"
       }
     ]
@@ -160,7 +160,7 @@ export default function CasosExito() {
   const articleSchema = {
     "@context": "https://schema.org",
     "@type": "Article",
-    "headline": "Casos de éxito en automatización e Inteligencia Artificial para empresas",
+    "headline": "Casos de uso en automatización e Inteligencia Artificial para empresas",
     "description": "Descubre cómo ayudamos a empresas a ahorrar tiempo, captar más clientes y automatizar procesos mediante IA.",
     "author": {
       "@type": "Organization",
@@ -183,8 +183,8 @@ export default function CasosExito() {
   return (
     <div className="min-h-screen bg-[#030712] relative overflow-hidden">
       <SEO 
-        title="Casos de Éxito: Automatización e IA para PYMES | RITEALMAR"
-        description="Explora casos de éxito reales de cómo RITEALMAR transforma PYMES con automatizaciones, inteligencia artificial, chatbots y desarrollo web orientado a ventas."
+        title="Casos de Uso: Automatización e IA para PYMES | RITEALMAR"
+        description="Explora casos de uso y ejemplos de cómo RITEALMAR transforma PYMES con automatizaciones, inteligencia artificial, chatbots y desarrollo web orientado a ventas."
         canonical="https://ritealmar.es/casos-de-exito"
       />
 
@@ -212,7 +212,7 @@ export default function CasosExito() {
             <Sparkles size={14} /> Soluciones Reales
           </div>
           <h1 className="text-4xl md:text-5xl lg:text-6xl font-black text-white tracking-tight leading-[1.1] mb-6">
-            Casos de éxito en <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#00D4FF] to-[#FF006E]">automatización e Inteligencia Artificial</span> para empresas
+            Casos de uso en <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#00D4FF] to-[#FF006E]">automatización e Inteligencia Artificial</span> para empresas
           </h1>
           <p className="text-xl text-slate-300 max-w-3xl mx-auto leading-relaxed">
             Descubre cómo ayudamos a empresas a ahorrar tiempo, captar más clientes y automatizar procesos mediante IA. Menos teoría, más resultados.
@@ -347,7 +347,7 @@ export default function CasosExito() {
         {/* CTA Final */}
         <div className="mt-32 mb-10 p-12 bg-gradient-to-br from-[#0A1628] to-[#1a0a2e] border border-[#00D4FF]/30 rounded-[3rem] text-center shadow-[0_0_80px_rgba(0,212,255,0.1)] relative overflow-hidden">
           <div className="absolute top-0 left-0 w-full h-2 bg-gradient-to-r from-[#00D4FF] to-[#FF006E]"></div>
-          <h2 className="text-4xl md:text-5xl font-black text-white mt-0 mb-6 tracking-tight">¿Quieres ser nuestro próximo caso de éxito?</h2>
+          <h2 className="text-4xl md:text-5xl font-black text-white mt-0 mb-6 tracking-tight">¿Quieres transformar tu empresa con IA?</h2>
           <p className="text-xl text-slate-300 mb-10 max-w-2xl mx-auto">
             Analizamos la operativa de tu empresa y te diseñamos un plan de automatización a medida sin coste ni compromiso.
           </p>

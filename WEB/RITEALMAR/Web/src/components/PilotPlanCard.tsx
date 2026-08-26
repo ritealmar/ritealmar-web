@@ -44,7 +44,7 @@ export default function PilotPlanCard({ onOpenForm }: { onOpenForm: () => void }
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 pt-4 border-t border-slate-900 text-xs font-medium text-slate-300">
             <div className="flex items-center gap-2">
               <Clock size={14} className="text-purple-400" />
-              <span>Despliegue garantizado en 5 días</span>
+              <span>Despliegue ágil en corto plazo</span>
             </div>
             <div className="flex items-center gap-2">
               <ShieldCheck size={14} className="text-emerald-400" />
