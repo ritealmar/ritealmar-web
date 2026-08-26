@@ -85,9 +85,7 @@ export default function Home({ onOpenCalendly }: { onOpenCalendly?: (config?: an
 
       {/* 8. Formulario final */}
       <Suspense fallback={<div className="h-20" />}>
-        <div id="contacto">
-          <ContactForm />
-        </div>
+        <ContactForm />
       </Suspense>
 
     </div>

@@ -5,6 +5,7 @@ declare global {
     sitekey: string;
     callback?: (token: string) => void;
     'error-callback'?: () => void;
+    'expired-callback'?: () => void;
     theme?: 'light' | 'dark' | 'auto';
     [key: string]: unknown;
   }
@@ -22,28 +23,38 @@ declare global {
 interface TurnstileWidgetProps {
   onVerify: (token: string) => void;
   onError?: () => void;
+  onExpire?: () => void;
 }
 
-export default function TurnstileWidget({ onVerify, onError }: TurnstileWidgetProps) {
+export default function TurnstileWidget({ onVerify, onError, onExpire }: TurnstileWidgetProps) {
   const containerRef = useRef<HTMLDivElement>(null);
   
   // VARIABLE CLOUDFLARE PAGES (Frontend)
   // Configurar en Cloudflare Pages -> Settings -> Environment variables
-  // Clave: VITE_TURNSTILE_SITE_KEY | Valor: 1x00000000000000000000AA (Tu Site Key)
+  // Clave: VITE_TURNSTILE_SITE_KEY | Valor: Tu Site Key pública
   const siteKey = import.meta.env.VITE_TURNSTILE_SITE_KEY;
   const widgetIdRef = useRef<string | null>(null);
+  const isKeyMissingLogged = useRef(false);
 
   useEffect(() => {
-    // Si no hay Site Key, simulamos que pasa inmediatamente para no bloquear el desarrollo o producción
+    // Si no hay Site Key, lanzamos error y no simulamos el token.
     if (!siteKey) {
-      console.warn("Turnstile no está configurado (VITE_TURNSTILE_SITE_KEY). Saltando verificación.");
-      onVerify("dev_no_token");
+      if (!isKeyMissingLogged.current) {
+        console.error("ERROR CRÍTICO: Turnstile no está configurado (VITE_TURNSTILE_SITE_KEY). El formulario no podrá enviarse.");
+        isKeyMissingLogged.current = true;
+      }
+      if (onError) onError();
       return;
     }
 
+    // Prevenir ejecución doble en Strict Mode si ya estamos inicializando
+    if (widgetIdRef.current) return;
+
+    let isMounted = true;
+
     // Verificar si ya existe window.turnstile
     const renderWidget = () => {
-      if (window.turnstile && containerRef.current && !widgetIdRef.current) {
+      if (window.turnstile && containerRef.current && !widgetIdRef.current && isMounted) {
         try {
           widgetIdRef.current = window.turnstile.render(containerRef.current, {
             sitekey: siteKey,
@@ -53,6 +64,9 @@ export default function TurnstileWidget({ onVerify, onError }: TurnstileWidgetPr
             'error-callback': () => {
               console.error("Error al cargar o verificar Turnstile.");
               if (onError) onError();
+            },
+            'expired-callback': () => {
+              if (onExpire) onExpire();
             },
             theme: 'dark' // Ajustado al diseño corporativo de Ritealmar
           });
@@ -69,7 +83,9 @@ export default function TurnstileWidget({ onVerify, onError }: TurnstileWidgetPr
       script.src = 'https://challenges.cloudflare.com/turnstile/v0/api.js?render=explicit';
       script.async = true;
       script.defer = true;
-      script.onload = renderWidget;
+      script.onload = () => {
+        if (isMounted) renderWidget();
+      };
       document.head.appendChild(script);
     } else {
       // Script ya cargado, solo renderizar
@@ -80,13 +96,14 @@ export default function TurnstileWidget({ onVerify, onError }: TurnstileWidgetPr
         const checkTurnstile = setInterval(() => {
           if (window.turnstile) {
             clearInterval(checkTurnstile);
-            renderWidget();
+            if (isMounted) renderWidget();
           }
         }, 100);
       }
     }
 
     return () => {
+      isMounted = false;
       // Limpiar widget al desmontar
       if (window.turnstile && widgetIdRef.current) {
         try {
@@ -97,10 +114,15 @@ export default function TurnstileWidget({ onVerify, onError }: TurnstileWidgetPr
         }
       }
     };
-  }, [siteKey, onVerify, onError]);
+  }, [siteKey, onVerify, onError, onExpire]);
 
-  // Si no hay key, no renderizamos nada visual para no romper el layout
-  if (!siteKey) return null;
+  if (!siteKey) {
+    return (
+      <div className="bg-red-950/50 border border-red-500/50 text-red-400 p-4 rounded-xl text-sm mb-4">
+        La protección contra bots (Turnstile) no está configurada. Por favor, contacta con soporte.
+      </div>
+    );
+  }
 
   return (
     <div className="w-full flex justify-center my-4 min-h-[65px]">

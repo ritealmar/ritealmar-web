@@ -322,6 +322,7 @@ export default function ContactForm(props: ContactFormProps) {
                   <TurnstileWidget
                     onVerify={(token) => setTurnstileToken(token)}
                     onError={() => setStatus('error')}
+                    onExpire={() => setTurnstileToken('')}
                   />
                 </div>
 
