@@ -13,7 +13,7 @@ export default function PortfolioSection() {
       solucion: "Sistema inteligente para asignar rutas en tiempo real.",
       resultado: "Mejora la trazabilidad operativa y reduce los tiempos de gestión diarios.",
       tecnologia: "React, Node.js, IA Generativa",
-      image: "https://images.unsplash.com/photo-1558494949-ef010cbdcc31?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&q=80",
+      image: "/almar.webp",
       link: "/proyectos/almar-fsm"
     },
     {
@@ -25,7 +25,7 @@ export default function PortfolioSection() {
       solucion: "Hub único con agentes de IA integrados para consultas internas.",
       resultado: "Unifica la operativa diaria y agiliza la búsqueda de información corporativa.",
       tecnologia: "React Native, Cloudflare, OpenAI",
-      image: "https://images.unsplash.com/photo-1620712943543-bcc4688e7485?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&q=80",
+      image: "/aurenta.webp",
       link: "/proyectos/aurentia-app"
     },
     {
@@ -37,7 +37,7 @@ export default function PortfolioSection() {
       solucion: "Asistente virtual conversacional entrenado con la base de conocimientos.",
       resultado: "Permite filtrar y resolver incidencias básicas sin intervención humana.",
       tecnologia: "Voiceflow, Vercel, Supabase",
-      image: "https://images.unsplash.com/photo-1451187580459-43490279c0fa?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&q=80",
+      image: "/ritecore.webp",
       link: "/proyectos/ritecore"
     },
     {
@@ -49,7 +49,7 @@ export default function PortfolioSection() {
       solucion: "Panel de control visual que integra distintas APIs en tiempo real.",
       resultado: "Facilita la toma de decisiones con métricas unificadas y claras.",
       tecnologia: "Next.js, Tailwind CSS, REST APIs",
-      image: "https://images.unsplash.com/photo-1551288049-bebda4e38f71?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&q=80",
+      image: "/panel.webp",
       link: "/proyectos/panel-central"
     },
     {
@@ -61,7 +61,7 @@ export default function PortfolioSection() {
       solucion: "Portal de autogestión de citas con recordatorios automáticos.",
       resultado: "Optimiza la agenda y ayuda a reducir cancelaciones de última hora.",
       tecnologia: "Vite, TypeScript, PostgreSQL",
-      image: "https://images.unsplash.com/photo-1555421689-491a97ff2040?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&q=80",
+      image: "/stylio.webp",
       link: "/proyectos/stylio"
     },
     {

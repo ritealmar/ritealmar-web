@@ -8,13 +8,13 @@ export const AlmarFeatureTour = () => {
       title: "Control de stock en tiempo real",
       desc: "Monitorización constante de cada unidad en tu almacén con actualizaciones instantáneas.",
       icon: <Box size={24} />,
-      image: "https://images.unsplash.com/photo-1586528116311-ad8dd3c8310d?auto=format&fit=crop&w=800&q=80"
+      image: "/assets/almar_traspasos.png"
     },
     {
       title: "Chatbot integrado para operarios",
       desc: "Tus trabajadores pueden consultar stock o reportar incidencias mediante lenguaje natural.",
       icon: <MessageSquare size={24} />,
-      image: "https://images.unsplash.com/photo-1531482615713-2afd69097998?auto=format&fit=crop&w=800&q=80"
+      image: "/assets/almar_tecnicos.png"
     }
   ];
 
