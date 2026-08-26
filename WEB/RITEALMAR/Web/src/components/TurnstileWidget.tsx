@@ -36,6 +36,17 @@ export default function TurnstileWidget({ onVerify, onError, onExpire }: Turnsti
   const widgetIdRef = useRef<string | null>(null);
   const isKeyMissingLogged = useRef(false);
 
+  // Guardamos las referencias actualizadas de los callbacks para no reiniciar el widget
+  const onVerifyRef = useRef(onVerify);
+  const onErrorRef = useRef(onError);
+  const onExpireRef = useRef(onExpire);
+
+  useEffect(() => {
+    onVerifyRef.current = onVerify;
+    onErrorRef.current = onError;
+    onExpireRef.current = onExpire;
+  }, [onVerify, onError, onExpire]);
+
   useEffect(() => {
     // Si no hay Site Key, lanzamos error y no simulamos el token.
     if (!siteKey) {
@@ -43,7 +54,7 @@ export default function TurnstileWidget({ onVerify, onError, onExpire }: Turnsti
         console.error("ERROR CRÍTICO: Turnstile no está configurado (VITE_TURNSTILE_SITE_KEY). El formulario no podrá enviarse.");
         isKeyMissingLogged.current = true;
       }
-      if (onError) onError();
+      if (onErrorRef.current) onErrorRef.current();
       return;
     }
 
@@ -59,20 +70,20 @@ export default function TurnstileWidget({ onVerify, onError, onExpire }: Turnsti
           widgetIdRef.current = window.turnstile.render(containerRef.current, {
             sitekey: siteKey,
             callback: (token: string) => {
-              onVerify(token);
+              if (onVerifyRef.current) onVerifyRef.current(token);
             },
             'error-callback': () => {
               console.error("Error al cargar o verificar Turnstile.");
-              if (onError) onError();
+              if (onErrorRef.current) onErrorRef.current();
             },
             'expired-callback': () => {
-              if (onExpire) onExpire();
+              if (onExpireRef.current) onExpireRef.current();
             },
             theme: 'dark' // Ajustado al diseño corporativo de Ritealmar
           });
         } catch (err) {
           console.error("Fallo al renderizar Turnstile", err);
-          if (onError) onError();
+          if (onErrorRef.current) onErrorRef.current();
         }
       }
     };
@@ -114,7 +125,7 @@ export default function TurnstileWidget({ onVerify, onError, onExpire }: Turnsti
         }
       }
     };
-  }, [siteKey, onVerify, onError, onExpire]);
+  }, [siteKey]);
 
   if (!siteKey) {
     return (
