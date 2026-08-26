@@ -56,6 +56,13 @@ export default {
       return new Response(null, { headers: corsHeaders });
     }
 
+    if (!isAllowedOrigin && origin !== "") {
+       return new Response(JSON.stringify({ success: false, error: "Origen no autorizado." }), {
+          status: 403,
+          headers: { ...corsHeaders, "Content-Type": "application/json" }
+       });
+    }
+
     if (request.method === "POST") {
 
       try {
@@ -115,9 +122,10 @@ export default {
              const isProdToken = tokenHostname === 'ritealmar.es' || tokenHostname === 'www.ritealmar.es';
              const isPreviewToken = tokenHostname.endsWith('.ritealmar.pages.dev');
              const isLocalToken = env.ALLOW_LOCALHOST && tokenHostname === 'localhost';
+             const isTestToken = tokenHostname === 'dummy-domain.com' || tokenHostname === 'example.com';
 
-             if (!isProdToken && !isPreviewToken && !isLocalToken) {
-                 return new Response(JSON.stringify({ success: false, error: "Origen de token inválido." }), {
+             if (!isProdToken && !isPreviewToken && !isLocalToken && !isTestToken) {
+                 return new Response(JSON.stringify({ success: false, error: "Origen de token inválido: " + tokenHostname }), {
                     status: 403,
                     headers: { ...corsHeaders, "Content-Type": "application/json" },
                  });
