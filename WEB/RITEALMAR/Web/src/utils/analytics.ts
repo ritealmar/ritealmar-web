@@ -3,8 +3,8 @@ export const GA_MEASUREMENT_ID = "G-ZGB3DG38K5";
 
 declare global {
   interface Window {
-    dataLayer: any[];
-    gtag: (...args: any[]) => void;
+    dataLayer: unknown[];
+    gtag: (...args: unknown[]) => void;
     __ritealmarAnalyticsDebug: () => void;
     __ritealmarSendTestEvent: () => void;
     _gaScriptLoaded?: boolean;
@@ -35,8 +35,13 @@ export const initAnalytics = () => {
     ad_personalization: 'denied'
   });
 
+  // El script GA se inyectará dinámicamente cuando el usuario dé su consentimiento en configureGA().
+};
+
+export const configureGA = () => {
+  if (typeof window === 'undefined') return;
   if (!document.querySelector(`script[src*="${GA_MEASUREMENT_ID}"]`)) {
-    console.log("[RITEALMAR Analytics] GA script injected");
+    console.log("[RITEALMAR Analytics] GA script injected after consent");
     const script = document.createElement('script');
     script.async = true;
     script.src = `https://www.googletagmanager.com/gtag/js?id=${GA_MEASUREMENT_ID}`;
@@ -44,18 +49,18 @@ export const initAnalytics = () => {
       window._gaScriptLoaded = true;
       console.log("[RITEALMAR Analytics] GA script loaded");
       window.gtag('js', new Date());
+      window.gtag('config', GA_MEASUREMENT_ID, {
+        send_page_view: false
+      });
+      window._configSent = true;
     };
     document.head.appendChild(script);
+  } else {
+    window.gtag('config', GA_MEASUREMENT_ID, {
+      send_page_view: false
+    });
+    window._configSent = true;
   }
-};
-
-export const configureGA = () => {
-  if (typeof window === 'undefined') return;
-  console.log("[RITEALMAR Analytics] GA config sent");
-  window.gtag('config', GA_MEASUREMENT_ID, {
-    send_page_view: false
-  });
-  window._configSent = true;
 };
 
 export const sendPageView = () => {
@@ -74,7 +79,7 @@ export const sendPageView = () => {
   }
 };
 
-export const trackEvent = (eventName: string, params: Record<string, any> = {}) => {
+export const trackEvent = (eventName: string, params: Record<string, unknown> = {}) => {
   if (typeof window === 'undefined') return;
   
   if (typeof window.gtag === 'function') {

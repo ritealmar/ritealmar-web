@@ -19,8 +19,18 @@ import {
   Bot,
   Target,
   FileText,
-  AlertTriangle
+  AlertTriangle,
+  MessageSquare,
+  CheckCircle2,
+  Cpu,
+  Users,
+  Calendar,
+  Settings,
+  ShieldCheck,
+  Database,
+  Smartphone
 } from 'lucide-react';
+import { calculateMaturityScore } from '../utils/calculatorUtils';
 
 export default function EvaluadorMadurezIA() {
   const [answers, setAnswers] = useState<Record<string, number>>({});
@@ -155,9 +165,7 @@ export default function EvaluadorMadurezIA() {
     setTimeout(() => {
       clearInterval(interval);
       setIsAnalyzing(false);
-      let score = 0;
-      Object.values(answers).forEach(val => score += val);
-      const normalizedScore = Math.max(0, Math.round(((score - 20) / 80) * 100));
+      const normalizedScore = calculateMaturityScore(answers);
       const meta = getResultMetadata(normalizedScore);
       setResult({ score: normalizedScore, level: meta.level, desc: meta.desc, strong: meta.strengths, weak: meta.weaknesses });
     }, 2200);

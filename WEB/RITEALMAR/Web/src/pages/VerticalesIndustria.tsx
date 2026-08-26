@@ -1,13 +1,13 @@
 import React, { useEffect } from 'react';
 import { motion } from 'framer-motion';
 import { Home, Users, Key, ShoppingBag, ShoppingCart, RefreshCw, ArrowRight, Zap, ShieldCheck } from 'lucide-react';
-import { AnalyticsTracker } from '../utils/analyticsTracker';
+import { AnalyticsTracker, SectorType } from '../utils/analyticsTracker';
 import SEO from '../components/SEO';
 import JsonLd from '../components/JsonLd';
 import RecursosRecomendados from '../components/RecursosRecomendados';
 
 interface IndustryPageProps {
-  type: 'inmobiliarias' | 'ecommerce' | 'constructoras';
+  type: SectorType;
   onOpenForm: (config?: any) => void;
 }
 

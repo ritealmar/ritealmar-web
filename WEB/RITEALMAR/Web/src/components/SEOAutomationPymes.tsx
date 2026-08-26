@@ -9,7 +9,8 @@ import {
   Search, 
   Settings, 
   Users,
-  Target
+  Target,
+  ShieldCheck
 } from 'lucide-react';
 
 const THEME = {

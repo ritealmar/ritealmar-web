@@ -9,30 +9,30 @@ interface HeroProps {
 // Removed AnimatedText component as it is no longer used
 const DashboardSimulation = () => (
   <div className="relative w-full max-w-2xl bg-slate-900/40 border border-slate-700/50 rounded-2xl p-6 shadow-2xl backdrop-blur-2xl bg-gradient-to-br from-cyan-500/10 to-purple-500/10">
-    <div className="flex items-center justify-between mb-8">
-      <div className="flex gap-2">
-        <div className="w-3 h-3 rounded-full bg-red-500/50" />
-        <div className="w-3 h-3 rounded-full bg-yellow-500/50" />
-        <div className="w-3 h-3 rounded-full bg-green-500/50" />
-      </div>
-      <div className="flex items-center gap-3">
-        <span className="text-[10px] text-slate-400 italic font-medium">Ejemplo de dashboard</span>
-        <div className="text-[10px] uppercase tracking-widest text-[#00D4FF] font-bold">RITEALMAR CORE</div>
-      </div>
-    </div>
-    
-    <div className="grid grid-cols-3 gap-4 mb-8">
-      {[
-        { label: 'Tiempo Ahorrado', value: '+15h', color: 'text-[#00D4FF]' },
-        { label: 'Eficiencia', value: '99.9%', color: 'text-[#00FF9D]' },
-        { label: 'Coste Op.', value: '-45%', color: 'text-[#FF006E]' }
-      ].map((stat, i) => (
-        <div key={i} className="bg-white/5 border border-white/5 p-4 rounded-xl">
-          <p className="text-[10px] text-slate-300 mb-1 uppercase tracking-wider">{stat.label}</p>
-          <p className={`text-2xl font-black ${stat.color}`}>{stat.value}</p>
+      <div className="flex items-center justify-between mb-8">
+        <div className="flex gap-2">
+          <div className="w-3 h-3 rounded-full bg-red-500/50" />
+          <div className="w-3 h-3 rounded-full bg-yellow-500/50" />
+          <div className="w-3 h-3 rounded-full bg-green-500/50" />
         </div>
-      ))}
-    </div>
+        <div className="flex items-center gap-3">
+          <span className="text-[10px] text-slate-400 italic font-medium">Ejemplo orientativo</span>
+          <div className="text-[10px] uppercase tracking-widest text-[#00D4FF] font-bold">RITEALMAR CORE</div>
+        </div>
+      </div>
+      
+      <div className="grid grid-cols-3 gap-4 mb-8">
+        {[
+          { label: 'Contactos', value: '124', color: 'text-[#00D4FF]' },
+          { label: 'Procesos', value: '12', color: 'text-[#00FF9D]' },
+          { label: 'Alertas', value: '3', color: 'text-[#FF006E]' }
+        ].map((stat, i) => (
+          <div key={i} className="bg-white/5 border border-white/5 p-4 rounded-xl">
+            <p className="text-[10px] text-slate-300 mb-1 uppercase tracking-wider">{stat.label}</p>
+            <p className={`text-2xl font-black ${stat.color}`}>{stat.value}</p>
+          </div>
+        ))}
+      </div>
 
     <div className="space-y-3">
       {[
@@ -83,11 +83,11 @@ export default function Hero({ onOpenCalendly = () => {} }: HeroProps) {
           </div>
           
           <h1 className="text-3xl sm:text-5xl lg:text-5xl font-black leading-tight tracking-tight mb-6 text-white lg:min-h-[160px]">
-            Automatizamos las tareas repetitivas de tu empresa para que <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#00D4FF] to-[#FF006E]">vuelvas a vender</span>
+            Automatizamos los procesos de tu PYME para ahorrar tiempo y <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#00D4FF] to-[#FF006E]">responder antes a tus clientes.</span>
           </h1>
           
           <p className="text-lg sm:text-xl text-slate-300 leading-relaxed mb-4 max-w-xl font-medium lg:min-h-[80px]">
-            Diseño web, CRMs y asistentes de IA que ahorran horas a tu equipo cada semana. Implementación rápida, sin tecnicismos y con retorno desde el primer mes.
+            Conectamos WhatsApp, formularios, CRM, agenda y facturación sin obligarte a cambiar las herramientas que ya utilizas.
           </p>
           
           <p className="text-sm text-slate-400 font-medium mb-10 max-w-xl border-l-2 border-[#00D4FF]/30 pl-4 lg:min-h-[40px]">
@@ -99,18 +99,22 @@ export default function Hero({ onOpenCalendly = () => {} }: HeroProps) {
               href="#contacto" 
               onClick={(e) => {
                 e.preventDefault();
-                trackEvent('cta_primary_click', { cta_text: 'Solicitar auditoría gratuita', cta_location: 'hero', page_path: window.location.pathname });
-                window.location.href = '/auditoria-ia-gratis';
+                trackEvent('cta_primary_click', { cta_text: 'Solicitar diagnóstico gratuito', cta_location: 'hero', page_path: window.location.pathname });
+                document.getElementById('contacto')?.scrollIntoView({ behavior: 'smooth' });
               }}
               className="btn-primary group w-full sm:w-auto"
             >
-              Solicitar auditoría gratuita <ArrowRight size={18} className="group-hover:translate-x-1 transition-transform" />
+              Solicitar diagnóstico gratuito <ArrowRight size={18} className="group-hover:translate-x-1 transition-transform" />
             </a>
             <a 
-              href="#servicios" 
+              href="#casos" 
+              onClick={(e) => {
+                e.preventDefault();
+                document.getElementById('casos')?.scrollIntoView({ behavior: 'smooth' });
+              }}
               className="btn-secondary w-full sm:w-auto"
             >
-              Ver soluciones
+              Ver proyectos y soluciones
             </a>
           </div>
         </div>

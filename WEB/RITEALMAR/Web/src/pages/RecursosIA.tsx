@@ -2,7 +2,7 @@ import React, { useEffect } from 'react';
 
 import { 
   BookOpen, CheckSquare, FileCode, Presentation, 
-  ArrowRight, ShieldCheck, Zap, Download, ChevronRight 
+  ArrowRight, ShieldCheck, Zap, Download, ChevronRight, CheckCircle2
 } from 'lucide-react';
 import SEO from '../components/SEO';
 import JsonLd from '../components/JsonLd';

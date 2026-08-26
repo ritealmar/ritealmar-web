@@ -1,5 +1,24 @@
 import React, { useEffect, useRef } from 'react';
 
+declare global {
+  interface TurnstileOptions {
+    sitekey: string;
+    callback?: (token: string) => void;
+    'error-callback'?: () => void;
+    theme?: 'light' | 'dark' | 'auto';
+    [key: string]: unknown;
+  }
+
+  interface Window {
+    turnstile?: {
+      render: (element: string | HTMLElement, options: TurnstileOptions) => string;
+      remove: (widgetId: string) => void;
+      reset: (widgetId?: string) => void;
+      getResponse: (widgetId?: string) => string | undefined;
+    };
+  }
+}
+
 interface TurnstileWidgetProps {
   onVerify: (token: string) => void;
   onError?: () => void;

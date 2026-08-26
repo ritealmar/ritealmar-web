@@ -68,7 +68,7 @@ export default function GenericIndustryPage({ data }: { data: IndustryData }) {
             <h2 className="text-4xl font-bold mb-8 text-white">Da el siguiente paso</h2>
             <p className="text-xl text-slate-400 mb-10">Descubre cómo podemos adaptar nuestra tecnología a tus procesos actuales sin interrumpir tu operativa diaria.</p>
             <button 
-              onClick={() => setIsModalOpen(true)}
+              onClick={() => setModalConfig({ isOpen: true })}
               className="btn-primary text-lg"
             >
               {data.cta} <ArrowRight size={20} />

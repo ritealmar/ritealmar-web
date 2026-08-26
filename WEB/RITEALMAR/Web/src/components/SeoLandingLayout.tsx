@@ -21,6 +21,8 @@ export interface SeoLandingProps {
   process?: { step: string; title: string; desc: string }[];
   includedTitle?: string;
   included: string[];
+  faqTitle?: string;
+  faq?: { q: string; a: string }[];
   problemTitle?: string;
   problems?: { title: string; desc: string }[];
   solutionTitle?: string;

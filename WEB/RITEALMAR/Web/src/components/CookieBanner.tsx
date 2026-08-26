@@ -71,19 +71,19 @@ export default function CookieBanner() {
       <>
         {isVisible && !showConfig && (
           <div 
-            className="fixed bottom-0 left-0 right-0 z-[90] p-4 md:bottom-4 md:left-1/2 md:-translate-x-1/2 md:max-w-4xl md:w-[calc(100%-48px)] md:p-0 pointer-events-none animate-fade-in"
+            className="fixed bottom-0 left-0 right-0 z-[90] p-3 md:bottom-4 md:left-1/2 md:-translate-x-1/2 md:max-w-4xl md:w-[calc(100%-48px)] md:p-0 pointer-events-none animate-fade-in"
           >
-            <div className="pointer-events-auto bg-[#0A1628]/95 backdrop-blur-2xl border border-white/10 rounded-2xl shadow-[0_-10px_40px_rgba(0,0,0,0.5)] p-4 md:px-6 md:py-4 flex flex-col lg:flex-row items-start lg:items-center gap-4 relative overflow-hidden">
+            <div className="pointer-events-auto bg-[#0A1628]/95 backdrop-blur-2xl border border-white/10 rounded-2xl shadow-[0_-10px_40px_rgba(0,0,0,0.5)] p-4 flex flex-col lg:flex-row items-start lg:items-center gap-3 relative overflow-hidden">
               {/* Glowing Line */}
               <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-cyan-400 to-purple-500"></div>
               
               <div className="flex-1 w-full lg:w-auto text-left">
-                <div className="flex items-center gap-2 mb-1.5">
-                  <ShieldCheck className="text-cyan-400" size={18} />
-                  <h3 className="text-base font-bold text-white">Privacidad y Cookies</h3>
+                <div className="flex items-center gap-2 mb-1">
+                  <ShieldCheck className="text-cyan-400" size={16} />
+                  <h3 className="text-sm md:text-base font-bold text-white">Privacidad y Cookies</h3>
                 </div>
-                <p className="text-slate-300 text-xs md:text-sm leading-relaxed">
-                  Utilizamos cookies propias y de terceros para analizar el uso y mejorar nuestros servicios. <a href="/cookies" onClick={(e) => {
+                <p className="text-slate-300 text-xs leading-relaxed">
+                  Utilizamos cookies para analizar el uso y mejorar nuestros servicios. <a href="/cookies" onClick={(e) => {
                     e.preventDefault();
                     window.history.pushState({}, '', '/cookies');
                     window.dispatchEvent(new PopStateEvent('popstate'));
@@ -94,22 +94,24 @@ export default function CookieBanner() {
               <div className="flex flex-col sm:flex-row w-full lg:w-auto gap-2 shrink-0">
                 <button 
                   onClick={() => setShowConfig(true)}
-                  className="px-4 py-2.5 rounded-xl border border-white/10 text-slate-300 hover:text-white hover:bg-white/5 font-bold text-xs transition-all flex items-center justify-center gap-1.5 flex-1 lg:flex-none"
+                  className="px-3 py-2 rounded-xl border border-white/10 text-slate-300 hover:text-white hover:bg-white/5 font-bold text-xs transition-all flex items-center justify-center gap-1.5 flex-1 lg:flex-none"
                 >
                   <Settings size={14} /> Configurar
                 </button>
-                <button 
-                  onClick={handleRejectAll}
-                  className="px-4 py-2.5 rounded-xl bg-slate-800 text-white hover:bg-slate-700 font-bold text-xs transition-all flex items-center justify-center flex-1 lg:flex-none"
-                >
-                  Rechazar
-                </button>
-                <button 
-                  onClick={handleAcceptAll}
-                  className="px-4 py-2.5 rounded-xl bg-cyan-500 hover:bg-cyan-400 text-black font-bold text-xs transition-all flex items-center justify-center gap-1.5 flex-1 lg:flex-none"
-                >
-                  <ShieldCheck size={14} /> Aceptar todas
-                </button>
+                <div className="flex gap-2 flex-1 sm:flex-none">
+                  <button 
+                    onClick={handleRejectAll}
+                    className="px-3 py-2 rounded-xl bg-slate-800 text-white hover:bg-slate-700 font-bold text-xs transition-all flex items-center justify-center flex-1"
+                  >
+                    Rechazar
+                  </button>
+                  <button 
+                    onClick={handleAcceptAll}
+                    className="px-3 py-2 rounded-xl bg-cyan-500 hover:bg-cyan-400 text-black font-bold text-xs transition-all flex items-center justify-center gap-1.5 flex-1 whitespace-nowrap"
+                  >
+                    <ShieldCheck size={14} /> Aceptar
+                  </button>
+                </div>
               </div>
             </div>
           </div>

@@ -257,3 +257,17 @@ Se ha retirado del código de la web el contenedor GTM antiguo (`GTM-WTLQDFS8`).
   - `index.html`: Eliminación del snippet síncrono del `<head>` y del iframe/noscript asociado.
 - **Build**: Exit code 0, sin errores de inicialización.
 - **QA**: Verificado funcionalmente que el `page_view` y los eventos se gestionan a través de la instalación directa nativa (vía `analytics.ts`). No hay errores en consola por `gtag is not defined`.
+
+### DEPLOY P2-A — RETIRADA GTM ANTIGUO
+
+- **Commit:** perf: remove obsolete GTM container
+- **Hash:** 3a36f5cc9c54e3eb0f76f21a2e140122833e6248
+- **Preview:** https://8d351773.ritealmar.pages.dev
+- **Producción:** https://ritealmar.es
+- **Build:** Exit Code 0.
+- **GTM Eliminado:** GTM-WTLQDFS8 (comprobado que ya no se inyecta el script síncrono).
+- **GA4 Preservado:** G-ZGB3DG38K5 (comprobado en tag assistant/devtools).
+- **Tracking:** Los page views y eventos CTA se siguen enviando correctamente a través de nalytics.ts.
+- **QA:** Se validó Home, navegación, Modales, WhatsApp, Formularios. Sin errores en consola ni regresiones.
+- **Errores:** Ninguno (no aparece gtag is not defined).
+- **Pendientes:** Completar el resto de la fase P2-A y P2-B (Fuentes y contraste accesibilidad).

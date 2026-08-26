@@ -3,6 +3,13 @@
  * Captura de intenciones de compra B2B en el Frontend para el motor SMO-R.
  */
 
+export const VALID_SECTORS = ['clinicas', 'inmobiliarias', 'ecommerce', 'constructoras'] as const;
+export type SectorType = typeof VALID_SECTORS[number];
+
+export function isValidSector(sector: string): sector is SectorType {
+  return VALID_SECTORS.includes(sector as SectorType);
+}
+
 interface LeadBehaviorContext {
   sectorConsultado: string;
   horasSeleccionadas: number;
@@ -45,7 +52,7 @@ export const AnalyticsTracker = {
   },
 
   // Trackea qué vertical o sector específico está leyendo el cliente
-  trackSectorView(sector: 'clinicas' | 'inmobiliarias' | 'ecommerce') {
+  trackSectorView(sector: SectorType) {
     const ctx = this.getContext();
     ctx.sectorConsultado = sector;
     if (!ctx.interacciones.includes(`Visitó Landing Vertical: ${sector}`)) {

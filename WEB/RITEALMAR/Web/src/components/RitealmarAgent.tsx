@@ -21,7 +21,7 @@ type Step =
 const SESSION_OPEN_KEY = 'ritealmar_agent_opened_v1';
 const SESSION_STEP_KEY = 'ritealmar_agent_step_v1';
 
-export default function RitealmarAgent(): JSX.Element {
+export default function RitealmarAgent() {
   const [isOpen, setIsOpen] = useState<boolean>(false);
   const [step, setStep] = useState<Step>('closed');
   const [otherText, setOtherText] = useState('');
