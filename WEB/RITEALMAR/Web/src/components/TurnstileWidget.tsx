@@ -79,6 +79,10 @@ export default function TurnstileWidget({ onVerify, onError, onExpire }: Turnsti
             'expired-callback': () => {
               if (onExpireRef.current) onExpireRef.current();
             },
+            'timeout-callback': () => {
+              console.error("Turnstile timeout.");
+              if (onErrorRef.current) onErrorRef.current();
+            },
             theme: 'dark' // Ajustado al diseño corporativo de Ritealmar
           });
         } catch (err) {

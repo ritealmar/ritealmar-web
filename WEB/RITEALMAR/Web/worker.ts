@@ -278,11 +278,19 @@ export default {
         }
 
         // --- 7. RESPONSE: CLEAN PAYLOAD ---
+        if (!emailSent) {
+            return new Response(JSON.stringify({ 
+                success: false, 
+                error: "El servicio de entrega de correo no está disponible. Por favor, inténtalo más tarde." 
+            }), {
+              status: 502,
+              headers: { ...corsHeaders, "Content-Type": "application/json" },
+            });
+        }
+
         return new Response(JSON.stringify({ 
             success: true, 
-            email_sent: emailSent,
-            ai: { ...analysis, lead_id: leadId, lead_score: strategyScore, temperatura: temperatura },
-            metadata: { lead_id: leadId, processed_at: new Date().toISOString() }
+            message: "Solicitud recibida correctamente." 
         }), {
           headers: { ...corsHeaders, "Content-Type": "application/json" },
         });
