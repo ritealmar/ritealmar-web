@@ -74,19 +74,29 @@ export default function ContactForm(props: ContactFormProps) {
     }
 
     setStatus('sending');
+    setValidationError(null);
+
+    const workerUrl = import.meta.env.VITE_WORKER_URL;
+    if (!workerUrl) {
+      setValidationError('La URL del servidor no está configurada.');
+      setStatus('error');
+      trackEvent('form_error', { form_name: eventName, error_type: 'missing_worker_url', page_path: window.location.pathname });
+      return;
+    }
 
     try {
-      const response = await fetch('https://formsubmit.co/ajax/info@ritealmar.es', {
+      const response = await fetch(workerUrl, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
           Accept: 'application/json'
         },
         body: JSON.stringify({
-          ...form,
-          _subject: `Solicitud de Contacto - ${form['Nombre Completo']}`,
-          _template: 'table',
-          _cc: 'llargo34@gmail.com',
+          nombre: form['Nombre Completo'],
+          email: form.Email,
+          empresa: form.Empresa,
+          mensaje: form.Mensaje,
+          privacidad: privacyAccepted,
           cf_turnstile_response: turnstileToken
         })
       });
@@ -104,11 +114,27 @@ export default function ContactForm(props: ContactFormProps) {
         setForm(initialFormState);
         setPrivacyAccepted(false);
         setTurnstileToken('');
+        // Resetea Turnstile globalmente si la función existe
+        if (window.turnstile && typeof window.turnstile.reset === 'function') {
+          // Asumiendo que el componente TurnstileWidget maneja el ID o podemos resetear el último
+          // En caso de StrictMode es preferible no usar document.querySelector, pero como API general:
+          const widgetEl = document.querySelector('[data-turnstile-widget-id]');
+          if (widgetEl) {
+             const widgetId = widgetEl.getAttribute('data-turnstile-widget-id');
+             if (widgetId) window.turnstile.reset(widgetId);
+          }
+        }
       } else {
-        throw new Error('Error al enviar el formulario.');
+        const errorMsg = data.error || 'Error al enviar el formulario.';
+        setValidationError(errorMsg);
+        setStatus('error');
+        throw new Error(errorMsg);
       }
     } catch (error) {
-      setStatus('error');
+      if (status !== 'error') {
+         setStatus('error');
+         setValidationError('Error de conexión temporal con el servidor.');
+      }
 
       trackEvent('form_error', {
         form_name: eventName,
@@ -314,7 +340,7 @@ export default function ContactForm(props: ContactFormProps) {
 
                 {status === 'error' && !validationError && (
                   <div className="p-4 bg-red-500/10 border border-red-500/20 rounded-xl text-red-400 text-sm font-bold text-center">
-                    Ocurrió un error al enviar. Por favor, inténtalo de nuevo.
+                    Ocurrió un error al enviar. Por favor, inténtalo de nuevo más tarde.
                   </div>
                 )}
 

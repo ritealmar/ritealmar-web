@@ -28,10 +28,13 @@ const URGENCIA_ESPERADA = ["Esta semana", "Este mes", "Más adelante", "Alta", "
 export default {
   async fetch(request, env, ctx) {
     const origin = request.headers.get("Origin") || "";
-    const isAllowedOrigin = ALLOWED_ORIGINS.includes(origin) || origin.startsWith("http://localhost");
+    const isAllowedOrigin = ALLOWED_ORIGINS.includes(origin) || origin.startsWith("http://localhost") || origin.endsWith(".ritealmar.pages.dev");
+    
+    // Si no es un origen permitido, denegamos CORS inmediatamente (fail-closed CORS)
+    const corsOrigin = isAllowedOrigin ? origin : "https://ritealmar.es";
     
     const corsHeaders = {
-      "Access-Control-Allow-Origin": isAllowedOrigin ? origin : "https://ritealmar.es",
+      "Access-Control-Allow-Origin": corsOrigin,
       "Access-Control-Allow-Methods": "POST, OPTIONS",
       "Access-Control-Allow-Headers": "Content-Type",
     };
@@ -115,54 +118,56 @@ export default {
         }
 
         // --- 1.B VERIFICACIÓN CLOUDFLARE TURNSTILE ---
-        // VARIABLE CLOUDFLARE WORKER (Backend)
-        // Configurar en Cloudflare Dashboard -> Workers & Pages -> Tu Worker -> Settings -> Variables
-        // Clave: TURNSTILE_SECRET_KEY | Valor: 1x0000000000000000000000000000000AA (Tu Secret Key)
-        if (env.TURNSTILE_SECRET_KEY) {
-          const token = body.cf_turnstile_response;
-          if (!token) {
-            return new Response(JSON.stringify({ success: false, error: "Validación anti-spam requerida." }), {
+        if (!env.TURNSTILE_SECRET_KEY) {
+           console.warn("TURNSTILE_SECRET_KEY no configurada en worker. Denegando petición segura.");
+           return new Response(JSON.stringify({ success: false, error: "El servidor no está configurado de forma segura." }), {
+              status: 500, headers: { ...corsHeaders, "Content-Type": "application/json" }
+           });
+        }
+
+        const token = body.cf_turnstile_response;
+        if (!token || token === "dev_no_token") {
+          return new Response(JSON.stringify({ success: false, error: "Validación anti-spam requerida." }), {
+            status: 400,
+            headers: { ...corsHeaders, "Content-Type": "application/json" },
+          });
+        }
+
+        try {
+          const formData = new FormData();
+          formData.append("secret", env.TURNSTILE_SECRET_KEY);
+          formData.append("response", token);
+          const cfConnectingIp = request.headers.get("CF-Connecting-IP");
+          if (cfConnectingIp) {
+            formData.append("remoteip", cfConnectingIp);
+          }
+
+          const cfResponse = await fetch("https://challenges.cloudflare.com/turnstile/v0/siteverify", {
+            method: "POST",
+            body: formData
+          });
+          
+          const outcome = await cfResponse.json();
+          if (!outcome.success) {
+            console.error("Fallo validación Turnstile:", outcome['error-codes']);
+            return new Response(JSON.stringify({ success: false, error: "No se pudo verificar que eres humano." }), {
               status: 400,
               headers: { ...corsHeaders, "Content-Type": "application/json" },
             });
           }
-
-          // Si recibimos el token de simulacro pero tenemos clave secreta, estamos en un estado inconsistente (probablemente intento de bypass)
-          if (token === "dev_no_token") {
-             return new Response(JSON.stringify({ success: false, error: "Token anti-spam inválido para producción." }), {
+          
+          if (outcome.hostname && !outcome.hostname.endsWith('ritealmar.es') && !outcome.hostname.endsWith('.pages.dev') && !outcome.hostname.includes('localhost')) {
+             return new Response(JSON.stringify({ success: false, error: "Origen de token inválido." }), {
                 status: 400,
                 headers: { ...corsHeaders, "Content-Type": "application/json" },
              });
           }
-
-          try {
-            const formData = new FormData();
-            formData.append("secret", env.TURNSTILE_SECRET_KEY);
-            formData.append("response", token);
-            // Opcional: formData.append("remoteip", request.headers.get("CF-Connecting-IP"));
-
-            const cfResponse = await fetch("https://challenges.cloudflare.com/turnstile/v0/siteverify", {
-              method: "POST",
-              body: formData
-            });
-            
-            const outcome = await cfResponse.json();
-            if (!outcome.success) {
-              console.error("Fallo validación Turnstile:", outcome['error-codes']);
-              return new Response(JSON.stringify({ success: false, error: "No se pudo verificar que eres humano." }), {
-                status: 400,
-                headers: { ...corsHeaders, "Content-Type": "application/json" },
-              });
-            }
-          } catch (e) {
-            console.error("Error contactando API Turnstile:", e.message);
-            // En caso de fallo de red con Cloudflare, podríamos permitir el paso (Fail Open) o bloquear (Fail Closed). 
-            // Por usabilidad comercial (no perder leads por caída de CF), dejamos pasar con un warning:
-            console.warn("Fail-open: Permitido acceso a pesar de fallo en API Turnstile");
-          }
-        } else {
-          // Modo desarrollo o producción aún sin claves configuradas. No bloqueamos.
-          console.warn("TURNSTILE_SECRET_KEY no configurada en worker. Omitiendo verificación.");
+        } catch (e) {
+          console.error("Error contactando API Turnstile:", e.message);
+          return new Response(JSON.stringify({ success: false, error: "Error temporal validando anti-spam." }), {
+             status: 502,
+             headers: { ...corsHeaders, "Content-Type": "application/json" },
+          });
         }
 
         // --- 2. VALIDACIÓN DE DATOS ---
@@ -277,9 +282,36 @@ export default {
             }
         }
 
+        // --- 6.B ENTREGA DE CORREO (Proxy a Formsubmit) ---
+        let emailSent = false;
+        try {
+            const formSubmitUrl = "https://formsubmit.co/ajax/info@ritealmar.es";
+            const emailResponse = await fetch(formSubmitUrl, {
+              method: "POST",
+              headers: { "Content-Type": "application/json", "Accept": "application/json" },
+              body: JSON.stringify({
+                'Nombre Completo': body.nombre,
+                Email: body.email,
+                Empresa: body.empresa,
+                Mensaje: body.mensaje,
+                _subject: `Solicitud de Contacto - ${body.nombre}`,
+                _template: 'table',
+                _cc: 'llargo34@gmail.com'
+              })
+            });
+            if (emailResponse.ok) {
+                emailSent = true;
+            } else {
+                console.error("Error enviando a formsubmit", emailResponse.status);
+            }
+        } catch (e) {
+            console.error("Proxy Formsubmit error:", e.message);
+        }
+
         // --- 7. RESPONSE: CLEAN PAYLOAD ---
         return new Response(JSON.stringify({ 
             success: true, 
+            email_sent: emailSent,
             ai: { ...analysis, lead_id: leadId, lead_score: strategyScore, temperatura: temperatura },
             metadata: { lead_id: leadId, processed_at: new Date().toISOString() }
         }), {
