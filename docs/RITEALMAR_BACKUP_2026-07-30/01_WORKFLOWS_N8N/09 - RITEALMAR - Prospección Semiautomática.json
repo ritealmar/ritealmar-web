@@ -1,0 +1,1013 @@
+{
+  "name": "09 - RITEALMAR - Prospección Semiautomática",
+  "nodes": [
+    {
+      "parameters": {},
+      "type": "n8n-nodes-base.manualTrigger",
+      "typeVersion": 1,
+      "position": [
+        -896,
+        -928
+      ],
+      "id": "6f5dd077-a01c-4831-bbcc-e23522042be1",
+      "name": "01 - Iniciar Prospección Manual"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "046b6afb-aff3-473a-91c1-18ddc2905d57",
+              "name": "sector",
+              "value": "Clínicas dentales",
+              "type": "string"
+            },
+            {
+              "id": "6169f4bc-1fd6-4d3b-8d8f-7607b58e06b0",
+              "name": "ciudad",
+              "value": "Madrid",
+              "type": "string"
+            },
+            {
+              "id": "12a78ff5-9be4-457c-bee1-720e6651d4b6",
+              "name": "pais",
+              "value": "España",
+              "type": "string"
+            },
+            {
+              "id": "4fcb9b6c-e0f7-42bf-a33b-ab020cc821eb",
+              "name": "cantidad",
+              "value": 10,
+              "type": "number"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        -720,
+        -912
+      ],
+      "id": "0c905097-00f9-4bad-b2b7-8b1e5dd717fb",
+      "name": "02 - Definir Criterios de Prospección"
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "https://places.googleapis.com/v1/places:searchText",
+        "authentication": "genericCredentialType",
+        "genericAuthType": "httpHeaderAuth",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "X-Goog-FieldMask",
+              "value": "=places.id,places.displayName,places.formattedAddress,places.websiteUri,places.nationalPhoneNumber"
+            }
+          ]
+        },
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={{ {\n  \"textQuery\": $json.sector + \" en \" + $json.ciudad + \", \" + $json.pais,\n  \"pageSize\": Number($json.cantidad)\n} }}",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.4,
+      "position": [
+        800,
+        -944
+      ],
+      "id": "f24b5e65-9537-431a-a93e-4acaa58a084c",
+      "name": "03X - Google Places - Reserva",
+      "credentials": {
+        "httpHeaderAuth": {
+          "id": "Mt3ewJhNByQk2ptc",
+          "name": "Google Places RITEALMAR n8n"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "https://overpass-api.de/api/interpreter",
+        "sendBody": true,
+        "contentType": "form-urlencoded",
+        "bodyParameters": {
+          "parameters": [
+            {
+              "name": "data",
+              "value": "=[out:json][timeout:60];\n\n(\n  node[\"amenity\"=\"dentist\"](around:5000,40.4168,-3.7038);\n  way[\"amenity\"=\"dentist\"](around:5000,40.4168,-3.7038);\n  relation[\"amenity\"=\"dentist\"](around:5000,40.4168,-3.7038);\n);\n\nout center tags;"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.4,
+      "position": [
+        -528,
+        -896
+      ],
+      "id": "5f21e377-fe41-46b5-a021-208ae7f02f3e",
+      "name": "03 - Buscar Empresas OpenStreetMap",
+      "retryOnFail": true,
+      "waitBetweenTries": 5000
+    },
+    {
+      "parameters": {
+        "fieldToSplitOut": "elements",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.splitOut",
+      "typeVersion": 1,
+      "position": [
+        -368,
+        -896
+      ],
+      "id": "752f3a3d-d0d0-4761-a4ff-d7cc78f6206e",
+      "name": "04 - Separar Empresas Encontradas"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "68320ba4-875c-490c-81aa-601f5da344c4",
+              "name": "Empresa",
+              "value": "={{ $json.tags?.name || $json.tags?.brand || 'Sin nombre' }}",
+              "type": "string"
+            },
+            {
+              "id": "b22147c8-dc95-45dd-8b46-a80c8818852a",
+              "name": "Web",
+              "value": "={{ $json.tags?.website || $json.tags?.['contact:website'] || '' }}",
+              "type": "string"
+            },
+            {
+              "id": "b1e9081a-5127-4cb0-a7ef-e9964f6a440a",
+              "name": "Teléfono",
+              "value": "={{ $json.tags?.phone || $json.tags?.['contact:phone'] || '' }}",
+              "type": "string"
+            },
+            {
+              "id": "38a7d32a-b90c-492b-ae14-5a17c053e453",
+              "name": "Dirección",
+              "value": "={{ [[$json.tags?.['addr:street'], $json.tags?.['addr:housenumber']].filter(Boolean).join(' '), $json.tags?.['addr:postcode'], $json.tags?.['addr:city']].filter(Boolean).join(', ') }}",
+              "type": "string"
+            },
+            {
+              "id": "a71e48dc-12c8-40a5-b6ee-312a617ef492",
+              "name": "Latitud",
+              "value": "={{ $json.lat ?? $json.center?.lat }}",
+              "type": "number"
+            },
+            {
+              "id": "62655088-4c15-48c0-8b63-b7d87a4396ea",
+              "name": "Longitud",
+              "value": "={{ $json.lon ?? $json.center?.lon }}",
+              "type": "number"
+            },
+            {
+              "id": "d9d0198e-7384-45ae-86e9-20a83cef4e89",
+              "name": "ID OpenStreetMap",
+              "value": "={{ $json.type + '/' + $json.id }}",
+              "type": "string"
+            },
+            {
+              "id": "d73e9462-2f72-4308-8cae-f80171f61c96",
+              "name": "Sector",
+              "value": "={{   $json.tags?.amenity === 'dentist' ? 'Clínica dental' :   $json.tags?.office === 'estate_agent' ? 'Inmobiliaria' :   $json.tags?.amenity === 'restaurant' ? 'Restaurante' :   $json.tags?.shop === 'car_repair' ? 'Taller mecánico' :   $json.tags?.shop === 'hairdresser' ? 'Peluquería' :   $json.tags?.shop === 'beauty' ? 'Centro de estética' :   $json.tags?.leisure === 'fitness_centre' ? 'Gimnasio' :   $json.tags?.office === 'lawyer' ? 'Despacho de abogados' :   $json.tags?.office === 'accountant' ? 'Asesoría / Gestoría' :   $json.tags?.tourism === 'hotel' ? 'Hotel' :   'Otros' }}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        -208,
+        -896
+      ],
+      "id": "558bf3f0-a4dc-45d2-8f3c-9bb7ce778b1f",
+      "name": "05 - Normalizar Datos Empresa"
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 3
+          },
+          "conditions": [
+            {
+              "id": "eb588847-4cbc-45e8-a434-1321a20cd2b7",
+              "leftValue": "={{ (($json.Web || '').trim() !== '') || (($json['Teléfono'] || '').toString().trim() !== '') }}",
+              "rightValue": "",
+              "operator": {
+                "type": "boolean",
+                "operation": "true",
+                "singleValue": true
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.filter",
+      "typeVersion": 2.3,
+      "position": [
+        -32,
+        -896
+      ],
+      "id": "39c4130f-427a-4fc6-bac0-3a84b405dd81",
+      "name": "06 - Filtrar Empresas con Datos Comerciales"
+    },
+    {
+      "parameters": {
+        "maxItems": 10
+      },
+      "type": "n8n-nodes-base.limit",
+      "typeVersion": 1,
+      "position": [
+        -704,
+        -480
+      ],
+      "id": "e77def89-930f-4dd7-90a8-6358a4b9a458",
+      "name": "07 - Limitar a 10 Empresas"
+    },
+    {
+      "parameters": {
+        "documentId": {
+          "__rl": true,
+          "value": "https://docs.google.com/spreadsheets/d/1ZshJY8CQWkciFk8T0-3LNeqVuC4lUMMl-l9_DdXvdLY/edit?gid=0#gid=0",
+          "mode": "url"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": "gid=0",
+          "mode": "list",
+          "cachedResultName": "Empresas",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1ZshJY8CQWkciFk8T0-3LNeqVuC4lUMMl-l9_DdXvdLY/edit#gid=0"
+        },
+        "filtersUI": {
+          "values": []
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.7,
+      "position": [
+        144,
+        -896
+      ],
+      "id": "a2ee56f9-78f9-4adb-ab94-143b501d39c2",
+      "name": "08 - Comprobar Empresa en CRM",
+      "alwaysOutputData": false,
+      "executeOnce": true,
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "2CrAO5MHlm3a4UMM",
+          "name": "Google Sheets account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "jsCode": "const candidatas = $('06 - Filtrar Empresas con Datos Comerciales')\n  .all()\n  .map(item => item.json);\n\nconst crm = $input.all().map(item => item.json);\n\nfunction texto(valor) {\n  return String(valor ?? '')\n    .normalize('NFD')\n    .replace(/[\\u0300-\\u036f]/g, '')\n    .toLowerCase()\n    .trim()\n    .replace(/[^a-z0-9]+/g, ' ')\n    .replace(/\\s+/g, ' ')\n    .trim();\n}\n\nfunction dominio(valor) {\n  let web = String(valor ?? '').trim().toLowerCase();\n\n  if (!web) return '';\n\n  try {\n    if (!/^https?:\\/\\//i.test(web)) {\n      web = 'https://' + web;\n    }\n\n    return new URL(web).hostname\n      .replace(/^www\\./, '')\n      .toLowerCase();\n  } catch {\n    return web\n      .replace(/^https?:\\/\\//, '')\n      .replace(/^www\\./, '')\n      .split('/')[0]\n      .trim();\n  }\n}\n\nfunction telefono(valor) {\n  const digitos = String(valor ?? '').replace(/\\D/g, '');\n\n  if (!digitos) return '';\n\n  // En España permite comparar:\n  // +34 911 111 111\n  // con 911111111\n  return digitos.length >= 9\n    ? digitos.slice(-9)\n    : digitos;\n}\n\nconst nombresGenericos = new Set([\n  'clinica dental',\n  'dentista',\n  'dental',\n  'odontologia',\n]);\n\nfunction esDuplicada(candidata) {\n  const nombreCandidato = texto(candidata.Empresa);\n  const webCandidata = dominio(candidata.Web);\n  const telefonoCandidato = telefono(candidata['Teléfono']);\n\n  return crm.some(fila => {\n    const nombreCRM = texto(fila.Empresa);\n    const webCRM = dominio(fila.Web);\n    const telefonoCRM = telefono(fila['Teléfono']);\n\n    const mismaWeb =\n      webCandidata &&\n      webCRM &&\n      webCandidata === webCRM;\n\n    const mismoTelefono =\n      telefonoCandidato &&\n      telefonoCRM &&\n      telefonoCandidato === telefonoCRM;\n\n    const mismoNombre =\n      nombreCandidato &&\n      nombreCRM &&\n      !nombresGenericos.has(nombreCandidato) &&\n      nombreCandidato === nombreCRM;\n\n    return mismaWeb || mismoTelefono || mismoNombre;\n  });\n}\n\nconst nuevas = candidatas.filter(candidata => !esDuplicada(candidata));\n\nreturn nuevas.map(candidata => ({\n  json: candidata,\n}));"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        304,
+        -896
+      ],
+      "id": "1f422418-19c9-4caa-955f-21c2e69b9eab",
+      "name": "09 - Filtrar Empresas Nuevas vs CRM"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "efe3e884-fd9c-451b-b842-27f487f00150",
+              "name": "Fecha Alta",
+              "value": "={{ $now.toFormat('dd/MM/yyyy HH:mm:ss') }}",
+              "type": "string"
+            },
+            {
+              "id": "43962597-36f7-48e2-8523-a59072c127a0",
+              "name": "Empresa",
+              "value": "={{ $json.Empresa }}",
+              "type": "string"
+            },
+            {
+              "id": "5deed456-e4a8-452c-bca3-5e6c856d9c69",
+              "name": "Sector",
+              "value": "={{ $('02 - Definir Criterios de Prospección').first().json.sector }}",
+              "type": "string"
+            },
+            {
+              "id": "58534c0e-73ee-45d2-a2bc-d4e1db4fc701",
+              "name": "Web",
+              "value": "={{ $json.Web || '' }}",
+              "type": "string"
+            },
+            {
+              "id": "4f9b371c-a418-4dd9-af14-ad3329efa9c8",
+              "name": "Email",
+              "value": "",
+              "type": "string"
+            },
+            {
+              "id": "c3c17014-27c3-4f8e-88ae-5c1f3482fd60",
+              "name": "Teléfono",
+              "value": "={{ String($json['Teléfono'] || '').replace(/\\D/g, '') }}",
+              "type": "string"
+            },
+            {
+              "id": "fcd0e68d-ff4e-4c1a-a5fc-63c81e688a23",
+              "name": "Ciudad",
+              "value": "={{ $('02 - Definir Criterios de Prospección').first().json.ciudad }}",
+              "type": "string"
+            },
+            {
+              "id": "42a2d21a-081a-497d-98eb-d7d09abe5f0d",
+              "name": "Provincia",
+              "value": "={{ $('02 - Definir Criterios de Prospección').first().json.ciudad }}",
+              "type": "string"
+            },
+            {
+              "id": "9fbbbd09-76f7-4339-8803-d594181a34e5",
+              "name": "País",
+              "value": "={{ $('02 - Definir Criterios de Prospección').first().json.pais }}",
+              "type": "string"
+            },
+            {
+              "id": "70d9b1b3-b59a-4481-9ad7-24fb6d606656",
+              "name": "Estado",
+              "value": "Nuevo",
+              "type": "string"
+            },
+            {
+              "id": "19013bbc-ca1b-4286-870a-bdb4f04c4630",
+              "name": "Prioridad",
+              "value": "Media",
+              "type": "string"
+            },
+            {
+              "id": "50e68a9b-8358-4788-b151-acd32d330870",
+              "name": "Origen Lead",
+              "value": "Prospección",
+              "type": "string"
+            },
+            {
+              "id": "ee9a5580-117c-4728-83fa-2461e8d7b280",
+              "name": "Campaña",
+              "value": "={{ 'Prospección n8n - ' + $('02 - Definir Criterios de Prospección').first().json.sector + ' - ' + $('02 - Definir Criterios de Prospección').first().json.ciudad }}",
+              "type": "string"
+            },
+            {
+              "id": "03b7eec9-7744-4810-bd63-c2131fc81113",
+              "name": "Notas",
+              "value": "={{ 'Prospecto encontrado mediante OpenStreetMap. ID OSM: ' + $json['ID OpenStreetMap'] + ($json['Dirección'] ? ' | Dirección: ' + $json['Dirección'] : '') + ' | Coordenadas: ' + $json.Latitud + ', ' + $json.Longitud + ' | Pendiente de revisión humana antes de contacto.' }}",
+              "type": "string"
+            },
+            {
+              "id": "9d3c8e3c-e414-4e5a-90b8-ffc42457c017",
+              "name": "Fecha Actualización",
+              "value": "={{ $now.toFormat('dd/MM/yyyy HH:mm:ss') }}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        -544,
+        -480
+      ],
+      "id": "453e25aa-35cc-49d6-a77e-67d0a9365f9c",
+      "name": "10 - Preparar Empresas para CRM"
+    },
+    {
+      "parameters": {
+        "operation": "append",
+        "documentId": {
+          "__rl": true,
+          "value": "https://docs.google.com/spreadsheets/d/1ZshJY8CQWkciFk8T0-3LNeqVuC4lUMMl-l9_DdXvdLY/edit?gid=0#gid=0",
+          "mode": "url"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": "gid=0",
+          "mode": "list",
+          "cachedResultName": "Empresas",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1ZshJY8CQWkciFk8T0-3LNeqVuC4lUMMl-l9_DdXvdLY/edit#gid=0"
+        },
+        "columns": {
+          "mappingMode": "autoMapInputData",
+          "value": {},
+          "matchingColumns": [],
+          "schema": [
+            {
+              "id": "Fecha Alta",
+              "displayName": "Fecha Alta",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Empresa",
+              "displayName": "Empresa",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Sector",
+              "displayName": "Sector",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Web",
+              "displayName": "Web",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Email",
+              "displayName": "Email",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Teléfono",
+              "displayName": "Teléfono",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Persona contacto",
+              "displayName": "Persona contacto",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Cargo",
+              "displayName": "Cargo",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Ciudad",
+              "displayName": "Ciudad",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Provincia",
+              "displayName": "Provincia",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "País",
+              "displayName": "País",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Estado",
+              "displayName": "Estado",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Prioridad",
+              "displayName": "Prioridad",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Origen Lead",
+              "displayName": "Origen Lead",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Campaña",
+              "displayName": "Campaña",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Último Contacto",
+              "displayName": "Último Contacto",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Próximo Seguimiento",
+              "displayName": "Próximo Seguimiento",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Respuesta",
+              "displayName": "Respuesta",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Interés",
+              "displayName": "Interés",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Servicio recomendado",
+              "displayName": "Servicio recomendado",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Importe (€)",
+              "displayName": "Importe (€)",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Thread Gmail",
+              "displayName": "Thread Gmail",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Message ID",
+              "displayName": "Message ID",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Calendly",
+              "displayName": "Calendly",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "WhatsApp",
+              "displayName": "WhatsApp",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Auditoría IA",
+              "displayName": "Auditoría IA",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Notas",
+              "displayName": "Notas",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Fecha Actualización",
+              "displayName": "Fecha Actualización",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Consentimiento",
+              "displayName": "Consentimiento",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Tipo formulario",
+              "displayName": "Tipo formulario",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Página origen",
+              "displayName": "Página origen",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.7,
+      "position": [
+        -112,
+        -480
+      ],
+      "id": "b1829f47-1524-4f2f-b088-361dfcb783f9",
+      "name": "11 - Guardar Prospectos Nuevos en CRM",
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "2CrAO5MHlm3a4UMM",
+          "name": "Google Sheets account"
+        }
+      }
+    },
+    {
+      "parameters": {},
+      "type": "n8n-nodes-base.limit",
+      "typeVersion": 1,
+      "position": [
+        528,
+        -944
+      ],
+      "id": "6d92913a-b4e2-4fc6-855a-a44b2fddb3b5",
+      "name": "10A - Prueba CRM - Solo 1 Empresa"
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 3
+          },
+          "conditions": [
+            {
+              "id": "d8137ab3-8295-4b1e-a882-205885164145",
+              "leftValue": "={{\n  (() => {\n    const marcas = ['sanitas', 'adeslas', 'vitaldent', 'dentix'];\n\n    const texto = `${$json.Empresa || ''} ${$json.Web || ''}`\n      .normalize('NFD')\n      .replace(/[\\u0300-\\u036f]/g, '')\n      .toLowerCase();\n\n    return !marcas.some(marca => texto.includes(marca));\n  })()\n}}",
+              "rightValue": "",
+              "operator": {
+                "type": "boolean",
+                "operation": "true",
+                "singleValue": true
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.filter",
+      "typeVersion": 2.3,
+      "position": [
+        304,
+        -752
+      ],
+      "id": "1e7bd78c-3c6d-4d0e-9be8-98117db9015c",
+      "name": "09A - Excluir Cadenas No Objetivo"
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 3
+          },
+          "conditions": [
+            {
+              "id": "befd93d5-3ef8-4067-a35e-51fb5aec6813",
+              "leftValue": "={{\n  (() => {\n    const nombre = String($json.Empresa || '')\n      .normalize('NFD')\n      .replace(/[\\u0300-\\u036f]/g, '')\n      .toLowerCase()\n      .trim();\n\n    return nombre !== '' &&\n      ![\n        'sin nombre',\n        'clinica dental',\n        'dentista',\n        'dentista madrid',\n        'dental'\n      ].includes(nombre);\n  })()\n}}",
+              "rightValue": "",
+              "operator": {
+                "type": "boolean",
+                "operation": "true",
+                "singleValue": true
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.filter",
+      "typeVersion": 2.3,
+      "position": [
+        496,
+        -752
+      ],
+      "id": "4e4fd07c-ef77-4fc3-b8ce-a3dd3215084a",
+      "name": "09B - Excluir Nombres Genéricos"
+    },
+    {
+      "parameters": {
+        "jsCode": "const items = $input.all();\n\nreturn items.map(item => {\n  const datos = item.json;\n\n  const web = String(datos.Web || '').trim();\n  const telefono = String(datos['Teléfono'] || '').trim();\n  const email = String(datos.Email || '').trim();\n\n  return {\n    json: {\n      ...datos,\n\n      'Tiene Web': web !== '',\n      'Tiene Teléfono': telefono !== '',\n      'Tiene Email': email !== '',\n\n      'Estado Revisión': 'Pendiente',\n\n      'Acción Revisión': web !== ''\n        ? 'Analizar web y detectar oportunidad'\n        : 'Buscar web o información comercial pública'\n    }\n  };\n});"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        -400,
+        -288
+      ],
+      "id": "df70df7e-7d96-47ac-9d6c-3e6afad29251",
+      "name": "12 - Preparar Revisión Comercial"
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "01 - Iniciar Prospección Manual": {
+      "main": [
+        [
+          {
+            "node": "02 - Definir Criterios de Prospección",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "02 - Definir Criterios de Prospección": {
+      "main": [
+        [
+          {
+            "node": "03 - Buscar Empresas OpenStreetMap",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "03 - Buscar Empresas OpenStreetMap": {
+      "main": [
+        [
+          {
+            "node": "04 - Separar Empresas Encontradas",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "04 - Separar Empresas Encontradas": {
+      "main": [
+        [
+          {
+            "node": "05 - Normalizar Datos Empresa",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "05 - Normalizar Datos Empresa": {
+      "main": [
+        [
+          {
+            "node": "06 - Filtrar Empresas con Datos Comerciales",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "06 - Filtrar Empresas con Datos Comerciales": {
+      "main": [
+        [
+          {
+            "node": "08 - Comprobar Empresa en CRM",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "07 - Limitar a 10 Empresas": {
+      "main": [
+        [
+          {
+            "node": "10 - Preparar Empresas para CRM",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "08 - Comprobar Empresa en CRM": {
+      "main": [
+        [
+          {
+            "node": "09 - Filtrar Empresas Nuevas vs CRM",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "09 - Filtrar Empresas Nuevas vs CRM": {
+      "main": [
+        [
+          {
+            "node": "09A - Excluir Cadenas No Objetivo",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "10 - Preparar Empresas para CRM": {
+      "main": [
+        [
+          {
+            "node": "11 - Guardar Prospectos Nuevos en CRM",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "12 - Preparar Revisión Comercial",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "10A - Prueba CRM - Solo 1 Empresa": {
+      "main": [
+        []
+      ]
+    },
+    "09A - Excluir Cadenas No Objetivo": {
+      "main": [
+        [
+          {
+            "node": "09B - Excluir Nombres Genéricos",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "09B - Excluir Nombres Genéricos": {
+      "main": [
+        [
+          {
+            "node": "07 - Limitar a 10 Empresas",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "11 - Guardar Prospectos Nuevos en CRM": {
+      "main": [
+        []
+      ]
+    },
+    "12 - Preparar Revisión Comercial": {
+      "main": [
+        []
+      ]
+    }
+  },
+  "active": false,
+  "settings": {
+    "executionOrder": "v1",
+    "binaryMode": "separate",
+    "availableInMCP": false
+  },
+  "versionId": "ad7b0d7a-89f8-463c-9812-4dd7fe7334ce",
+  "meta": {
+    "templateCredsSetupCompleted": true,
+    "instanceId": "f7d1fc1ea290ea7f52cbc1fba9695e0040cad9fb7f2e7953cd729a6d6d25fc46"
+  },
+  "nodeGroups": [],
+  "id": "BoHZfBe1u59JnFHu",
+  "tags": []
+}

@@ -1,0 +1,649 @@
+{
+  "name": "04 - RITEALMAR - Rebotes Email CRM",
+  "nodes": [
+    {
+      "id": "39e4a043-3c83-42dc-902f-f8efdbbe3e01",
+      "name": "01 - Detectar Rebote Email",
+      "type": "n8n-nodes-base.gmailTrigger",
+      "typeVersion": 1.4,
+      "position": [
+        -352,
+        0
+      ],
+      "parameters": {
+        "pollTimes": {
+          "item": [
+            {
+              "mode": "everyMinute"
+            }
+          ]
+        },
+        "filters": {
+          "includeSpamTrash": true,
+          "q": "from:mailer-daemon@kundenserver.de to:info@ritealmar.es subject:\"Mail delivery failed\""
+        }
+      },
+      "credentials": {
+        "gmailOAuth2": {
+          "id": "oHx5yN5iz2GLZ8DP",
+          "name": "Gmail account"
+        }
+      },
+      "webhookId": null,
+      "notes": null,
+      "notesInFlow": null,
+      "executeOnce": null,
+      "retryOnFail": null,
+      "alwaysOutputData": null,
+      "onError": null
+    },
+    {
+      "id": "89cee613-af00-4f5d-9582-da1ee4648110",
+      "name": "02 - Extraer Email Rebotado",
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        -160,
+        0
+      ],
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "7c5c3353-2454-403b-8338-949d4389dbbf",
+              "name": "=email_rebotado",
+              "value": "={{ (($json[\"snippet\"] || \"\").match(/[A-Z0-9._%+-]+@[A-Z0-9.-]+\\.[A-Z]{2,}/i) || [\"\"])[0].toLowerCase() }}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "credentials": null,
+      "webhookId": null,
+      "notes": null,
+      "notesInFlow": null,
+      "executeOnce": null,
+      "retryOnFail": null,
+      "alwaysOutputData": null,
+      "onError": null
+    },
+    {
+      "id": "3ad45cb8-1a7d-4dfc-97e8-480675febb46",
+      "name": "03 - Buscar Email Rebotado en CRM",
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.7,
+      "position": [
+        16,
+        0
+      ],
+      "parameters": {
+        "documentId": {
+          "__rl": true,
+          "value": "https://docs.google.com/spreadsheets/d/1ZshJY8CQWkciFk8T0-3LNeqVuC4lUMMl-l9_DdXvdLY/edit?gid=0#gid=0",
+          "mode": "url"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": "gid=0",
+          "mode": "list",
+          "cachedResultName": "Empresas",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1ZshJY8CQWkciFk8T0-3LNeqVuC4lUMMl-l9_DdXvdLY/edit#gid=0"
+        },
+        "filtersUI": {
+          "values": [
+            {
+              "lookupColumn": "=Email",
+              "lookupValue": "={{ $json[\"email_rebotado\"] }}"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "2CrAO5MHlm3a4UMM",
+          "name": "Google Sheets account"
+        }
+      },
+      "webhookId": null,
+      "notes": null,
+      "notesInFlow": null,
+      "executeOnce": null,
+      "retryOnFail": null,
+      "alwaysOutputData": null,
+      "onError": null
+    },
+    {
+      "id": "6f21cf4f-7671-4733-bc4b-80ab2ae3a221",
+      "name": "04 - Marcar Email con Rebote",
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.7,
+      "position": [
+        192,
+        0
+      ],
+      "parameters": {
+        "operation": "update",
+        "documentId": {
+          "__rl": true,
+          "value": "https://docs.google.com/spreadsheets/d/1ZshJY8CQWkciFk8T0-3LNeqVuC4lUMMl-l9_DdXvdLY/edit?gid=0#gid=0",
+          "mode": "url"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": "gid=0",
+          "mode": "list",
+          "cachedResultName": "Empresas",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1ZshJY8CQWkciFk8T0-3LNeqVuC4lUMMl-l9_DdXvdLY/edit#gid=0"
+        },
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "row_number": "={{ $json[\"row_number\"] }}",
+            "Estado": "Email con rebote",
+            "Próximo Seguimiento": "={{ \"\" }}",
+            "Fecha Actualización": "={{ $now.toFormat(\"dd/MM/yyyy\") }}",
+            "Respuesta": "Rebote"
+          },
+          "matchingColumns": [
+            "row_number"
+          ],
+          "schema": [
+            {
+              "id": "Fecha Alta",
+              "displayName": "Fecha Alta",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Empresa",
+              "displayName": "Empresa",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Sector",
+              "displayName": "Sector",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Web",
+              "displayName": "Web",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Email",
+              "displayName": "Email",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Teléfono",
+              "displayName": "Teléfono",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Persona contacto",
+              "displayName": "Persona contacto",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Cargo",
+              "displayName": "Cargo",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Ciudad",
+              "displayName": "Ciudad",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Provincia",
+              "displayName": "Provincia",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "País",
+              "displayName": "País",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Estado",
+              "displayName": "Estado",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Prioridad",
+              "displayName": "Prioridad",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Origen Lead",
+              "displayName": "Origen Lead",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Campaña",
+              "displayName": "Campaña",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Último Contacto",
+              "displayName": "Último Contacto",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Próximo Seguimiento",
+              "displayName": "Próximo Seguimiento",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Respuesta",
+              "displayName": "Respuesta",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Interés",
+              "displayName": "Interés",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Servicio recomendado",
+              "displayName": "Servicio recomendado",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Importe (€)",
+              "displayName": "Importe (€)",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Thread Gmail",
+              "displayName": "Thread Gmail",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Message ID",
+              "displayName": "Message ID",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Calendly",
+              "displayName": "Calendly",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "WhatsApp",
+              "displayName": "WhatsApp",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Auditoría IA",
+              "displayName": "Auditoría IA",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Notas",
+              "displayName": "Notas",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Fecha Actualización",
+              "displayName": "Fecha Actualización",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Consentimiento",
+              "displayName": "Consentimiento",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Tipo formulario",
+              "displayName": "Tipo formulario",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Página origen",
+              "displayName": "Página origen",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "row_number",
+              "displayName": "row_number",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "number",
+              "canBeUsedToMatch": true,
+              "readOnly": true,
+              "removed": false
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        },
+        "options": {}
+      },
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "2CrAO5MHlm3a4UMM",
+          "name": "Google Sheets account"
+        }
+      },
+      "webhookId": null,
+      "notes": null,
+      "notesInFlow": null,
+      "executeOnce": null,
+      "retryOnFail": null,
+      "alwaysOutputData": null,
+      "onError": null
+    },
+    {
+      "id": "c5c8f54c-a2c8-4c33-b61e-9d1c3c5cd2c6",
+      "name": "05 - Registrar Rebote",
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.7,
+      "position": [
+        400,
+        0
+      ],
+      "parameters": {
+        "operation": "append",
+        "documentId": {
+          "__rl": true,
+          "value": "https://docs.google.com/spreadsheets/d/1ZshJY8CQWkciFk8T0-3LNeqVuC4lUMMl-l9_DdXvdLY/edit?gid=0#gid=0",
+          "mode": "url"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": 1544669816,
+          "mode": "list",
+          "cachedResultName": "Rebotes",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1ZshJY8CQWkciFk8T0-3LNeqVuC4lUMMl-l9_DdXvdLY/edit#gid=1544669816"
+        },
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "Fecha": "={{ $now.toFormat(\"dd/MM/yyyy\") }}",
+            "Empresa": "={{ $('03 - Buscar Email Rebotado en CRM').item.json[\"Empresa\"] }}",
+            "Email rebotado": "={{ $('02 - Extraer Email Rebotado').item.json[\"email_rebotado\"] }}",
+            "Motivo": "={{ $('01 - Detectar Rebote Email').item.json[\"Subject\"] }}",
+            "Notas": "={{ $('01 - Detectar Rebote Email').item.json[\"snippet\"] }}"
+          },
+          "matchingColumns": [],
+          "schema": [
+            {
+              "id": "Fecha",
+              "displayName": "Fecha",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Empresa",
+              "displayName": "Empresa",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Email rebotado",
+              "displayName": "Email rebotado",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Motivo",
+              "displayName": "Motivo",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Acción",
+              "displayName": "Acción",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Revisado",
+              "displayName": "Revisado",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Notas",
+              "displayName": "Notas",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        },
+        "options": {}
+      },
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "2CrAO5MHlm3a4UMM",
+          "name": "Google Sheets account"
+        }
+      },
+      "webhookId": null,
+      "notes": null,
+      "notesInFlow": null,
+      "executeOnce": null,
+      "retryOnFail": null,
+      "alwaysOutputData": null,
+      "onError": null
+    }
+  ],
+  "connections": {
+    "01 - Detectar Rebote Email": {
+      "main": [
+        [
+          {
+            "node": "02 - Extraer Email Rebotado",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "02 - Extraer Email Rebotado": {
+      "main": [
+        [
+          {
+            "node": "03 - Buscar Email Rebotado en CRM",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "03 - Buscar Email Rebotado en CRM": {
+      "main": [
+        [
+          {
+            "node": "04 - Marcar Email con Rebote",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "04 - Marcar Email con Rebote": {
+      "main": [
+        [
+          {
+            "node": "05 - Registrar Rebote",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "settings": {
+    "executionOrder": "v1",
+    "binaryMode": "separate",
+    "availableInMCP": false,
+    "errorWorkflow": "R8GxZkAxRmHhAJwY"
+  },
+  "staticData": {
+    "node:01 - Detectar Rebote Email": {
+      "01 - Detectar Rebote Email": {
+        "lastTimeChecked": 1785240489,
+        "possibleDuplicates": [
+          "19fa8a00e9762dec",
+          "19fa8573528f7a23"
+        ]
+      }
+    }
+  },
+  "pinData": {},
+  "triggerCount": 1,
+  "meta": {
+    "templateCredsSetupCompleted": true
+  }
+}

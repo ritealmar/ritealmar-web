@@ -1,0 +1,76 @@
+{
+  "project": "RITEALMAR Web",
+  "date": "2026-07-22",
+  "tasks": [
+    {
+      "id": "files_review",
+      "title": "Revisar archivos clave",
+      "description": "Verificar contenido y seguridad de archivos: src/App.tsx, src/index.css, package.json, wrangler.toml, firebase-functions/index.js, worker.ts",
+      "expected": "Confirmar presencia, revisar secrets en código, validar rutas y metadatos SEO",
+      "severity": "high"
+    },
+    {
+      "id": "routes_and_pages",
+      "title": "Comprobar rutas y páginas",
+      "description": "Validar que todas las rutas listadas en App.tsx existen y son indexables. Chequear sitemap.xml y metas.",
+      "expected": "Mapeo completo de rutas, estado (ok/missing), recomendaciones SEO",
+      "severity": "medium"
+    },
+    {
+      "id": "secrets_and_env",
+      "title": "Variables y secrets",
+      "description": "Ubicar uso de GEMINI_API_KEY, RESEND_API_KEY, otros. Asegurar que no están en el repo y están en secrets de Cloudflare/Firebase.",
+      "expected": "Listado de variables encontradas y recomendación de mover a secretos",
+      "severity": "critical"
+    },
+    {
+      "id": "privacy_and_consent",
+      "title": "Flujo de consentimiento",
+      "description": "Revisar CookieBanner, updateConsentMode, uso de GA; comprobar que analytics se activa solo tras consentimiento.",
+      "expected": "Confirmación de comportamiento correcto y sugerencias legales/tech",
+      "severity": "high"
+    },
+    {
+      "id": "performance",
+      "title": "Rendimiento",
+      "description": "Auditar imágenes, fonts y third-party scripts (GA, Calendly). Sugerir optimizaciones para LCP/CLS/TBT.",
+      "expected": "Lista de puntos a optimizar y estimación de impacto",
+      "severity": "medium"
+    },
+    {
+      "id": "accessibility",
+      "title": "Accesibilidad",
+      "description": "Ejecutar checks básicos: contraste, focus states, skip links, roles en modales.",
+      "expected": "Listado de hallazgos y priorización",
+      "severity": "medium"
+    },
+    {
+      "id": "security",
+      "title": "Seguridad",
+      "description": "Revisar endpoints serverless, CORS policies, validación de inputs y límites de uso para APIs generativas.",
+      "expected": "Recomendaciones para hardening y prevención de abusos",
+      "severity": "high"
+    },
+    {
+      "id": "seo",
+      "title": "SEO técnico",
+      "description": "Comprobar titles, metas, JSON-LD, sitemap y robots.txt; revisar estructura de headings y velocidad móvil/desktop.",
+      "expected": "Checklist SEO y acciones prioritarias",
+      "severity": "medium"
+    },
+    {
+      "id": "integrations",
+      "title": "Integraciones",
+      "description": "Verificar integración con Calendly, WhatsApp, Firebase, Cloudflare Workers, y APIs externas.",
+      "expected": "Estado y riesgos por integración",
+      "severity": "medium"
+    },
+    {
+      "id": "build_and_deploy",
+      "title": "Build y despliegue",
+      "description": "Revisar scripts: npm run build, publish via wrangler; confirmar CI/CD y pasos necesarios para despliegue.",
+      "expected": "Instrucciones reproducibles para despliegue",
+      "severity": "low"
+    }
+  ]
+}

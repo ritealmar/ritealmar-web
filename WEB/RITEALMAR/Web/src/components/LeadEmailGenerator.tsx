@@ -122,11 +122,7 @@ https://ritealmar.es`;
   };
 
   const handleSaveToSheets = async () => {
-    const webhookUrl = import.meta.env.VITE_GOOGLE_SHEETS_WEBHOOK_URL;
-    if (!webhookUrl) {
-      alert("Configura VITE_GOOGLE_SHEETS_WEBHOOK_URL para activar el guardado automático.");
-      return;
-    }
+    const endpoint = '/api/save-to-sheets';
 
     setIsSaving(true);
     setSaveStatus('idle');
@@ -147,8 +143,9 @@ https://ritealmar.es`;
         observacion: formData.observacion
       };
 
-      const response = await fetch(webhookUrl, {
+      const response = await fetch(endpoint, {
         method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(payload),
       });
 

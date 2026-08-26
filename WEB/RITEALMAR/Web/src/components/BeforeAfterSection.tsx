@@ -57,7 +57,7 @@ export default function BeforeAfterSection() {
         {/* Tabla / Tarjetas Comparativas */}
         <div className="space-y-4 mb-16">
           {/* Header Oculto en Móvil, visible en Desktop */}
-          <div className="hidden md:grid grid-cols-[1fr_auto_1fr] gap-6 items-center px-8 pb-4 border-b border-white/10 text-sm font-bold uppercase tracking-widest text-slate-400">
+          <div className="hidden lg:grid grid-cols-[1fr_auto_1fr] gap-6 items-center px-8 pb-4 border-b border-white/10 text-sm font-bold uppercase tracking-widest text-slate-400">
             <div>El Problema (Antes)</div>
             <div className="w-8"></div>
             <div>La Solución (Después)</div>
@@ -71,18 +71,18 @@ export default function BeforeAfterSection() {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true, margin: "-50px" }}
               transition={{ duration: 0.5, delay: index * 0.1 }}
-              className="group flex flex-col md:grid md:grid-cols-[1fr_auto_1fr] gap-4 md:gap-6 items-center bg-[#0A1628]/50 hover:bg-[#0A1628] border border-white/5 hover:border-white/10 p-6 md:px-8 md:py-6 rounded-2xl transition-all"
+              className="group flex flex-col lg:grid lg:grid-cols-[1fr_auto_1fr] gap-4 lg:gap-6 items-center bg-[#0A1628]/50 hover:bg-[#0A1628] border border-white/5 hover:border-white/10 p-6 lg:px-8 lg:py-6 rounded-2xl transition-all"
             >
               {/* Antes */}
               <div className="w-full flex items-center gap-4 text-slate-400 opacity-80 group-hover:opacity-100 transition-opacity">
                 <div className="w-10 h-10 rounded-full bg-rose-500/10 flex items-center justify-center shrink-0 border border-rose-500/20">
                   <X className="text-rose-400 w-5 h-5" />
                 </div>
-                <span className="font-medium text-[15px] md:text-lg">{item.before}</span>
+                <span className="font-medium text-base md:text-lg">{item.before}</span>
               </div>
 
               {/* Conector */}
-              <div className="shrink-0 flex items-center justify-center rotate-90 md:rotate-0 my-2 md:my-0">
+              <div className="shrink-0 flex items-center justify-center rotate-90 lg:rotate-0 my-2 lg:my-0">
                 <div className="w-8 h-8 rounded-full bg-white/5 border border-white/10 flex items-center justify-center text-slate-400 group-hover:text-cyan-400 group-hover:border-cyan-500/30 transition-all shadow-[0_0_15px_rgba(0,212,255,0)] group-hover:shadow-[0_0_15px_rgba(0,212,255,0.2)]">
                   <ArrowRight className="w-4 h-4" />
                 </div>
@@ -93,7 +93,7 @@ export default function BeforeAfterSection() {
                 <div className="w-10 h-10 rounded-full bg-cyan-500/10 flex items-center justify-center shrink-0 border border-cyan-500/20 shadow-[0_0_15px_rgba(0,212,255,0.15)] group-hover:shadow-[0_0_20px_rgba(0,212,255,0.4)] transition-all">
                   <Check className="text-cyan-400 w-5 h-5" />
                 </div>
-                <span className="font-bold text-[15px] md:text-lg text-slate-100 group-hover:text-white transition-colors">{item.after}</span>
+                <span className="font-bold text-base md:text-lg text-slate-100 group-hover:text-white transition-colors">{item.after}</span>
               </div>
             </motion.div>
           ))}

@@ -15,7 +15,10 @@ const DashboardSimulation = () => (
         <div className="w-3 h-3 rounded-full bg-yellow-500/50" />
         <div className="w-3 h-3 rounded-full bg-green-500/50" />
       </div>
-      <div className="text-[10px] uppercase tracking-widest text-[#00D4FF] font-bold">RITEALMAR CORE</div>
+      <div className="flex items-center gap-3">
+        <span className="text-[10px] text-slate-400 italic font-medium">Ejemplo de dashboard</span>
+        <div className="text-[10px] uppercase tracking-widest text-[#00D4FF] font-bold">RITEALMAR CORE</div>
+      </div>
     </div>
     
     <div className="grid grid-cols-3 gap-4 mb-8">
@@ -62,7 +65,7 @@ export default function Hero({ onOpenCalendly = () => {} }: HeroProps) {
   };
 
   return (
-    <section className="relative min-h-screen flex flex-col justify-center lg:justify-start overflow-hidden bg-[#030712] pt-24 lg:pt-40 pb-20">
+    <section className="relative lg:min-h-screen flex flex-col justify-start overflow-hidden bg-[#030712] pt-28 lg:pt-40 pb-12 lg:pb-20">
       
       {/* 🚀 HERO CONTAINER V2: Sistema de iluminación Neon y Grid Digital */}
       <div className="absolute top-0 right-[-5%] w-[600px] h-[600px] bg-cyan-500/20 blur-[80px] rounded-full pointer-events-none hidden lg:block translate-z-0" />
@@ -71,24 +74,24 @@ export default function Hero({ onOpenCalendly = () => {} }: HeroProps) {
       {/* Malla de Rejilla Tecnológica (Estructura de Ingeniería) */}
       <div className="absolute inset-0 bg-[linear-gradient(rgba(255,255,255,0.05)_1px,transparent_1px),linear-gradient(90deg,rgba(255,255,255,0.05)_1px,transparent_1px)] bg-[size:4rem_4rem] [mask-image:radial-gradient(ellipse_60%_60%_at_50%_50%,#000_70%,transparent_100%)] pointer-events-none z-0 translate-z-0 hidden lg:block" />
 
-      <div className="container mx-auto max-w-7xl px-6 grid lg:grid-cols-2 gap-16 items-center relative z-10 mt-10 lg:mt-0">
+      <div className="container mx-auto max-w-7xl px-6 grid lg:grid-cols-2 gap-16 items-center relative z-10 mt-0">
         
         {/* Left Typography Column (LCP Critical - No JS animations to prevent blocking) */}
         <div className="w-full">
           <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-[#00D4FF]/5 border border-[#00D4FF]/20 text-xs font-bold text-[#00D4FF] uppercase tracking-widest mb-6">
-            <Sparkles size={14} aria-hidden="true" /> Soluciones Tecnológicas Empresariales
+            <Sparkles size={14} aria-hidden="true" /> Automatización para PYMES
           </div>
           
           <h1 className="text-3xl sm:text-5xl lg:text-5xl font-black leading-tight tracking-tight mb-6 text-white lg:min-h-[160px]">
-            Automatizamos tu empresa con <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#00D4FF] to-[#FF006E]">IA, software y sistemas</span> que venden por ti
+            Automatizamos las tareas repetitivas de tu empresa para que <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#00D4FF] to-[#FF006E]">vuelvas a vender</span>
           </h1>
           
           <p className="text-lg sm:text-xl text-slate-300 leading-relaxed mb-4 max-w-xl font-medium lg:min-h-[80px]">
-            Creamos webs, agentes de IA, automatizaciones y aplicaciones empresariales para reducir tareas manuales, captar más clientes y escalar tu negocio sin complicarte con la tecnología.
+            Diseño web, CRMs y asistentes de IA que ahorran horas a tu equipo cada semana. Implementación rápida, sin tecnicismos y con retorno desde el primer mes.
           </p>
           
           <p className="text-sm text-slate-400 font-medium mb-10 max-w-xl border-l-2 border-[#00D4FF]/30 pl-4 lg:min-h-[40px]">
-            Especialistas en soluciones digitales para PYMEs, clínicas, inmobiliarias, e-commerce y empresas de servicios.
+            ✓ Sin cuotas ocultas | ✓ Proyectos llave en mano | ✓ Soporte continuo
           </p>
           
           <div className="flex flex-col sm:flex-row gap-5 mt-4">
@@ -96,13 +99,12 @@ export default function Hero({ onOpenCalendly = () => {} }: HeroProps) {
               href="#contacto" 
               onClick={(e) => {
                 e.preventDefault();
-                trackEvent('click_auditoria_gratis', { event_label: 'Botón auditoría gratuita' });
-                trackEvent('click_solicitar_auditoria_ia', { event_label: 'Botón auditoría gratuita' });
+                trackEvent('cta_primary_click', { cta_text: 'Solicitar auditoría gratuita', cta_location: 'hero', page_path: window.location.pathname });
                 window.location.href = '/auditoria-ia-gratis';
               }}
               className="btn-primary group w-full sm:w-auto"
             >
-              Solicitar auditoría IA gratuita <ArrowRight size={18} className="group-hover:translate-x-1 transition-transform" />
+              Solicitar auditoría gratuita <ArrowRight size={18} className="group-hover:translate-x-1 transition-transform" />
             </a>
             <a 
               href="#servicios" 

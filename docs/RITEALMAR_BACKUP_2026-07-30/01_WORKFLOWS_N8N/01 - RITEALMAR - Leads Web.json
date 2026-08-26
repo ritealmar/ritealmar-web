@@ -1,0 +1,932 @@
+{
+  "name": "01 - RITEALMAR - Leads Web",
+  "nodes": [
+    {
+      "parameters": {
+        "httpMethod": "POST",
+        "path": "75ce7d97-f724-4d2c-9b2e-dd35634462d9",
+        "authentication": "headerAuth",
+        "options": {}
+      },
+      "id": "ebe2da9a-cf8d-439a-b957-44d58188849b",
+      "name": "01 - Recibir Lead Web",
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 2.1,
+      "position": [
+        -816,
+        -224
+      ],
+      "webhookId": "75ce7d97-f724-4d2c-9b2e-dd35634462d9",
+      "notesInFlow": null,
+      "executeOnce": null,
+      "retryOnFail": null,
+      "alwaysOutputData": null,
+      "credentials": {
+        "httpHeaderAuth": {
+          "id": "252APClI6Lf1OY2L",
+          "name": "Header Auth account"
+        }
+      },
+      "onError": null,
+      "notes": null
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "3a53bd21-cc4b-48c8-87fe-0cc93b5dc255",
+              "name": "nombre",
+              "value": "={{ $json.body.nombre }}",
+              "type": "string"
+            },
+            {
+              "id": "c2e3d702-6fc9-4a61-aeef-db48d3753013",
+              "name": "empresa",
+              "value": "={{ $json.body.empresa }}",
+              "type": "string"
+            },
+            {
+              "id": "b031706b-ad56-4d77-9511-ae220dc42e52",
+              "name": "email",
+              "value": "={{ $json.body.email }}",
+              "type": "string"
+            },
+            {
+              "id": "b0418109-1018-4292-b140-1f3e7dca0b40",
+              "name": "telefono",
+              "value": "={{ $json.body.telefono }}",
+              "type": "string"
+            },
+            {
+              "id": "523ad43c-61bd-4a7b-9d36-f59aae80b761",
+              "name": "sector",
+              "value": "={{ $json.body.sector }}",
+              "type": "string"
+            },
+            {
+              "id": "1796f2ec-6726-4166-ae89-ff67cd0b0aa6",
+              "name": "servicio",
+              "value": "={{ $json.body.servicio }}",
+              "type": "string"
+            },
+            {
+              "id": "2a84ecac-f5e7-4cf8-a483-c5a953a1f523",
+              "name": "mensaje",
+              "value": "={{ $json.body.mensaje }}",
+              "type": "string"
+            },
+            {
+              "id": "ff8ce20f-4c74-4a32-aab6-049ab4e4631f",
+              "name": "tipo_formulario",
+              "value": "={{ $json.body.tipo_formulario }}",
+              "type": "string"
+            },
+            {
+              "id": "52b6278c-ea3c-46e2-8a71-2216b7e1c31c",
+              "name": "pagina_origen",
+              "value": "={{ $json.body.pagina_origen }}",
+              "type": "string"
+            },
+            {
+              "id": "433b9335-9b57-470c-a433-7c25f8352cf2",
+              "name": "consentimiento",
+              "value": "={{ $json.body.consentimiento === true || $json.body.consentimiento === \"true\" }}",
+              "type": "boolean"
+            },
+            {
+              "id": "c10e4730-946a-4c29-bd60-0e46cb724b61",
+              "name": "fecha_recepcion",
+              "value": "={{ $now.setZone(\"Europe/Madrid\").toISO() }}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "d4d63d80-82f8-4662-8fa4-ed5b18a7c7fa",
+      "name": "02 - Normalizar Datos Lead",
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        -624,
+        -224
+      ],
+      "webhookId": null,
+      "notesInFlow": null,
+      "executeOnce": null,
+      "retryOnFail": null,
+      "alwaysOutputData": null,
+      "onError": null,
+      "notes": null
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 3
+          },
+          "conditions": [
+            {
+              "id": "5ee0675a-7abf-4a9d-aefa-10b9fc82dbb5",
+              "leftValue": "={{ $json.email }}",
+              "rightValue": "",
+              "operator": {
+                "type": "string",
+                "operation": "notEmpty",
+                "singleValue": true
+              }
+            },
+            {
+              "id": "6a292fb9-b3c9-4f39-8aca-e22bb7a79ca2",
+              "leftValue": "={{ $json.nombre }}",
+              "rightValue": "",
+              "operator": {
+                "type": "string",
+                "operation": "notEmpty",
+                "singleValue": true
+              }
+            },
+            {
+              "id": "5bec17a2-2699-4134-a8c2-115562a6776c",
+              "leftValue": "={{ $json.consentimiento }}",
+              "rightValue": "",
+              "operator": {
+                "type": "boolean",
+                "operation": "true",
+                "singleValue": true
+              }
+            },
+            {
+              "id": "61e058cc-e24f-406b-b8db-16dccc7cb143",
+              "leftValue": "={{ /^[^\\s@]+@[^\\s@]+\\.[^\\s@]+$/.test(($json.email ?? '').trim()) }}",
+              "rightValue": "",
+              "operator": {
+                "type": "boolean",
+                "operation": "true",
+                "singleValue": true
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "id": "05970dd7-eca1-4a51-8895-f743c8f9863d",
+      "name": "03 - Validar Lead",
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.3,
+      "position": [
+        -480,
+        -224
+      ],
+      "webhookId": null,
+      "notesInFlow": null,
+      "executeOnce": null,
+      "retryOnFail": null,
+      "alwaysOutputData": null,
+      "onError": null,
+      "notes": null
+    },
+    {
+      "parameters": {
+        "documentId": {
+          "__rl": true,
+          "value": "https://docs.google.com/spreadsheets/d/1ZshJY8CQWkciFk8T0-3LNeqVuC4lUMMl-l9_DdXvdLY/edit?gid=0#gid=0",
+          "mode": "url"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": "gid=0",
+          "mode": "list",
+          "cachedResultName": "Empresas",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1ZshJY8CQWkciFk8T0-3LNeqVuC4lUMMl-l9_DdXvdLY/edit#gid=0"
+        },
+        "filtersUI": {
+          "values": [
+            {
+              "lookupColumn": "Email",
+              "lookupValue": "={{ $json.email }}"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "be616411-43be-4cb2-9266-955338ec3381",
+      "name": "04 - Buscar Email en CRM",
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.7,
+      "position": [
+        -224,
+        -288
+      ],
+      "webhookId": null,
+      "notesInFlow": null,
+      "executeOnce": null,
+      "retryOnFail": null,
+      "alwaysOutputData": true,
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "2CrAO5MHlm3a4UMM",
+          "name": "Google Sheets account"
+        }
+      },
+      "onError": null,
+      "notes": null
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 3
+          },
+          "conditions": [
+            {
+              "id": "ae48f05c-3305-49fc-b218-c83b2af857a6",
+              "leftValue": "={{ $json.Email }}",
+              "rightValue": "",
+              "operator": {
+                "type": "string",
+                "operation": "notEmpty",
+                "singleValue": true
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "id": "89eb92a6-5540-4086-b6ee-9a6211787ddb",
+      "name": "05 - ¿Email ya existe?",
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.3,
+      "position": [
+        -48,
+        -288
+      ],
+      "webhookId": null,
+      "notesInFlow": null,
+      "executeOnce": null,
+      "retryOnFail": null,
+      "alwaysOutputData": null,
+      "onError": null,
+      "notes": null
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "0be848cf-1e9c-4875-a6ab-7f68f9583c5a",
+              "name": "nombre",
+              "value": "={{ $('02 - Normalizar Datos Lead').first().json.nombre }}",
+              "type": "string"
+            },
+            {
+              "id": "ba0958f8-3eea-4956-8f04-7b1934383e07",
+              "name": "empresa",
+              "value": "={{ $('02 - Normalizar Datos Lead').first().json.empresa }}",
+              "type": "string"
+            },
+            {
+              "id": "0fda84de-24a3-4bbf-80e9-4b883da169f5",
+              "name": "email",
+              "value": "={{ $('02 - Normalizar Datos Lead').first().json.email }}",
+              "type": "string"
+            },
+            {
+              "id": "6c7730a8-7450-4ff4-bc7f-37275c80dd95",
+              "name": "telefono",
+              "value": "={{ $('02 - Normalizar Datos Lead').first().json.telefono }}",
+              "type": "string"
+            },
+            {
+              "id": "f66427f1-43a1-44ed-b79b-6fc26ce57b76",
+              "name": "sector",
+              "value": "={{ $('02 - Normalizar Datos Lead').first().json.sector }}",
+              "type": "string"
+            },
+            {
+              "id": "221ad118-ae18-4e2e-b5c3-98aabb3872f2",
+              "name": "servicio",
+              "value": "={{ $('02 - Normalizar Datos Lead').first().json.servicio }}",
+              "type": "string"
+            },
+            {
+              "id": "619aee8f-4af7-4a25-b031-ffb398d87e28",
+              "name": "mensaje",
+              "value": "={{ $('02 - Normalizar Datos Lead').first().json.mensaje }}",
+              "type": "string"
+            },
+            {
+              "id": "20ad3deb-245b-4a0b-9c42-f08924a88965",
+              "name": "tipo_formulario",
+              "value": "={{ $('02 - Normalizar Datos Lead').first().json.tipo_formulario }}",
+              "type": "string"
+            },
+            {
+              "id": "355a4574-0b22-4a5a-90b8-58a4d60d844a",
+              "name": "pagina_origen",
+              "value": "={{ $('02 - Normalizar Datos Lead').first().json.pagina_origen }}",
+              "type": "string"
+            },
+            {
+              "id": "890123a4-ddd9-404c-9a15-c4d8b2e95f32",
+              "name": "consentimiento",
+              "value": true,
+              "type": "boolean"
+            },
+            {
+              "id": "8f42512c-5716-42b0-a7b2-854722adcfe0",
+              "name": "fecha_recepcion",
+              "value": "={{ $('02 - Normalizar Datos Lead').first().json.fecha_recepcion }}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "450497b3-efb8-42fe-ac1d-1358c41fa20d",
+      "name": "06 - Recuperar Datos Lead Nuevo",
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        208,
+        -288
+      ],
+      "webhookId": null,
+      "notesInFlow": null,
+      "executeOnce": null,
+      "retryOnFail": null,
+      "alwaysOutputData": null,
+      "onError": null,
+      "notes": null
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "84431fde-5b01-4a7c-9680-2623af884093",
+              "name": "estado",
+              "value": "Auditoría solicitada",
+              "type": "string"
+            },
+            {
+              "id": "14c1647c-dfc9-4c06-82b3-a6913d0b977f",
+              "name": "prioridad",
+              "value": "={{ (($json.telefono || '').trim() !== '' && ($json.mensaje || '').trim().length >= 20) ? 'Alta' : ((($json.telefono || '').trim() !== '' || ($json.mensaje || '').trim().length >= 20) ? 'Media' : 'Baja') }}",
+              "type": "string"
+            },
+            {
+              "id": "007d6c85-6c5e-42f6-83a3-d1caa06db665",
+              "name": "origen_lead",
+              "value": "Web",
+              "type": "string"
+            },
+            {
+              "id": "ab2e21dc-5018-4b65-b380-53591fd978d2",
+              "name": "campana",
+              "value": "auditoria_ia_gratis",
+              "type": "string"
+            }
+          ]
+        },
+        "includeOtherFields": true,
+        "options": {}
+      },
+      "id": "8b550030-f67e-4b4d-b8de-a8f7d5d369f7",
+      "name": "07 - Clasificar Lead",
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        -832,
+        0
+      ],
+      "webhookId": null,
+      "notesInFlow": null,
+      "executeOnce": null,
+      "retryOnFail": null,
+      "alwaysOutputData": null,
+      "onError": null,
+      "notes": null
+    },
+    {
+      "parameters": {
+        "operation": "append",
+        "documentId": {
+          "__rl": true,
+          "value": "https://docs.google.com/spreadsheets/d/1ZshJY8CQWkciFk8T0-3LNeqVuC4lUMMl-l9_DdXvdLY/edit?gid=0#gid=0",
+          "mode": "url"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": "gid=0",
+          "mode": "list",
+          "cachedResultName": "Empresas",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1ZshJY8CQWkciFk8T0-3LNeqVuC4lUMMl-l9_DdXvdLY/edit#gid=0"
+        },
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "Fecha Alta": "={{ $json.fecha_recepcion.substring(8,10) + '/' + $json.fecha_recepcion.substring(5,7) + '/' + $json.fecha_recepcion.substring(0,4) + ' ' + $json.fecha_recepcion.substring(11,19) }}",
+            "Empresa": "={{ $json.empresa }}",
+            "Sector": "={{ $json.sector }}",
+            "Email": "={{ $json.email }}",
+            "Teléfono": "={{ $json.telefono }}",
+            "Persona contacto": "={{ $json.nombre }}",
+            "Notas": "={{ $json.mensaje }}",
+            "Fecha Actualización": "={{ $json.fecha_recepcion.substring(8,10) + '/' + $json.fecha_recepcion.substring(5,7) + '/' + $json.fecha_recepcion.substring(0,4) + ' ' + $json.fecha_recepcion.substring(11,19) }}",
+            "Consentimiento": "={{ $json.consentimiento }}",
+            "Tipo formulario": "={{ $json.tipo_formulario }}",
+            "Página origen": "={{ $json.pagina_origen }}",
+            "Estado": "={{ $json.estado }}",
+            "Prioridad": "={{ $json.prioridad }}",
+            "Origen Lead": "={{ $json.origen_lead }}",
+            "Campaña": "={{ $json.campana }}"
+          },
+          "matchingColumns": [],
+          "schema": [
+            {
+              "id": "Fecha Alta",
+              "displayName": "Fecha Alta",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Empresa",
+              "displayName": "Empresa",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Sector",
+              "displayName": "Sector",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Web",
+              "displayName": "Web",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Email",
+              "displayName": "Email",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Teléfono",
+              "displayName": "Teléfono",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Persona contacto",
+              "displayName": "Persona contacto",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Cargo",
+              "displayName": "Cargo",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Ciudad",
+              "displayName": "Ciudad",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Provincia",
+              "displayName": "Provincia",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "País",
+              "displayName": "País",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Estado",
+              "displayName": "Estado",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Prioridad",
+              "displayName": "Prioridad",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Origen Lead",
+              "displayName": "Origen Lead",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Campaña",
+              "displayName": "Campaña",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Último Contacto",
+              "displayName": "Último Contacto",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Próximo Seguimiento",
+              "displayName": "Próximo Seguimiento",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Respuesta",
+              "displayName": "Respuesta",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Interés",
+              "displayName": "Interés",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Servicio recomendado",
+              "displayName": "Servicio recomendado",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Importe (€)",
+              "displayName": "Importe (€)",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Thread Gmail",
+              "displayName": "Thread Gmail",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Message ID",
+              "displayName": "Message ID",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Calendly",
+              "displayName": "Calendly",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "WhatsApp",
+              "displayName": "WhatsApp",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Auditoría IA",
+              "displayName": "Auditoría IA",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Notas",
+              "displayName": "Notas",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Fecha Actualización",
+              "displayName": "Fecha Actualización",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Consentimiento",
+              "displayName": "Consentimiento",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Tipo formulario",
+              "displayName": "Tipo formulario",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Página origen",
+              "displayName": "Página origen",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        },
+        "options": {}
+      },
+      "id": "8f6fab1b-b6d3-428e-8559-4c6c36397b08",
+      "name": "08 - Crear Lead Nuevo en CRM",
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.7,
+      "position": [
+        -608,
+        0
+      ],
+      "webhookId": null,
+      "notesInFlow": null,
+      "executeOnce": null,
+      "retryOnFail": null,
+      "alwaysOutputData": null,
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "2CrAO5MHlm3a4UMM",
+          "name": "Google Sheets account"
+        }
+      },
+      "onError": null,
+      "notes": null
+    },
+    {
+      "parameters": {
+        "fromEmail": "info@ritealmar.es",
+        "toEmail": "info@ritealmar.es",
+        "subject": "=🚀 Nuevo lead RITEALMAR - {{ $('06 - Recuperar Datos Lead Nuevo').first().json.empresa }}",
+        "html": "=<h2>🚀 Nuevo lead recibido en RITEALMAR</h2>\n\n<p><strong>Nombre:</strong> {{ $('06 - Recuperar Datos Lead Nuevo').first().json.nombre }}</p>\n\n<p><strong>Empresa:</strong> {{ $('06 - Recuperar Datos Lead Nuevo').first().json.empresa }}</p>\n\n<p><strong>Email:</strong> {{ $('06 - Recuperar Datos Lead Nuevo').first().json.email }}</p>\n\n<p><strong>Teléfono:</strong> {{ $('06 - Recuperar Datos Lead Nuevo').first().json.telefono }}</p>\n\n<p><strong>Sector:</strong> {{ $('06 - Recuperar Datos Lead Nuevo').first().json.sector }}</p>\n\n<p><strong>Servicio solicitado:</strong> {{ $('06 - Recuperar Datos Lead Nuevo').first().json.servicio }}</p>\n\n<hr>\n\n<p><strong>Mensaje:</strong></p>\n\n<p>{{ $('06 - Recuperar Datos Lead Nuevo').first().json.mensaje }}</p>\n\n<hr>\n\n<p><strong>Formulario:</strong> {{ $('06 - Recuperar Datos Lead Nuevo').first().json.tipo_formulario }}</p>\n\n<p><strong>Página de origen:</strong> {{ $('06 - Recuperar Datos Lead Nuevo').first().json.pagina_origen }}</p>\n\n<p><strong>Fecha de recepción:</strong> {{ $('06 - Recuperar Datos Lead Nuevo').first().json.fecha_recepcion }}</p>\n\n<p>✅ El lead ya ha sido registrado automáticamente en el CRM de RITEALMAR.</p>",
+        "options": {}
+      },
+      "id": "ef9e470c-e16f-4aff-b20f-50e7b9ab0bdd",
+      "name": "09 - Notificar Nuevo Lead",
+      "type": "n8n-nodes-base.emailSend",
+      "typeVersion": 2.1,
+      "position": [
+        -352,
+        0
+      ],
+      "webhookId": "ee6f5860-2853-4757-b9ac-c0d7cfe39e52",
+      "notesInFlow": null,
+      "executeOnce": null,
+      "retryOnFail": null,
+      "alwaysOutputData": null,
+      "credentials": {
+        "smtp": {
+          "id": "wF4LQHXZNR6C53ru",
+          "name": "SMTP account"
+        }
+      },
+      "onError": null,
+      "notes": null
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "01 - Recibir Lead Web": {
+      "main": [
+        [
+          {
+            "node": "02 - Normalizar Datos Lead",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "02 - Normalizar Datos Lead": {
+      "main": [
+        [
+          {
+            "node": "03 - Validar Lead",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "03 - Validar Lead": {
+      "main": [
+        [
+          {
+            "node": "04 - Buscar Email en CRM",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "04 - Buscar Email en CRM": {
+      "main": [
+        [
+          {
+            "node": "05 - ¿Email ya existe?",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "05 - ¿Email ya existe?": {
+      "main": [
+        [],
+        [
+          {
+            "node": "06 - Recuperar Datos Lead Nuevo",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "06 - Recuperar Datos Lead Nuevo": {
+      "main": [
+        [
+          {
+            "node": "07 - Clasificar Lead",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "07 - Clasificar Lead": {
+      "main": [
+        [
+          {
+            "node": "08 - Crear Lead Nuevo en CRM",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "08 - Crear Lead Nuevo en CRM": {
+      "main": [
+        [
+          {
+            "node": "09 - Notificar Nuevo Lead",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": true,
+  "settings": {
+    "executionOrder": "v1",
+    "binaryMode": "separate",
+    "availableInMCP": false,
+    "errorWorkflow": "R8GxZkAxRmHhAJwY"
+  },
+  "versionId": "906e04b6-92ad-482f-bfe0-ff953584ae18",
+  "meta": {
+    "templateCredsSetupCompleted": true,
+    "instanceId": "f7d1fc1ea290ea7f52cbc1fba9695e0040cad9fb7f2e7953cd729a6d6d25fc46"
+  },
+  "nodeGroups": [],
+  "id": "04vmmto2ZZrIE3Vc",
+  "tags": []
+}

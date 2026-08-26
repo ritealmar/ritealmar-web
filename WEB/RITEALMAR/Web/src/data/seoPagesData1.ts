@@ -43,12 +43,35 @@ export const disenoWebData: SeoLandingProps = {
     { q: "¿Qué pasa si ya tengo una web pero quiero mejorarla?", a: "Realizamos un servicio de rediseño web completo. Auditamos tu sitio actual, identificamos los cuellos de botella en conversión y SEO, y creamos una nueva versión optimizada manteniendo la autoridad que ya hayas ganado." },
     { q: "¿Están vuestras webs optimizadas para móviles?", a: "Sí, el 100% de nuestros diseños web adoptan un enfoque 'Mobile-First'. Nos aseguramos de que la experiencia en dispositivos móviles sea tan perfecta o mejor que en ordenadores de escritorio, dado que la mayor parte del tráfico actual proviene de smartphones." }
   ],
-  ctaText: "Quiero mi nueva página web",
-  whatsappNumber: "34600000000",
+  ctaText: "Solicita una auditoría IA gratuita y te diremos qué procesos, formularios o sistemas puedes mejorar para captar más clientes y trabajar con menos tareas manuales.",
+  ctaTitle: "¿Quieres saber qué puede mejorar tu empresa?",
+  ctaFinalPrimary: "Solicitar auditoría gratuita",
+  ctaFinalSecondary: "Hablar por WhatsApp",
+  whatsappNumber: "34611155415",
   recommendedBlog: {
     title: "Cómo automatizar la captación de clientes en tu nueva web",
     url: "/blog/automatizar-captacion-clientes-ia-pyme"
-  }
+  },
+  problemTitle: "Qué pasa antes de contratar un diseño web eficaz",
+  problems: [
+    { title: "Pierde leads por formularios débiles", desc: "Los visitantes abandonan antes de enviar sus datos porque la experiencia no genera confianza." },
+    { title: "No mide ni optimiza conversiones", desc: "Sin datos claros, no sabes qué funciona y tu presupuesto de marketing se desperdicia." },
+    { title: "La web está desconectada del proceso comercial", desc: "Cada contacto termina en un email perdido o en una hoja de cálculo desordenada." }
+  ],
+  solutionTitle: "Cómo RITEALMAR transforma tu presencia online",
+  solutions: [
+    { title: "Web orientada a ventas", desc: "Diseños que guían al usuario hacia el contacto y la acción con claridad comercial." },
+    { title: "Formularios conectados", desc: "Cada envío llega al CRM, WhatsApp o a automatizaciones sin intervención manual." },
+    { title: "Seguimiento comercial", desc: "Los contactos se priorizan y se gestionan con un flujo ordenado y medible." },
+    { title: "IA aplicada a la conversión", desc: "Optimización de mensajes y estructura para convertir más visitas en oportunidades reales." }
+  ],
+  visualTitle: "Un flujo web que trabaja para tu equipo comercial",
+  visualPoints: [
+    { title: "Formulario conectado", desc: "Lead directo al seguimiento sin correr el riesgo de perderlo en el email." },
+    { title: "Dashboard de estado", desc: "Visibilidad clara de cada contacto, su origen y su siguiente paso." },
+    { title: "Automatización", desc: "Alertas y tareas automáticas para que nadie olvide a un cliente potencial." },
+    { title: "Métricas integradas", desc: "Google Analytics y medición de conversiones desde el primer día." }
+  ]
 };
 
 export const appsEmpresasData: SeoLandingProps = {

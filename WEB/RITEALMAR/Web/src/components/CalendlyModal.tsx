@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
 import { X } from 'lucide-react';
 
@@ -6,6 +6,36 @@ export default function CalendlyModal({ isOpen, onClose }: { isOpen: boolean, on
   // Nota: De momento usamos una URL genérica de Calendly en el iframe.
   // Cuando tengas el link de Calendly real de Ritealmar, puedes sustituirlo aquí.
   const calendlyUrl = "https://calendly.com/ritealmar/30min";
+
+  useEffect(() => {
+    if (!isOpen) return;
+    
+    if (typeof window !== 'undefined' && (window as any).gtag) {
+      (window as any).gtag('event', 'calendly_click', {
+        page_path: window.location.pathname,
+        location: 'modal'
+      });
+    }
+
+    // Asumimos que si se abre el modal es un clic en calendly (por ejemplo desde navbar)
+    // El evento 'calendly_click' original debería dispararse idealmente en el botón, pero lo aseguramos aquí.
+    const handleMessage = (e: MessageEvent) => {
+      // Calendly envía eventos mediante window.postMessage
+      if (e.data.event && e.data.event.indexOf('calendly') === 0) {
+        if (e.data.event === 'calendly.event_scheduled') {
+          // Importante: No importamos trackEvent arriba porque podemos disparar dinámicamente o usar window.gtag
+          if (typeof window !== 'undefined' && (window as any).gtag) {
+            (window as any).gtag('event', 'calendly_booking_completed', {
+              page_path: window.location.pathname,
+              location: 'modal'
+            });
+          }
+        }
+      }
+    };
+    window.addEventListener('message', handleMessage);
+    return () => window.removeEventListener('message', handleMessage);
+  }, [isOpen]);
 
   return (
     <AnimatePresence>

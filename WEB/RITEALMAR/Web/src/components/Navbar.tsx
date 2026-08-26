@@ -59,7 +59,7 @@ export default function Navbar({ onOpenCalendly }: { onOpenCalendly: (config?: a
         </a>
 
         {/* Desktop Menu */}
-        <div className="hidden md:flex items-center gap-8">
+        <div className="hidden lg:flex items-center gap-8">
           {menuItems.slice(0, 3).map((item, i) => (
             <a 
               key={i} 
@@ -73,31 +73,43 @@ export default function Navbar({ onOpenCalendly }: { onOpenCalendly: (config?: a
           <a 
             href="/auditoria-ia-gratis"
             onClick={(e) => {
-              trackEvent('click_auditoria_gratis', { event_label: 'Botón auditoría gratuita' });
+              trackEvent('cta_primary_click', { cta_text: 'Auditoría Gratuita', cta_location: 'navbar', page_path: window.location.pathname });
               handleNavClick(e, '/auditoria-ia-gratis');
             }}
-            className="px-6 py-2.5 bg-[#FF006E]/10 border border-[#FF006E]/30 text-[#FF006E] hover:bg-[#FF006E] hover:text-white rounded-lg font-bold text-sm transition-all shadow-[0_0_15px_rgba(255,0,110,0.2)] hover:shadow-[0_0_25px_rgba(255,0,110,0.5)]"
+            className="btn-primary px-5 py-2 text-sm"
           >
             Auditoría Gratuita
           </a>
         </div>
 
-        {/* Mobile Toggle */}
-        <button 
-          className="md:hidden relative z-50 text-white p-2 focus:outline-none focus:ring-2 focus:ring-cyan-400 rounded-lg"
-          onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-          aria-label={mobileMenuOpen ? "Cerrar menú" : "Abrir menú"}
-          aria-expanded={mobileMenuOpen}
-        >
-          {mobileMenuOpen ? <X size={28} aria-hidden="true" /> : <Menu size={28} aria-hidden="true" />}
-        </button>
+        {/* Mobile Actions: CTA + Hamburger */}
+        <div className="flex lg:hidden items-center gap-3">
+          <a 
+            href="/auditoria-ia-gratis"
+            onClick={(e) => {
+              trackEvent('cta_primary_click', { cta_text: 'Auditoría', cta_location: 'navbar_mobile', page_path: window.location.pathname });
+              handleNavClick(e, '/auditoria-ia-gratis', false);
+            }}
+            className="px-3 py-1.5 bg-[#FF006E]/10 border border-[#FF006E]/30 text-[#FF006E] hover:bg-[#FF006E] hover:text-white rounded-lg font-bold text-xs transition-all shadow-[0_0_10px_rgba(255,0,110,0.2)]"
+          >
+            Auditoría
+          </a>
+          <button 
+            className="relative z-50 text-white p-1.5 focus:outline-none focus:ring-2 focus:ring-cyan-400 rounded-lg"
+            onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
+            aria-label={mobileMenuOpen ? "Cerrar menú" : "Abrir menú"}
+            aria-expanded={mobileMenuOpen}
+          >
+            {mobileMenuOpen ? <X size={26} aria-hidden="true" /> : <Menu size={26} aria-hidden="true" />}
+          </button>
+        </div>
       </div>
 
       {/* Mobile Menu Fullscreen */}
       <>
         {mobileMenuOpen && (
           <div
-            className="fixed inset-0 bg-[#0A1628]/95 backdrop-blur-xl z-40 flex flex-col items-center justify-center animate-fade-in"
+            className="fixed inset-0 bg-[#071426]/95 backdrop-blur-xl z-40 flex flex-col items-center justify-center animate-fade-in"
           >
             <div className="flex flex-col items-center gap-8 w-full px-6">
               {menuItems.slice(0, 3).map((item, i) => (
@@ -114,10 +126,10 @@ export default function Navbar({ onOpenCalendly }: { onOpenCalendly: (config?: a
                 href="/auditoria-ia-gratis"
                 onClick={(e) => {
                   setMobileMenuOpen(false);
-                  trackEvent('click_auditoria_gratis', { event_label: 'Botón auditoría gratuita' });
+                  trackEvent('cta_primary_click', { cta_text: 'Auditoría Gratuita', cta_location: 'navbar_mobile_menu', page_path: window.location.pathname });
                   handleNavClick(e as any, '/auditoria-ia-gratis', true);
                 }}
-                className="w-full mt-4 bg-gradient-to-r from-[#FF006E] to-[#00D4FF] text-white py-3 rounded-lg font-bold text-xl flex items-center justify-center"
+                className="w-full mt-4 btn-primary text-white py-3 rounded-lg font-bold text-xl flex items-center justify-center"
               >
                 Auditoría Gratuita
               </a>

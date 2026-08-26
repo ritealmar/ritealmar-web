@@ -1,0 +1,994 @@
+{
+  "name": "12 - RITEALMAR - Envío de Emails Aprobados",
+  "nodes": [
+    {
+      "parameters": {},
+      "type": "n8n-nodes-base.manualTrigger",
+      "typeVersion": 1,
+      "position": [
+        -688,
+        -304
+      ],
+      "id": "96abfeda-d6b9-465e-a9aa-d40be70af822",
+      "name": "01 - Iniciar Envío de Emails Aprobados"
+    },
+    {
+      "parameters": {
+        "documentId": {
+          "__rl": true,
+          "value": "https://docs.google.com/spreadsheets/d/1ZshJY8CQWkciFk8T0-3LNeqVuC4lUMMl-l9_DdXvdLY/edit?gid=0#gid=0",
+          "mode": "url"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": "gid=0",
+          "mode": "list",
+          "cachedResultName": "Empresas",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1ZshJY8CQWkciFk8T0-3LNeqVuC4lUMMl-l9_DdXvdLY/edit#gid=0"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.7,
+      "position": [
+        -192,
+        -288
+      ],
+      "id": "81f2e17e-8ff3-4e33-bc0c-0aed10190f87",
+      "name": "02 - Leer Emails Aprobados del CRM",
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "2CrAO5MHlm3a4UMM",
+          "name": "Google Sheets account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 3
+          },
+          "conditions": [
+            {
+              "id": "a7837432-41b8-4356-8222-02e17c9bda07",
+              "leftValue": "={{\n  String($json['Estado Email Comercial'] || '').trim().toLowerCase() === 'aprobado' &&\n  String($json.Email || '').trim() !== '' &&\n  String($json['Asunto Email'] || '').trim() !== '' &&\n  String($json['Borrador Email'] || '').trim() !== ''\n}}",
+              "rightValue": "",
+              "operator": {
+                "type": "boolean",
+                "operation": "true",
+                "singleValue": true
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.filter",
+      "typeVersion": 2.3,
+      "position": [
+        -48,
+        -288
+      ],
+      "id": "4bedc060-aa52-4ec9-a0a7-e6e6df7635c0",
+      "name": "03 - Filtrar Emails Aprobados para Envío"
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 3
+          },
+          "conditions": [
+            {
+              "id": "d64cc226-c6e5-4d53-9a46-7dd987aa3e91",
+              "leftValue": "={{\n  String($json['Message ID'] || '').trim() === '' &&\n  String($json['Último Contacto'] || '').trim() === '' &&\n  String($json['Estado Email Comercial'] || '').trim().toLowerCase() === 'aprobado'\n}}",
+              "rightValue": "",
+              "operator": {
+                "type": "boolean",
+                "operation": "true",
+                "singleValue": true
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.filter",
+      "typeVersion": 2.3,
+      "position": [
+        96,
+        -288
+      ],
+      "id": "060d85ce-c5c7-429b-8e2e-38331ff02ce9",
+      "name": "04 - Verificar que el Email No Fue Enviado"
+    },
+    {
+      "parameters": {
+        "sendTo": "={{ $json.Email }}",
+        "subject": "={{ $json['Asunto Email'] }}",
+        "emailType": "text",
+        "message": "={{ $json['Borrador Email'] }}",
+        "options": {
+          "appendAttribution": false
+        }
+      },
+      "type": "n8n-nodes-base.gmail",
+      "typeVersion": 2.2,
+      "position": [
+        256,
+        -288
+      ],
+      "id": "6e7ce57b-892d-4ac3-acc4-647c1ecedf71",
+      "name": "05 - Enviar Email Comercial Aprobado",
+      "webhookId": "a550d3fb-e631-434e-b7c4-109278d54cef",
+      "credentials": {
+        "gmailOAuth2": {
+          "id": "oHx5yN5iz2GLZ8DP",
+          "name": "Gmail account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "jsCode": "const items = $input.all();\n\nfunction fechaMadrid(fecha) {\n  return fecha\n    .toLocaleString('es-ES', {\n      timeZone: 'Europe/Madrid',\n      day: '2-digit',\n      month: '2-digit',\n      year: 'numeric',\n      hour: '2-digit',\n      minute: '2-digit',\n      second: '2-digit',\n      hour12: false,\n    })\n    .replace(',', '');\n}\n\nconst ahora = new Date();\n\nconst proximoSeguimiento = new Date(\n  ahora.getTime() + (2 * 24 * 60 * 60 * 1000)\n);\n\nreturn items.map((item, index) => {\n\n  const original = $('04 - Verificar que el Email No Fue Enviado')\n    .itemMatching(index)\n    .json;\n\n  const gmail = item.json || {};\n\n  return {\n    json: {\n      row_number: original.row_number,\n      Empresa: original.Empresa || '',\n\n      'Último Contacto': fechaMadrid(ahora),\n\n      'Próximo Seguimiento':\n        fechaMadrid(proximoSeguimiento),\n\n      'Thread Gmail':\n        gmail.threadId ||\n        gmail.thread_id ||\n        '',\n\n      'Message ID':\n        gmail.id ||\n        gmail.messageId ||\n        gmail.message_id ||\n        '',\n\n      'Estado Email Comercial': 'Enviado',\n\n      'Fecha Actualización':\n        fechaMadrid(ahora)\n    }\n  };\n});"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        400,
+        -288
+      ],
+      "id": "3f43a75c-d2f4-40d6-9003-0c6009456a16",
+      "name": "06 - Preparar Registro de Envío CRM"
+    },
+    {
+      "parameters": {
+        "operation": "update",
+        "documentId": {
+          "__rl": true,
+          "value": "https://docs.google.com/spreadsheets/d/1ZshJY8CQWkciFk8T0-3LNeqVuC4lUMMl-l9_DdXvdLY/edit?gid=0#gid=0",
+          "mode": "url"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": "gid=0",
+          "mode": "list",
+          "cachedResultName": "Empresas",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1ZshJY8CQWkciFk8T0-3LNeqVuC4lUMMl-l9_DdXvdLY/edit#gid=0"
+        },
+        "columns": {
+          "mappingMode": "autoMapInputData",
+          "value": {},
+          "matchingColumns": [
+            "row_number"
+          ],
+          "schema": [
+            {
+              "id": "Fecha Alta",
+              "displayName": "Fecha Alta",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Empresa",
+              "displayName": "Empresa",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Sector",
+              "displayName": "Sector",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Web",
+              "displayName": "Web",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Email",
+              "displayName": "Email",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Teléfono",
+              "displayName": "Teléfono",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Persona contacto",
+              "displayName": "Persona contacto",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Cargo",
+              "displayName": "Cargo",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Ciudad",
+              "displayName": "Ciudad",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Provincia",
+              "displayName": "Provincia",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "País",
+              "displayName": "País",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Estado",
+              "displayName": "Estado",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Prioridad",
+              "displayName": "Prioridad",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Origen Lead",
+              "displayName": "Origen Lead",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Campaña",
+              "displayName": "Campaña",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Último Contacto",
+              "displayName": "Último Contacto",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Próximo Seguimiento",
+              "displayName": "Próximo Seguimiento",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Respuesta",
+              "displayName": "Respuesta",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Interés",
+              "displayName": "Interés",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Servicio recomendado",
+              "displayName": "Servicio recomendado",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Importe (€)",
+              "displayName": "Importe (€)",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Thread Gmail",
+              "displayName": "Thread Gmail",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Message ID",
+              "displayName": "Message ID",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Calendly",
+              "displayName": "Calendly",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "WhatsApp",
+              "displayName": "WhatsApp",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Auditoría IA",
+              "displayName": "Auditoría IA",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Notas",
+              "displayName": "Notas",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Fecha Actualización",
+              "displayName": "Fecha Actualización",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Consentimiento",
+              "displayName": "Consentimiento",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Tipo formulario",
+              "displayName": "Tipo formulario",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Página origen",
+              "displayName": "Página origen",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Asunto Email",
+              "displayName": "Asunto Email",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Borrador Email",
+              "displayName": "Borrador Email",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Estado Email Comercial",
+              "displayName": "Estado Email Comercial",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "row_number",
+              "displayName": "row_number",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "number",
+              "canBeUsedToMatch": true,
+              "readOnly": true,
+              "removed": false
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.7,
+      "position": [
+        560,
+        -288
+      ],
+      "id": "66363e84-30ee-414f-b210-09ff2a5433da",
+      "name": "07 - Registrar Envío Comercial en CRM",
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "2CrAO5MHlm3a4UMM",
+          "name": "Google Sheets account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "documentId": {
+          "__rl": true,
+          "value": "https://docs.google.com/spreadsheets/d/1ZshJY8CQWkciFk8T0-3LNeqVuC4lUMMl-l9_DdXvdLY/edit?gid=1414083655#gid=1414083655",
+          "mode": "url"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": 1414083655,
+          "mode": "list",
+          "cachedResultName": "Configuración",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1ZshJY8CQWkciFk8T0-3LNeqVuC4lUMMl-l9_DdXvdLY/edit#gid=1414083655"
+        },
+        "filtersUI": {
+          "values": [
+            {
+              "lookupColumn": "Campo",
+              "lookupValue": "Modo envío comercial"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.7,
+      "position": [
+        -512,
+        -304
+      ],
+      "id": "7d548ee3-9c9a-449c-8cc1-bc6da3c7e064",
+      "name": "01A - Leer Modo de Envío Comercial",
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "2CrAO5MHlm3a4UMM",
+          "name": "Google Sheets account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 3
+          },
+          "conditions": [
+            {
+              "id": "2ccf0294-2378-4b9b-9ae2-94944a69aadd",
+              "leftValue": "={{ String($json.Valor || '').trim().toUpperCase() === 'MANUAL' }}",
+              "rightValue": "",
+              "operator": {
+                "type": "boolean",
+                "operation": "true",
+                "singleValue": true
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.3,
+      "position": [
+        -368,
+        -288
+      ],
+      "id": "775b5589-67ac-4362-8095-be8779c41d79",
+      "name": "01B - Comprobar Modo de Envío"
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 3
+          },
+          "conditions": [
+            {
+              "id": "96e87c68-9b2f-4452-a379-35b7cc9a869a",
+              "leftValue": "={{ String($json.Valor || '').trim().toUpperCase() === 'AUTOMÁTICO' }}",
+              "rightValue": "",
+              "operator": {
+                "type": "boolean",
+                "operation": "true",
+                "singleValue": true
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.3,
+      "position": [
+        -720,
+        80
+      ],
+      "id": "c3e34156-7be7-4c66-a6d2-6504ca9aeea7",
+      "name": "01C - Confirmar Modo Automático"
+    },
+    {
+      "parameters": {
+        "documentId": {
+          "__rl": true,
+          "value": "https://docs.google.com/spreadsheets/d/1ZshJY8CQWkciFk8T0-3LNeqVuC4lUMMl-l9_DdXvdLY/edit?gid=0#gid=0",
+          "mode": "url"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": "gid=0",
+          "mode": "list",
+          "cachedResultName": "Empresas",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1ZshJY8CQWkciFk8T0-3LNeqVuC4lUMMl-l9_DdXvdLY/edit#gid=0"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.7,
+      "position": [
+        -272,
+        0
+      ],
+      "id": "f5d366b5-e9b2-403e-be21-24f84d76c647",
+      "name": "02A - Leer Prospectos para Envío Automático",
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "2CrAO5MHlm3a4UMM",
+          "name": "Google Sheets account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 3
+          },
+          "conditions": [
+            {
+              "id": "cbfa7ac3-1cc2-4a19-8ade-37d9b01fd190",
+              "leftValue": "={{\n  String($json['Origen Lead'] || '').trim() === 'Prospección' &&\n  String($json.Estado || '').trim() === 'Nuevo' &&\n  String($json.Prioridad || '').trim() === 'Alta' &&\n  String($json.Email || '').trim() !== '' &&\n  String($json['Asunto Email'] || '').trim() !== '' &&\n  String($json['Borrador Email'] || '').trim() !== '' &&\n  String($json['Estado Email Comercial'] || '').trim() === 'Pendiente de aprobación' &&\n  String($json['Último Contacto'] || '').trim() === '' &&\n  String($json['Message ID'] || '').trim() === ''\n}}",
+              "rightValue": "",
+              "operator": {
+                "type": "boolean",
+                "operation": "true",
+                "singleValue": true
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.filter",
+      "typeVersion": 2.3,
+      "position": [
+        -64,
+        16
+      ],
+      "id": "cb9af235-8399-4320-beb8-7e98fb2b128c",
+      "name": "02B - Filtrar Prospectos Aptos para Envío Automático"
+    },
+    {
+      "parameters": {
+        "maxItems": 3
+      },
+      "type": "n8n-nodes-base.limit",
+      "typeVersion": 1,
+      "position": [
+        144,
+        16
+      ],
+      "id": "58206246-39d6-4ae7-9e2f-c8a4cccc100f",
+      "name": "02C - Limitar Envíos Automáticos"
+    },
+    {
+      "parameters": {
+        "jsCode": "const items = $input.all();\n\nreturn items.map(item => ({\n  json: {\n    row_number: item.json.row_number,\n    Empresa: item.json.Empresa || '',\n    Email: item.json.Email || '',\n    Prioridad: item.json.Prioridad || '',\n    'Asunto Email': item.json['Asunto Email'] || '',\n    'Borrador Email': item.json['Borrador Email'] || '',\n    'Estado Email Comercial': item.json['Estado Email Comercial'] || '',\n    'Último Contacto': item.json['Último Contacto'] || '',\n    'Message ID': item.json['Message ID'] || '',\n    'Estado Vista Previa': 'Listo para revisión automática'\n  }\n}));"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        320,
+        32
+      ],
+      "id": "0c7b6deb-78a1-4ed3-8701-2aebf1dfea98",
+      "name": "02D - Preparar Vista Previa de Envío Automático"
+    },
+    {
+      "parameters": {
+        "documentId": {
+          "__rl": true,
+          "value": "https://docs.google.com/spreadsheets/d/1ZshJY8CQWkciFk8T0-3LNeqVuC4lUMMl-l9_DdXvdLY/edit?gid=0#gid=0",
+          "mode": "url"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": 1414083655,
+          "mode": "list",
+          "cachedResultName": "Configuración",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1ZshJY8CQWkciFk8T0-3LNeqVuC4lUMMl-l9_DdXvdLY/edit#gid=1414083655"
+        },
+        "filtersUI": {
+          "values": [
+            {
+              "lookupColumn": "Campo",
+              "lookupValue": "Permitir envío automático real"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.7,
+      "position": [
+        -544,
+        240
+      ],
+      "id": "58926b8f-d088-4b16-9f2a-6a7b415e9ee8",
+      "name": "01D - Leer Permiso de Envío Automático",
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "2CrAO5MHlm3a4UMM",
+          "name": "Google Sheets account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 3
+          },
+          "conditions": [
+            {
+              "id": "d7ad49c1-9541-49d1-be83-9bd44e8644ca",
+              "leftValue": "={{ String($json.Valor || '').trim().toUpperCase() === 'SÍ' }}",
+              "rightValue": "",
+              "operator": {
+                "type": "boolean",
+                "operation": "true",
+                "singleValue": true
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.3,
+      "position": [
+        -176,
+        272
+      ],
+      "id": "e6646793-44ce-48a6-82a3-8d5340189193",
+      "name": "01E - Confirmar Permiso de Envío Automático"
+    }
+  ],
+  "connections": {
+    "01 - Iniciar Envío de Emails Aprobados": {
+      "main": [
+        [
+          {
+            "node": "01A - Leer Modo de Envío Comercial",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "02 - Leer Emails Aprobados del CRM": {
+      "main": [
+        [
+          {
+            "node": "03 - Filtrar Emails Aprobados para Envío",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "03 - Filtrar Emails Aprobados para Envío": {
+      "main": [
+        [
+          {
+            "node": "04 - Verificar que el Email No Fue Enviado",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "04 - Verificar que el Email No Fue Enviado": {
+      "main": [
+        [
+          {
+            "node": "05 - Enviar Email Comercial Aprobado",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "05 - Enviar Email Comercial Aprobado": {
+      "main": [
+        [
+          {
+            "node": "06 - Preparar Registro de Envío CRM",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "06 - Preparar Registro de Envío CRM": {
+      "main": [
+        [
+          {
+            "node": "07 - Registrar Envío Comercial en CRM",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "01A - Leer Modo de Envío Comercial": {
+      "main": [
+        [
+          {
+            "node": "01B - Comprobar Modo de Envío",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "01B - Comprobar Modo de Envío": {
+      "main": [
+        [
+          {
+            "node": "02 - Leer Emails Aprobados del CRM",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "01C - Confirmar Modo Automático",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "01C - Confirmar Modo Automático": {
+      "main": [
+        [
+          {
+            "node": "01D - Leer Permiso de Envío Automático",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        []
+      ]
+    },
+    "02A - Leer Prospectos para Envío Automático": {
+      "main": [
+        [
+          {
+            "node": "02B - Filtrar Prospectos Aptos para Envío Automático",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "02B - Filtrar Prospectos Aptos para Envío Automático": {
+      "main": [
+        [
+          {
+            "node": "02C - Limitar Envíos Automáticos",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "02C - Limitar Envíos Automáticos": {
+      "main": [
+        [
+          {
+            "node": "02D - Preparar Vista Previa de Envío Automático",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "01D - Leer Permiso de Envío Automático": {
+      "main": [
+        [
+          {
+            "node": "01E - Confirmar Permiso de Envío Automático",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "01E - Confirmar Permiso de Envío Automático": {
+      "main": [
+        [
+          {
+            "node": "02A - Leer Prospectos para Envío Automático",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "settings": {
+    "executionOrder": "v1",
+    "binaryMode": "separate",
+    "availableInMCP": false
+  },
+  "staticData": null,
+  "pinData": {},
+  "triggerCount": 0,
+  "meta": {
+    "templateCredsSetupCompleted": true
+  }
+}

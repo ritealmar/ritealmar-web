@@ -53,14 +53,25 @@ export default function ServiceLayout({
             <p className="text-xl font-medium text-slate-300 leading-relaxed mb-10 max-w-3xl mx-auto">
               {subtitle}
             </p>
-            <button 
-              onClick={() => {
-                window.location.href = '/auditoria-ia-gratis';
-              }} 
-              className="btn-primary"
-            >
-              Solicitar Auditoría Gratuita
-            </button>
+            <div className="flex flex-col sm:flex-row justify-center items-center gap-4 mt-6">
+              <button
+                onClick={() => {
+                  window.location.href = '/auditoria-ia-gratis';
+                }}
+                className="btn-primary"
+              >
+                Solicitar auditoría gratuita
+              </button>
+              <a
+                href="#proceso"
+                className="btn-secondary"
+              >
+                Ver cómo funciona
+              </a>
+            </div>
+            <p className="mt-6 text-sm text-slate-400">
+              Soluciones para pymes, clínicas, inmobiliarias y empresas de servicios.
+            </p>
           </motion.div>
         </div>
       </section>

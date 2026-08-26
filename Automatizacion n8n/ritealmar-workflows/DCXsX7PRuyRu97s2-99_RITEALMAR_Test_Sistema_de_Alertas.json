@@ -1,0 +1,71 @@
+{
+  "name": "99 - RITEALMAR - Test Sistema de Alertas",
+  "nodes": [
+    {
+      "id": "f6e24f24-079c-4885-8991-82a97fe823d2",
+      "name": "01 - Iniciar Test de Alerta",
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 2.1,
+      "position": [
+        0,
+        0
+      ],
+      "parameters": {
+        "path": "12830c7f-73dd-44c9-93c3-3072e09c1c79",
+        "options": {}
+      },
+      "credentials": null,
+      "webhookId": "12830c7f-73dd-44c9-93c3-3072e09c1c79",
+      "notes": null,
+      "notesInFlow": null,
+      "executeOnce": null,
+      "retryOnFail": null,
+      "alwaysOutputData": null,
+      "onError": null
+    },
+    {
+      "id": "fece5c26-6f64-481c-a7d4-1c436169384e",
+      "name": "02 - Provocar Error Controlado",
+      "type": "n8n-nodes-base.stopAndError",
+      "typeVersion": 1,
+      "position": [
+        208,
+        0
+      ],
+      "parameters": {
+        "errorMessage": "TEST CONTROLADO RITEALMAR - Sistema de alertas funcionando"
+      },
+      "credentials": null,
+      "webhookId": null,
+      "notes": null,
+      "notesInFlow": null,
+      "executeOnce": null,
+      "retryOnFail": null,
+      "alwaysOutputData": null,
+      "onError": null
+    }
+  ],
+  "connections": {
+    "01 - Iniciar Test de Alerta": {
+      "main": [
+        [
+          {
+            "node": "02 - Provocar Error Controlado",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "settings": {
+    "executionOrder": "v1",
+    "binaryMode": "separate",
+    "availableInMCP": false,
+    "errorWorkflow": "R8GxZkAxRmHhAJwY"
+  },
+  "staticData": null,
+  "pinData": {},
+  "triggerCount": 1,
+  "meta": null
+}

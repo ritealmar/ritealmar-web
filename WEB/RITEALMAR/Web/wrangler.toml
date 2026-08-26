@@ -4,3 +4,9 @@ pages_build_output_dir = "dist"
 
 [vars]
 # Add any environment variables here if needed
+# NOTE: Do NOT store secrets here in plaintext.
+# Use `npx wrangler secret put <NAME>` to add secrets to your Cloudflare account.
+# Example:
+# npx wrangler secret put GEMINI_API_KEY
+# npx wrangler secret put RESEND_API_KEY
+# npx wrangler secret put GOOGLE_SHEETS_URL

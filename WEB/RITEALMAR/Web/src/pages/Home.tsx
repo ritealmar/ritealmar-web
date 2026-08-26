@@ -12,7 +12,7 @@ import TargetAudienceSection from '../components/TargetAudienceSection';
 import Benefits from '../components/Benefits';
 import ServicesBentoGrid from '../components/ServicesBentoGrid';
 import IndustrySolutions from '../components/IndustrySolutions';
-import HowWeWork from '../components/HowWeWork';
+
 import BeforeAfterSection from '../components/BeforeAfterSection';
 import PortfolioSection from '../components/PortfolioSection';
 import ProcessSection from '../components/ProcessSection';
@@ -87,7 +87,6 @@ export default function Home({ onOpenCalendly }: { onOpenCalendly?: (config?: an
         </section>
 
         <IndustrySolutions />
-        <HowWeWork />
         <BeforeAfterSection />
         <PortfolioSection />
 
@@ -126,7 +125,7 @@ export default function Home({ onOpenCalendly }: { onOpenCalendly?: (config?: an
           </div>
         </section>
 
-        <TestimonialsSection />
+        {/* <TestimonialsSection /> */}
         <FAQ />
         
         {/* Bloque de Contenido SEO de Alta Calidad */}
@@ -135,7 +134,7 @@ export default function Home({ onOpenCalendly }: { onOpenCalendly?: (config?: an
           e.preventDefault();
           window.location.href = '/auditoria-ia-gratis';
         }} className="inline-flex items-center gap-2 px-8 py-4 bg-cyan-500 hover:bg-cyan-400 text-black font-bold rounded-xl transition-all hover:scale-105 shadow-[0_0_30px_rgba(6,182,212,0.3)] mt-8">
-          Solicitar auditoría IA gratuita
+          Solicitar auditoría gratuita
           <ArrowRight size={20} />
         </a>
         <section className="py-24 px-6 max-w-4xl mx-auto">
@@ -145,7 +144,7 @@ export default function Home({ onOpenCalendly }: { onOpenCalendly?: (config?: an
               La transformación digital ya no es suficiente. En el panorama actual, las empresas que lideran sus sectores no solo están digitalizadas, sino automatizadas. La <strong>Inteligencia Artificial (IA)</strong> ha dejado de ser una tecnología exclusiva para grandes corporaciones tecnológicas y se ha convertido en el aliado estratégico más importante para la <strong>Pequeña y Mediana Empresa (PYME)</strong>.
             </p>
             <p className="text-slate-300">
-              En <strong>RITEALMAR</strong>, nos especializamos en democratizar esta tecnología. Al <a href="/servicios/automatizacion-procesos" onClick={(e) => handleNavigation(e, '/servicios/automatizacion-procesos')}>automatizar procesos repetitivos</a>, permitimos que los equipos humanos se concentren en lo que realmente aporta valor: la creatividad, la estrategia y el cierre de ventas. Las tareas como la introducción de datos, la gestión inicial de clientes, la facturación o la recuperación de carritos abandonados pueden ser ejecutadas por sistemas autónomos sin margen de error y a una fracción del coste tradicional.
+              En <strong>RITEALMAR</strong>, nos especializamos en democratizar esta tecnología. Al <a href="/servicios/automatizacion-procesos" onClick={(e) => handleNavigation(e, '/servicios/automatizacion-procesos')}>automatizar procesos repetitivos</a>, permitimos que los equipos humanos se concentren en lo que realmente aporta valor: la creatividad, la estrategia y el cierre de ventas. Las tareas como la introducción de datos, la gestión inicial de clientes, la facturación o la recuperación de carritos abandonados pueden ser ejecutadas por sistemas autónomos reduciendo errores operativos y a una fracción del coste tradicional.
             </p>
             <h3 className="text-2xl font-bold mt-10 mb-4 text-white">¿Por qué integrar Agentes Inteligentes en tu negocio?</h3>
             <p className="text-slate-300">

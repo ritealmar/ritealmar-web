@@ -11,11 +11,10 @@ export default function Integrations() {
     { name: 'Shopify', icon: ShoppingCart, color: '#93C5FD' },
     { name: 'Holded', icon: Database, color: '#8B5CF6' },
     { name: 'WordPress', icon: Globe, color: '#3B82F6' },
-    { name: 'WhatsApp API', icon: MessageSquare, color: '#25D366' }, // Duplicated for infinite scroll
-    { name: 'Stripe', icon: CreditCard, color: '#6366F1' },
-    { name: 'OpenAI', icon: Cpu, color: '#10B981' },
-    { name: 'Make / Zapier', icon: Zap, color: '#F59E0B' },
   ];
+
+  // Duplicar para efecto infinite scroll
+  const repeatedTools = [...tools, ...tools];
 
   return (
     <section className="py-12 bg-[#020617] border-b border-white/5 overflow-hidden">
@@ -31,7 +30,7 @@ export default function Integrations() {
           transition={{ ease: "linear", duration: 20, repeat: Infinity }}
           className="flex whitespace-nowrap gap-8 px-4"
         >
-          {tools.map((tool, i) => (
+          {repeatedTools.map((tool, i) => (
             <div 
               key={i} 
               className="flex items-center gap-3 px-6 py-3 rounded-2xl bg-white/[0.02] border border-white/5 grayscale opacity-60 hover:grayscale-0 hover:opacity-100 hover:bg-white/[0.05] transition-all duration-300 cursor-default"

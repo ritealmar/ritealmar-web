@@ -1,0 +1,134 @@
+{
+  "name": "07 - RITEALMAR - Alertas de Errores",
+  "nodes": [
+    {
+      "parameters": {},
+      "type": "n8n-nodes-base.errorTrigger",
+      "typeVersion": 1,
+      "position": [
+        0,
+        0
+      ],
+      "id": "cc24f528-f417-403a-ba63-12142339cc0c",
+      "name": "01 - Detectar Error Workflow"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "ed183c5b-58a6-4861-a080-558ae31de816",
+              "name": "=workflow",
+              "value": "={{ $json.workflow?.name || \"Workflow desconocido\" }}",
+              "type": "string"
+            },
+            {
+              "id": "337e590f-9b2d-422b-b124-ecf860d55c8e",
+              "name": "=nodo_error",
+              "value": "={{ $json.execution?.lastNodeExecuted || $json.trigger?.error?.node?.name || \"Nodo desconocido\" }}",
+              "type": "string"
+            },
+            {
+              "id": "52a14127-62e2-4916-bc24-62c8040f537e",
+              "name": "=mensaje_error",
+              "value": "={{ $json.execution?.error?.message || $json.trigger?.error?.message || $json.trigger?.error?.cause?.message || \"Error sin mensaje\" }}",
+              "type": "string"
+            },
+            {
+              "id": "7024ceea-9312-469a-ab1c-5e4a1771c31c",
+              "name": "=execution_id",
+              "value": "={{ $json.execution?.id || \"No disponible\" }}",
+              "type": "string"
+            },
+            {
+              "id": "c7f5e115-aca5-4d41-9f9b-227727847697",
+              "name": "=execution_url",
+              "value": "={{ $json.execution?.url || \"No disponible\" }}",
+              "type": "string"
+            },
+            {
+              "id": "f4df0878-b199-448e-b7b8-f034f5629f65",
+              "name": "=fecha_error",
+              "value": "={{ $now.setZone(\"Europe/Madrid\").toFormat(\"dd/MM/yyyy HH:mm:ss\") }}",
+              "type": "string"
+            },
+            {
+              "id": "ea5c7fec-54a6-4cde-b2ec-7a40d3706819",
+              "name": "=alerta_texto",
+              "value": "={{  \"🚨 RITEALMAR - ALERTA DE ERROR\\n\\n\" + \"Workflow: \" + ($json.workflow?.name || \"Workflow desconocido\") + \"\\n\" + \"Nodo: \" + ($json.execution?.lastNodeExecuted || $json.trigger?.error?.node?.name || \"Nodo desconocido\") + \"\\n\" + \"Error: \" + ($json.execution?.error?.message || $json.trigger?.error?.message || $json.trigger?.error?.cause?.message || \"Error sin mensaje\") + \"\\n\" + \"Execution ID: \" + ($json.execution?.id || \"No disponible\") + \"\\n\" + \"URL: \" + ($json.execution?.url || \"No disponible\") + \"\\n\" + \"Fecha: \" + $now.setZone(\"Europe/Madrid\").toFormat(\"dd/MM/yyyy HH:mm:ss\") }}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        208,
+        0
+      ],
+      "id": "5f9b61ce-d2ae-48da-adf5-0bf86e06d2bf",
+      "name": "02 - Preparar Alerta de Error"
+    },
+    {
+      "parameters": {
+        "sendTo": "llargo34@gmail.com",
+        "subject": "={{ \"🚨 RITEALMAR - Error en \" + $json[\"workflow\"] }}",
+        "emailType": "text",
+        "message": "={{ $json[\"alerta_texto\"] }}",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.gmail",
+      "typeVersion": 2.2,
+      "position": [
+        416,
+        0
+      ],
+      "id": "9d540f23-129a-4108-b451-72abaad1f0c0",
+      "name": "03 - Enviar Alerta por Email",
+      "webhookId": "06fe8223-4966-43da-8a20-551f511b8de1",
+      "credentials": {
+        "gmailOAuth2": {
+          "id": "oHx5yN5iz2GLZ8DP",
+          "name": "Gmail account"
+        }
+      }
+    }
+  ],
+  "connections": {
+    "01 - Detectar Error Workflow": {
+      "main": [
+        [
+          {
+            "node": "02 - Preparar Alerta de Error",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "02 - Preparar Alerta de Error": {
+      "main": [
+        [
+          {
+            "node": "03 - Enviar Alerta por Email",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "settings": {
+    "executionOrder": "v1",
+    "binaryMode": "separate",
+    "availableInMCP": false
+  },
+  "staticData": null,
+  "pinData": {},
+  "triggerCount": 0,
+  "meta": {
+    "templateCredsSetupCompleted": true
+  }
+}

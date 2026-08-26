@@ -1,0 +1,8 @@
+{
+    "chat.tools.terminal.autoApprove": {
+        "/^git status --short; Test-Path \"WEB/RITEALMAR/Web/src/components/HeroDynamicBackground\\.tsx\"; Test-Path \"WEB/RITEALMAR/Web/src/components/VisualSystemIcons\\.tsx\"$/": {
+            "approve": true,
+            "matchCommandLine": true
+        }
+    }
+}

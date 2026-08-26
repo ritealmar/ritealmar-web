@@ -1,0 +1,1825 @@
+{
+  "name": "11 - RITEALMAR - Contacto Comercial Asistido",
+  "nodes": [
+    {
+      "parameters": {},
+      "type": "n8n-nodes-base.manualTrigger",
+      "typeVersion": 1,
+      "position": [
+        -1456,
+        -576
+      ],
+      "id": "2c12596a-bff1-4c47-92fe-9eaf7cf88919",
+      "name": "01 - Iniciar Preparación Comercial"
+    },
+    {
+      "parameters": {
+        "documentId": {
+          "__rl": true,
+          "value": "https://docs.google.com/spreadsheets/d/1ZshJY8CQWkciFk8T0-3LNeqVuC4lUMMl-l9_DdXvdLY/edit?gid=0#gid=0",
+          "mode": "url"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": "gid=0",
+          "mode": "list",
+          "cachedResultName": "Empresas",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1ZshJY8CQWkciFk8T0-3LNeqVuC4lUMMl-l9_DdXvdLY/edit#gid=0"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.7,
+      "position": [
+        -1296,
+        -576
+      ],
+      "id": "befa0053-b781-42fc-be58-52584ddbc12f",
+      "name": "02 - Leer Prospectos Listos para Contacto",
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "2CrAO5MHlm3a4UMM",
+          "name": "Google Sheets account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 3
+          },
+          "conditions": [
+            {
+              "id": "38b9ae25-3eb3-4e9d-9ea6-6c63a2e80d27",
+              "leftValue": "={{\n  String($json['Origen Lead'] || '').trim().toLowerCase() === 'prospección' &&\n  String($json.Estado || '').trim().toLowerCase() === 'nuevo' &&\n  String($json['Servicio recomendado'] || '').trim() !== '' &&\n  String($json['Último Contacto'] || '').trim() === ''\n}}",
+              "rightValue": "",
+              "operator": {
+                "type": "boolean",
+                "operation": "true",
+                "singleValue": true
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.filter",
+      "typeVersion": 2.3,
+      "position": [
+        -1152,
+        -576
+      ],
+      "id": "fb6e2598-b15e-431b-a151-55a05dcdff24",
+      "name": "03 - Filtrar Prospectos Pendientes de Contacto"
+    },
+    {
+      "parameters": {
+        "jsCode": "const items = $input.all();\n\nconst pesoPrioridad = {\n  Alta: 3,\n  Media: 2,\n  Baja: 1,\n};\n\nitems.sort((a, b) => {\n  const prioridadA = pesoPrioridad[a.json.Prioridad] || 0;\n  const prioridadB = pesoPrioridad[b.json.Prioridad] || 0;\n\n  if (prioridadA !== prioridadB) {\n    return prioridadB - prioridadA;\n  }\n\n  const filaA = Number(a.json.row_number || 0);\n  const filaB = Number(b.json.row_number || 0);\n\n  return filaB - filaA;\n});\n\nreturn items;"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        -1008,
+        -576
+      ],
+      "id": "0508b648-13d9-4212-bc22-d80c300e9472",
+      "name": "04 - Priorizar Prospectos para Contacto"
+    },
+    {
+      "parameters": {
+        "maxItems": 5
+      },
+      "type": "n8n-nodes-base.limit",
+      "typeVersion": 1,
+      "position": [
+        -864,
+        -576
+      ],
+      "id": "68edfbc1-50a4-49a4-8535-e56f92734f5a",
+      "name": "05 - Limitar a 5 Prospectos para Contacto"
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 3
+          },
+          "conditions": [
+            {
+              "id": "3c3a08a7-2585-415c-8976-706f23b72844",
+              "leftValue": "={{ String($json.Email || '').trim() !== '' }}",
+              "rightValue": "",
+              "operator": {
+                "type": "boolean",
+                "operation": "true",
+                "singleValue": true
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.3,
+      "position": [
+        -704,
+        -576
+      ],
+      "id": "018d64ec-d94a-412b-8f50-9213972ebb65",
+      "name": "06 - Separar Prospectos con Email"
+    },
+    {
+      "parameters": {
+        "jsCode": "const items = $input.all();\n\nreturn items.map((item, index) => {\n  const web = String(item.json.Web || '').trim();\n\n  return {\n    json: {\n      ...item.json,\n      'URL Búsqueda Email': web,\n      'Estado Búsqueda Email': web\n        ? 'Pendiente'\n        : 'Sin web'\n    },\n    pairedItem: {\n      item: index\n    }\n  };\n});"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        -720,
+        -400
+      ],
+      "id": "0999f5f8-242f-4d20-a5e2-4a767aee3288",
+      "name": "07 - Preparar Web para Buscar Email"
+    },
+    {
+      "parameters": {
+        "url": "={{ $json['URL Búsqueda Email'] }}",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.4,
+      "position": [
+        -64,
+        -560
+      ],
+      "id": "13d7bf9c-8867-4282-b4e6-5ebbc582a952",
+      "name": "08 - Obtener Web para Buscar Email",
+      "retryOnFail": true,
+      "waitBetweenTries": 5000
+    },
+    {
+      "parameters": {
+        "jsCode": "const items = $input.all();\n\nreturn items.map((item, index) => {\n\n  const origen = $('07 - Preparar Web para Buscar Email')\n    .itemMatching(index)\n    .json;\n\n  const html = String(\n    item.json.data ??\n    item.json.body ??\n    ''\n  );\n\n  const encontrados = html.match(\n    /[A-Z0-9._%+-]+@[A-Z0-9.-]+\\.[A-Z]{2,}/gi\n  ) || [];\n\n  const emailsLimpios = [...new Set(\n    encontrados\n      .map(email => email.toLowerCase().trim())\n      .filter(email => {\n\n        const bloqueados = [\n          'usuario@dominio.com',\n          'email@dominio.com',\n          'nombre@dominio.com',\n          'test@example.com'\n        ];\n\n        if (bloqueados.includes(email)) {\n          return false;\n        }\n\n        if (\n          email.includes('example.com') ||\n          email.includes('dominio.com') ||\n          email.includes('sentry.io') ||\n          email.includes('wixpress.com') ||\n          email.includes('wordpress.org')\n        ) {\n          return false;\n        }\n\n        return true;\n      })\n  )];\n\n  // Priorizar emails comerciales/genéricos útiles\n  const prioridad = [\n    'info@',\n    'contacto@',\n    'recepcion@',\n    'administracion@',\n    'comercial@',\n    'hola@'\n  ];\n\n  emailsLimpios.sort((a, b) => {\n\n    const posA = prioridad.findIndex(prefijo =>\n      a.startsWith(prefijo)\n    );\n\n    const posB = prioridad.findIndex(prefijo =>\n      b.startsWith(prefijo)\n    );\n\n    const pesoA = posA === -1 ? 999 : posA;\n    const pesoB = posB === -1 ? 999 : posB;\n\n    return pesoA - pesoB;\n  });\n\n  return {\n    json: {\n      row_number: origen.row_number,\n      Empresa: origen.Empresa || '',\n      Web: origen.Web || '',\n      Email: origen.Email || '',\n\n      'Emails Encontrados': emailsLimpios.join(', '),\n\n      'Email Público Encontrado':\n        emailsLimpios[0] || '',\n\n      'Cantidad Emails Encontrados':\n        emailsLimpios.length,\n\n      'Estado Búsqueda Email':\n        emailsLimpios.length > 0\n          ? 'Email encontrado'\n          : 'Email no encontrado en página principal'\n    },\n\n    pairedItem: {\n      item: index\n    }\n  };\n});"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        80,
+        -560
+      ],
+      "id": "0254387c-c509-48e5-b20e-bd5589db0a0a",
+      "name": "09 - Extraer Emails Públicos de Web"
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 3
+          },
+          "conditions": [
+            {
+              "id": "3c685411-f38a-4d12-9c9f-77abecf3e21b",
+              "leftValue": "={{ Number($json['Cantidad Emails Encontrados'] || 0) > 0 }}",
+              "rightValue": "",
+              "operator": {
+                "type": "boolean",
+                "operation": "true",
+                "singleValue": true
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.3,
+      "position": [
+        224,
+        -544
+      ],
+      "id": "aa78c92c-8271-4913-88f6-47b7fa94c586",
+      "name": "10 - Separar Emails Encontrados"
+    },
+    {
+      "parameters": {
+        "jsCode": "const items = $input.all();\n\nconst fecha = new Date()\n  .toLocaleString('es-ES', {\n    timeZone: 'Europe/Madrid',\n    day: '2-digit',\n    month: '2-digit',\n    year: 'numeric',\n    hour: '2-digit',\n    minute: '2-digit',\n    second: '2-digit',\n    hour12: false,\n  })\n  .replace(',', '');\n\nreturn items.map(item => {\n  return {\n    json: {\n      row_number: item.json.row_number,\n      Empresa: item.json.Empresa || '',\n      Email: item.json['Email Público Encontrado'] || '',\n      'Fecha Actualización': fecha\n    }\n  };\n});"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        288,
+        -160
+      ],
+      "id": "56b2c386-207c-4ef0-a945-bd18bcfce45d",
+      "name": "11 - Preparar Email Encontrado para CRM"
+    },
+    {
+      "parameters": {
+        "operation": "update",
+        "documentId": {
+          "__rl": true,
+          "value": "https://docs.google.com/spreadsheets/d/1ZshJY8CQWkciFk8T0-3LNeqVuC4lUMMl-l9_DdXvdLY/edit?gid=0#gid=0",
+          "mode": "url"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": "gid=0",
+          "mode": "list",
+          "cachedResultName": "Empresas",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1ZshJY8CQWkciFk8T0-3LNeqVuC4lUMMl-l9_DdXvdLY/edit#gid=0"
+        },
+        "columns": {
+          "mappingMode": "autoMapInputData",
+          "value": {},
+          "matchingColumns": [
+            "row_number"
+          ],
+          "schema": [
+            {
+              "id": "Fecha Alta",
+              "displayName": "Fecha Alta",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Empresa",
+              "displayName": "Empresa",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Sector",
+              "displayName": "Sector",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Web",
+              "displayName": "Web",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Email",
+              "displayName": "Email",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Teléfono",
+              "displayName": "Teléfono",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Persona contacto",
+              "displayName": "Persona contacto",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Cargo",
+              "displayName": "Cargo",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Ciudad",
+              "displayName": "Ciudad",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Provincia",
+              "displayName": "Provincia",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "País",
+              "displayName": "País",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Estado",
+              "displayName": "Estado",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Prioridad",
+              "displayName": "Prioridad",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Origen Lead",
+              "displayName": "Origen Lead",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Campaña",
+              "displayName": "Campaña",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Último Contacto",
+              "displayName": "Último Contacto",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Próximo Seguimiento",
+              "displayName": "Próximo Seguimiento",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Respuesta",
+              "displayName": "Respuesta",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Interés",
+              "displayName": "Interés",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Servicio recomendado",
+              "displayName": "Servicio recomendado",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Importe (€)",
+              "displayName": "Importe (€)",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Thread Gmail",
+              "displayName": "Thread Gmail",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Message ID",
+              "displayName": "Message ID",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Calendly",
+              "displayName": "Calendly",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "WhatsApp",
+              "displayName": "WhatsApp",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Auditoría IA",
+              "displayName": "Auditoría IA",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Notas",
+              "displayName": "Notas",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Fecha Actualización",
+              "displayName": "Fecha Actualización",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Consentimiento",
+              "displayName": "Consentimiento",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Tipo formulario",
+              "displayName": "Tipo formulario",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Página origen",
+              "displayName": "Página origen",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Asunto Email",
+              "displayName": "Asunto Email",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Borrador Email",
+              "displayName": "Borrador Email",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Estado Email Comercial",
+              "displayName": "Estado Email Comercial",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "row_number",
+              "displayName": "row_number",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "number",
+              "canBeUsedToMatch": true,
+              "readOnly": true,
+              "removed": false
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.7,
+      "position": [
+        496,
+        -208
+      ],
+      "id": "3605dbe9-74fa-4914-aac2-706d971b86c8",
+      "name": "12 - Guardar Email Encontrado en CRM",
+      "retryOnFail": true,
+      "waitBetweenTries": 5000,
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "2CrAO5MHlm3a4UMM",
+          "name": "Google Sheets account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "jsCode": "const items = $input.all();\n\nconst rutas = [\n  '/contacto',\n  '/contact',\n  '/aviso-legal',\n  '/legal'\n];\n\nconst salida = [];\n\nitems.forEach((item, index) => {\n  const datos = item.json;\n  const web = String(datos.Web || '').trim();\n\n  // Obtener solo https://dominio.com\n  const coincidencia = web.match(/^(https?:\\/\\/[^\\/?#]+)/i);\n\n  if (!coincidencia) {\n    return;\n  }\n\n  const dominio = coincidencia[1].replace(/\\/$/, '');\n\n  rutas.forEach(ruta => {\n    salida.push({\n      json: {\n        row_number: datos.row_number,\n        Empresa: datos.Empresa || '',\n        Web: web,\n        'URL Secundaria': `${dominio}${ruta}`\n      },\n      pairedItem: {\n        item: index\n      }\n    });\n  });\n});\n\nreturn salida;"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        80,
+        -256
+      ],
+      "id": "28b0872c-b269-4b7a-9cc7-cbb146aa4e37",
+      "name": "13 - Preparar Páginas Secundarias para Buscar Email"
+    },
+    {
+      "parameters": {
+        "url": "={{ $json['URL Secundaria'] }}",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.4,
+      "position": [
+        -1456,
+        -32
+      ],
+      "id": "75417303-65c5-4a70-8daa-c516d1ca974e",
+      "name": "14 - Obtener Páginas Secundarias para Email",
+      "retryOnFail": true,
+      "waitBetweenTries": 5000
+    },
+    {
+      "parameters": {
+        "jsCode": "const items = $input.all();\n\nconst empresas = {};\n\nfunction limpiarEmails(html) {\n  const encontrados = String(html).match(\n    /[A-Z0-9._%+-]+@[A-Z0-9.-]+\\.[A-Z]{2,}/gi\n  ) || [];\n\n  return [...new Set(\n    encontrados\n      .map(email => email.toLowerCase().trim())\n      .filter(email =>\n        !email.includes('example.com') &&\n        !email.includes('dominio.com') &&\n        !email.includes('sentry.io') &&\n        !email.includes('wixpress.com') &&\n        !email.includes('wordpress.org')\n      )\n  )];\n}\n\nitems.forEach((item, index) => {\n\n  const origen = $('13 - Preparar Páginas Secundarias para Buscar Email')\n    .itemMatching(index)\n    .json;\n\n  const html = String(\n    item.json.data ??\n    item.json.body ??\n    ''\n  );\n\n  const emails = limpiarEmails(html);\n\n  const fila = String(origen.row_number);\n\n  if (!empresas[fila]) {\n    empresas[fila] = {\n      row_number: origen.row_number,\n      Empresa: origen.Empresa || '',\n      Web: origen.Web || '',\n      emails: []\n    };\n  }\n\n  empresas[fila].emails.push(...emails);\n});\n\nreturn Object.values(empresas).map(empresa => {\n\n  const emails = [...new Set(empresa.emails)];\n\n  const prioridad = [\n    'info@',\n    'contacto@',\n    'recepcion@',\n    'administracion@',\n    'comercial@',\n    'hola@'\n  ];\n\n  emails.sort((a, b) => {\n    const aPos = prioridad.findIndex(p => a.startsWith(p));\n    const bPos = prioridad.findIndex(p => b.startsWith(p));\n\n    return (aPos === -1 ? 999 : aPos) -\n           (bPos === -1 ? 999 : bPos);\n  });\n\n  return {\n    json: {\n      row_number: empresa.row_number,\n      Empresa: empresa.Empresa,\n      Web: empresa.Web,\n      'Emails Encontrados Secundarios': emails.join(', '),\n      'Email Público Encontrado': emails[0] || '',\n      'Cantidad Emails Encontrados': emails.length,\n      'Estado Búsqueda Email':\n        emails.length > 0\n          ? 'Email encontrado en página secundaria'\n          : 'Email no encontrado'\n    }\n  };\n});"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        -1184,
+        -48
+      ],
+      "id": "7aab81a2-77de-4cf0-a14d-bfd91474d938",
+      "name": "15 - Extraer Emails de Páginas Secundarias"
+    },
+    {
+      "parameters": {
+        "jsCode": "const items = $input.all();\n\nconst fecha = new Date()\n  .toLocaleString('es-ES', {\n    timeZone: 'Europe/Madrid',\n    day: '2-digit',\n    month: '2-digit',\n    year: 'numeric',\n    hour: '2-digit',\n    minute: '2-digit',\n    second: '2-digit',\n    hour12: false,\n  })\n  .replace(',', '');\n\nreturn items.map(item => ({\n  json: {\n    row_number: item.json.row_number,\n    Empresa: item.json.Empresa || '',\n    Email: item.json['Email Público Encontrado'] || '',\n    'Fecha Actualización': fecha\n  }\n}));"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        -928,
+        -48
+      ],
+      "id": "a42b067f-41f1-437f-a7e8-ad8d6fbcb0d7",
+      "name": "16 - Preparar Emails Secundarios para CRM"
+    },
+    {
+      "parameters": {
+        "operation": "update",
+        "documentId": {
+          "__rl": true,
+          "value": "https://docs.google.com/spreadsheets/d/1ZshJY8CQWkciFk8T0-3LNeqVuC4lUMMl-l9_DdXvdLY/edit?gid=0#gid=0",
+          "mode": "url"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": "gid=0",
+          "mode": "list",
+          "cachedResultName": "Empresas",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1ZshJY8CQWkciFk8T0-3LNeqVuC4lUMMl-l9_DdXvdLY/edit#gid=0"
+        },
+        "columns": {
+          "mappingMode": "autoMapInputData",
+          "value": {},
+          "matchingColumns": [
+            "row_number"
+          ],
+          "schema": [
+            {
+              "id": "Fecha Alta",
+              "displayName": "Fecha Alta",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Empresa",
+              "displayName": "Empresa",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Sector",
+              "displayName": "Sector",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Web",
+              "displayName": "Web",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Email",
+              "displayName": "Email",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Teléfono",
+              "displayName": "Teléfono",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Persona contacto",
+              "displayName": "Persona contacto",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Cargo",
+              "displayName": "Cargo",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Ciudad",
+              "displayName": "Ciudad",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Provincia",
+              "displayName": "Provincia",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "País",
+              "displayName": "País",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Estado",
+              "displayName": "Estado",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Prioridad",
+              "displayName": "Prioridad",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Origen Lead",
+              "displayName": "Origen Lead",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Campaña",
+              "displayName": "Campaña",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Último Contacto",
+              "displayName": "Último Contacto",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Próximo Seguimiento",
+              "displayName": "Próximo Seguimiento",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Respuesta",
+              "displayName": "Respuesta",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Interés",
+              "displayName": "Interés",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Servicio recomendado",
+              "displayName": "Servicio recomendado",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Importe (€)",
+              "displayName": "Importe (€)",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Thread Gmail",
+              "displayName": "Thread Gmail",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Message ID",
+              "displayName": "Message ID",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Calendly",
+              "displayName": "Calendly",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "WhatsApp",
+              "displayName": "WhatsApp",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Auditoría IA",
+              "displayName": "Auditoría IA",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Notas",
+              "displayName": "Notas",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Fecha Actualización",
+              "displayName": "Fecha Actualización",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Consentimiento",
+              "displayName": "Consentimiento",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Tipo formulario",
+              "displayName": "Tipo formulario",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Página origen",
+              "displayName": "Página origen",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "row_number",
+              "displayName": "row_number",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "number",
+              "canBeUsedToMatch": true,
+              "readOnly": true,
+              "removed": false
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.7,
+      "position": [
+        -688,
+        -48
+      ],
+      "id": "1f5f33e4-6074-4539-9098-21c1aa986e35",
+      "name": "17 - Guardar Emails Secundarios en CRM",
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "2CrAO5MHlm3a4UMM",
+          "name": "Google Sheets account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "jsCode": "const items = $input.all();\n\nreturn items.map((item, index) => {\n  const datos = item.json;\n\n  return {\n    json: {\n      row_number: datos.row_number,\n      Empresa: datos.Empresa || '',\n      Sector: datos.Sector || '',\n      Web: datos.Web || '',\n      Email: datos.Email || '',\n      Ciudad: datos.Ciudad || '',\n      Prioridad: datos.Prioridad || '',\n      'Servicio recomendado': datos['Servicio recomendado'] || '',\n      Notas: datos.Notas || '',\n\n      'Estado Email Comercial': 'Pendiente de redacción'\n    },\n\n    pairedItem: {\n      item: index\n    }\n  };\n});"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        -448,
+        -672
+      ],
+      "id": "fc74aa4c-3bcd-4464-9ed5-6819dae693c4",
+      "name": "18 - Preparar Contexto para Email Comercial"
+    },
+    {
+      "parameters": {
+        "promptType": "define",
+        "text": "=Eres el asistente comercial B2B de RITEALMAR, empresa española especializada en inteligencia artificial, automatización, CRM, formularios conectados, chatbots y mejora de procesos comerciales.\n\nTu tarea es redactar un primer correo comercial PERSONALIZADO para la empresa indicada.\n\nDATOS DEL PROSPECTO\n\nEmpresa: {{ $json.Empresa }}\nSector: {{ $json.Sector }}\nCiudad: {{ $json.Ciudad }}\nWeb: {{ $json.Web }}\nEmail destinatario: {{ $json.Email }}\nServicio recomendado: {{ $json['Servicio recomendado'] }}\nPrioridad: {{ $json.Prioridad }}\n\nANÁLISIS PREVIO:\n{{ $json.Notas }}\n\nREGLAS OBLIGATORIAS\n\n- Escribe en español de España.\n- Tono profesional, cercano y humano.\n- Máximo aproximado: 120 palabras de cuerpo.\n- No inventes información.\n- No afirmes conocer herramientas, CRM o procesos internos que no estén confirmados.\n- No prometas resultados garantizados.\n- Haz referencia a 1 detalle concreto de la empresa cuando esté respaldado por el análisis.\n- Explica brevemente una posible mejora relacionada con el servicio recomendado.\n- No uses lenguaje agresivamente comercial.\n- No digas que una IA ha analizado la empresa.\n- No uses frases como \"oferta irresistible\", \"revolucionar\", \"garantizamos\", etc.\n- El objetivo es iniciar una conversación, no vender directamente.\n- Ofrece una revisión/auditoría inicial sin coste.\n- Firma como Ricardo, RITEALMAR.\n- Incluye https://ritealmar.es/auditoria-ia-gratis\n- No añadas información no presente en los datos.\n\nDEVUELVE ÚNICAMENTE JSON VÁLIDO con esta estructura exacta:\n\n{\n  \"row_number\": \"{{ $json.row_number }}\",\n  \"empresa\": \"{{ $json.Empresa }}\",\n  \"email_destinatario\": \"{{ $json.Email }}\",\n  \"asunto\": \"\",\n  \"cuerpo_email\": \"\",\n  \"estado_email\": \"Pendiente de aprobación\"\n}",
+        "messages": {
+          "messageValues": []
+        },
+        "batching": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.chainLlm",
+      "typeVersion": 1.9,
+      "position": [
+        -192,
+        -688
+      ],
+      "id": "b0fcc88b-abda-473f-afcb-6e3abb7382e7",
+      "name": "19 - Redactar Email Comercial con IA"
+    },
+    {
+      "parameters": {
+        "model": {
+          "__rl": true,
+          "value": "gpt-5-mini",
+          "mode": "list",
+          "cachedResultName": "gpt-5-mini"
+        },
+        "builtInTools": {},
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatOpenAi",
+      "typeVersion": 1.3,
+      "position": [
+        -720,
+        -224
+      ],
+      "id": "30408323-7957-4952-b5e3-d466a6f447fe",
+      "name": "19A - Modelo IA Email Comercial",
+      "credentials": {
+        "openAiApi": {
+          "id": null,
+          "name": "",
+          "__aiGatewayManaged": true
+        }
+      }
+    },
+    {
+      "parameters": {
+        "jsCode": "const items = $input.all();\n\nreturn items.map(item => {\n\n  const textoOriginal = String(item.json.text || '').trim();\n\n  try {\n    const textoLimpio = textoOriginal\n      .replace(/^```json\\s*/i, '')\n      .replace(/^```\\s*/i, '')\n      .replace(/\\s*```$/i, '')\n      .trim();\n\n    const datos = JSON.parse(textoLimpio);\n\n    return {\n      json: {\n        row_number: datos.row_number || '',\n        Empresa: datos.empresa || '',\n        Email: datos.email_destinatario || '',\n        Asunto: datos.asunto || '',\n        'Cuerpo Email': datos.cuerpo_email || '',\n        'Estado Email Comercial':\n          datos.estado_email || 'Pendiente de aprobación',\n        'Estado Parseo Email IA': 'Correcto'\n      }\n    };\n\n  } catch (error) {\n\n    return {\n      json: {\n        'Estado Parseo Email IA': 'Error',\n        'Texto Original IA': textoOriginal,\n        'Error Parseo Email IA': error.message\n      }\n    };\n  }\n});"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        -320,
+        -240
+      ],
+      "id": "2e591d3c-5b63-47d0-bb98-f155a6f6df1b",
+      "name": "20 - Convertir Email IA a Datos CRM"
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 3
+          },
+          "conditions": [
+            {
+              "id": "e5032540-cd77-4027-944a-c8dcefcb6754",
+              "leftValue": "={{ $json['Estado Parseo Email IA'] }}",
+              "rightValue": "Correcto",
+              "operator": {
+                "type": "string",
+                "operation": "equals"
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.filter",
+      "typeVersion": 2.3,
+      "position": [
+        -128,
+        -240
+      ],
+      "id": "70807b21-eb46-49b3-a185-ec8205a20e74",
+      "name": "21 - Validar Email Comercial IA"
+    },
+    {
+      "parameters": {
+        "jsCode": "const items = $input.all();\n\nconst fecha = new Date()\n  .toLocaleString('es-ES', {\n    timeZone: 'Europe/Madrid',\n    day: '2-digit',\n    month: '2-digit',\n    year: 'numeric',\n    hour: '2-digit',\n    minute: '2-digit',\n    second: '2-digit',\n    hour12: false,\n  })\n  .replace(',', '');\n\nreturn items.map(item => ({\n  json: {\n    row_number: item.json.row_number,\n    Empresa: item.json.Empresa || '',\n    'Asunto Email': item.json.Asunto || '',\n    'Borrador Email': item.json['Cuerpo Email'] || '',\n    'Estado Email Comercial': 'Pendiente de aprobación',\n    'Fecha Actualización': fecha\n  }\n}));"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        -1424,
+        -352
+      ],
+      "id": "608414d6-39bf-45d6-a67a-2e8dadcecac5",
+      "name": "22 - Preparar Borradores para CRM",
+      "retryOnFail": true,
+      "waitBetweenTries": 5000
+    },
+    {
+      "parameters": {
+        "operation": "update",
+        "documentId": {
+          "__rl": true,
+          "value": "https://docs.google.com/spreadsheets/d/1ZshJY8CQWkciFk8T0-3LNeqVuC4lUMMl-l9_DdXvdLY/edit?gid=0#gid=0",
+          "mode": "url"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": "gid=0",
+          "mode": "list",
+          "cachedResultName": "Empresas",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1ZshJY8CQWkciFk8T0-3LNeqVuC4lUMMl-l9_DdXvdLY/edit#gid=0"
+        },
+        "columns": {
+          "mappingMode": "autoMapInputData",
+          "value": {},
+          "matchingColumns": [
+            "row_number"
+          ],
+          "schema": [
+            {
+              "id": "Fecha Alta",
+              "displayName": "Fecha Alta",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Empresa",
+              "displayName": "Empresa",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Sector",
+              "displayName": "Sector",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Web",
+              "displayName": "Web",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Email",
+              "displayName": "Email",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Teléfono",
+              "displayName": "Teléfono",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Persona contacto",
+              "displayName": "Persona contacto",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Cargo",
+              "displayName": "Cargo",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Ciudad",
+              "displayName": "Ciudad",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Provincia",
+              "displayName": "Provincia",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "País",
+              "displayName": "País",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Estado",
+              "displayName": "Estado",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Prioridad",
+              "displayName": "Prioridad",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Origen Lead",
+              "displayName": "Origen Lead",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Campaña",
+              "displayName": "Campaña",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Último Contacto",
+              "displayName": "Último Contacto",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Próximo Seguimiento",
+              "displayName": "Próximo Seguimiento",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Respuesta",
+              "displayName": "Respuesta",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Interés",
+              "displayName": "Interés",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Servicio recomendado",
+              "displayName": "Servicio recomendado",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Importe (€)",
+              "displayName": "Importe (€)",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Thread Gmail",
+              "displayName": "Thread Gmail",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Message ID",
+              "displayName": "Message ID",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Calendly",
+              "displayName": "Calendly",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "WhatsApp",
+              "displayName": "WhatsApp",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Auditoría IA",
+              "displayName": "Auditoría IA",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Notas",
+              "displayName": "Notas",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Fecha Actualización",
+              "displayName": "Fecha Actualización",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Consentimiento",
+              "displayName": "Consentimiento",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Tipo formulario",
+              "displayName": "Tipo formulario",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Página origen",
+              "displayName": "Página origen",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Asunto Email",
+              "displayName": "Asunto Email",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Borrador Email",
+              "displayName": "Borrador Email",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Estado Email Comercial",
+              "displayName": "Estado Email Comercial",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "row_number",
+              "displayName": "row_number",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "number",
+              "canBeUsedToMatch": true,
+              "readOnly": true,
+              "removed": false
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.7,
+      "position": [
+        -1152,
+        -352
+      ],
+      "id": "4f79a00d-f7de-4c3a-9f39-a071f0b25bbf",
+      "name": "23 - Guardar Borradores Comerciales en CRM",
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "2CrAO5MHlm3a4UMM",
+          "name": "Google Sheets account"
+        }
+      }
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "01 - Iniciar Preparación Comercial": {
+      "main": [
+        [
+          {
+            "node": "02 - Leer Prospectos Listos para Contacto",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "02 - Leer Prospectos Listos para Contacto": {
+      "main": [
+        [
+          {
+            "node": "03 - Filtrar Prospectos Pendientes de Contacto",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "03 - Filtrar Prospectos Pendientes de Contacto": {
+      "main": [
+        [
+          {
+            "node": "04 - Priorizar Prospectos para Contacto",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "04 - Priorizar Prospectos para Contacto": {
+      "main": [
+        [
+          {
+            "node": "05 - Limitar a 5 Prospectos para Contacto",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "05 - Limitar a 5 Prospectos para Contacto": {
+      "main": [
+        [
+          {
+            "node": "06 - Separar Prospectos con Email",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "06 - Separar Prospectos con Email": {
+      "main": [
+        [
+          {
+            "node": "18 - Preparar Contexto para Email Comercial",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "07 - Preparar Web para Buscar Email",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "07 - Preparar Web para Buscar Email": {
+      "main": [
+        [
+          {
+            "node": "08 - Obtener Web para Buscar Email",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "08 - Obtener Web para Buscar Email": {
+      "main": [
+        [
+          {
+            "node": "09 - Extraer Emails Públicos de Web",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "09 - Extraer Emails Públicos de Web": {
+      "main": [
+        [
+          {
+            "node": "10 - Separar Emails Encontrados",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "10 - Separar Emails Encontrados": {
+      "main": [
+        [
+          {
+            "node": "11 - Preparar Email Encontrado para CRM",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "13 - Preparar Páginas Secundarias para Buscar Email",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "11 - Preparar Email Encontrado para CRM": {
+      "main": [
+        [
+          {
+            "node": "12 - Guardar Email Encontrado en CRM",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "13 - Preparar Páginas Secundarias para Buscar Email": {
+      "main": [
+        [
+          {
+            "node": "14 - Obtener Páginas Secundarias para Email",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "14 - Obtener Páginas Secundarias para Email": {
+      "main": [
+        [
+          {
+            "node": "15 - Extraer Emails de Páginas Secundarias",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "15 - Extraer Emails de Páginas Secundarias": {
+      "main": [
+        [
+          {
+            "node": "16 - Preparar Emails Secundarios para CRM",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "16 - Preparar Emails Secundarios para CRM": {
+      "main": [
+        [
+          {
+            "node": "17 - Guardar Emails Secundarios en CRM",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "17 - Guardar Emails Secundarios en CRM": {
+      "main": [
+        []
+      ]
+    },
+    "18 - Preparar Contexto para Email Comercial": {
+      "main": [
+        [
+          {
+            "node": "19 - Redactar Email Comercial con IA",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "19A - Modelo IA Email Comercial": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "19 - Redactar Email Comercial con IA",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "19 - Redactar Email Comercial con IA": {
+      "main": [
+        [
+          {
+            "node": "20 - Convertir Email IA a Datos CRM",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "20 - Convertir Email IA a Datos CRM": {
+      "main": [
+        [
+          {
+            "node": "21 - Validar Email Comercial IA",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "21 - Validar Email Comercial IA": {
+      "main": [
+        [
+          {
+            "node": "22 - Preparar Borradores para CRM",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "22 - Preparar Borradores para CRM": {
+      "main": [
+        [
+          {
+            "node": "23 - Guardar Borradores Comerciales en CRM",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": false,
+  "settings": {
+    "executionOrder": "v1",
+    "binaryMode": "separate",
+    "availableInMCP": false
+  },
+  "versionId": "98068efb-6f96-4ee6-91f2-7b87cdbd026e",
+  "meta": {
+    "templateCredsSetupCompleted": true,
+    "instanceId": "f7d1fc1ea290ea7f52cbc1fba9695e0040cad9fb7f2e7953cd729a6d6d25fc46"
+  },
+  "nodeGroups": [],
+  "id": "20JvW6oYOqkBRkaF",
+  "tags": []
+}

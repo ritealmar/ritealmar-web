@@ -1,0 +1,1770 @@
+{
+  "name": "10 - RITEALMAR - Revisión Comercial Prospectos",
+  "nodes": [
+    {
+      "parameters": {},
+      "type": "n8n-nodes-base.manualTrigger",
+      "typeVersion": 1,
+      "position": [
+        -624,
+        -368
+      ],
+      "id": "47677068-28e2-49e8-8c67-6c09461665c2",
+      "name": "01 - Iniciar Revisión Manual"
+    },
+    {
+      "parameters": {
+        "documentId": {
+          "__rl": true,
+          "value": "https://docs.google.com/spreadsheets/d/1ZshJY8CQWkciFk8T0-3LNeqVuC4lUMMl-l9_DdXvdLY/edit?gid=0#gid=0",
+          "mode": "url"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": "gid=0",
+          "mode": "list",
+          "cachedResultName": "Empresas",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1ZshJY8CQWkciFk8T0-3LNeqVuC4lUMMl-l9_DdXvdLY/edit#gid=0"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.7,
+      "position": [
+        -448,
+        -368
+      ],
+      "id": "df02a67d-88fa-4f7e-80f6-ae9b8c7d3397",
+      "name": "02 - Leer Prospectos del CRM",
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "2CrAO5MHlm3a4UMM",
+          "name": "Google Sheets account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 3
+          },
+          "conditions": [
+            {
+              "id": "def9e6dc-2b99-48ff-8015-7ac7490a5d0b",
+              "leftValue": "={{ $json['Origen Lead'] }}",
+              "rightValue": "=Prospección",
+              "operator": {
+                "type": "string",
+                "operation": "equals"
+              }
+            },
+            {
+              "id": "43fd12e7-cf00-40f8-bace-7ee609c9fee5",
+              "leftValue": "={{ $json.Estado }}",
+              "rightValue": "Nuevo",
+              "operator": {
+                "type": "string",
+                "operation": "equals",
+                "name": "filter.operator.equals"
+              }
+            },
+            {
+              "id": "924efc6d-ecc7-4c91-a776-a46d2380e264",
+              "leftValue": "={{ $json['Servicio recomendado'] }}",
+              "rightValue": "",
+              "operator": {
+                "type": "string",
+                "operation": "empty",
+                "singleValue": true
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.filter",
+      "typeVersion": 2.3,
+      "position": [
+        -272,
+        -368
+      ],
+      "id": "c8c4f3a6-9185-441e-9009-cd3491b44328",
+      "name": "03 - Filtrar Prospectos Pendientes"
+    },
+    {
+      "parameters": {
+        "sortFieldsUi": {
+          "sortField": [
+            {
+              "fieldName": "row_number",
+              "order": "descending"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.sort",
+      "typeVersion": 1,
+      "position": [
+        -112,
+        -368
+      ],
+      "id": "e849bb44-7e72-4524-bf44-8cdc95a6fe17",
+      "name": "04 - Ordenar Prospectos Más Recientes"
+    },
+    {
+      "parameters": {
+        "maxItems": 5
+      },
+      "type": "n8n-nodes-base.limit",
+      "typeVersion": 1,
+      "position": [
+        352,
+        -368
+      ],
+      "id": "0ef3c141-4dff-4b9a-b13e-054838732fc2",
+      "name": "05 - Limitar a 5 Prospectos para Revisión"
+    },
+    {
+      "parameters": {
+        "jsCode": "const items = $input.all();\n\nreturn items.map((item, index) => {\n  const datos = item.json;\n\n  const web = String(datos.Web || '').trim();\n  const email = String(datos.Email || '').trim();\n  const telefono = String(datos['Teléfono'] || '').trim();\n\n  return {\n    json: {\n      row_number: datos.row_number,\n      Empresa: datos.Empresa || '',\n      Sector: datos.Sector || '',\n      Ciudad: datos.Ciudad || '',\n      Web: web,\n      Email: email,\n      'Teléfono': telefono,\n\n      'Tiene Web': web !== '',\n      'Tiene Email': email !== '',\n      'Tiene Teléfono': telefono !== '',\n\n      'Tipo Investigación': web !== ''\n        ? 'Analizar web'\n        : 'Buscar información comercial pública',\n\n      'Estado Investigación': 'Pendiente'\n    },\n\n    pairedItem: {\n      item: index\n    }\n  };\n});"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        560,
+        -368
+      ],
+      "id": "c9ef0d1d-c040-4a96-bf77-45c0b03c3fc8",
+      "name": "06 - Preparar Datos para Investigación"
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 3
+          },
+          "conditions": [
+            {
+              "id": "92f2ecde-6534-4f79-9954-1c1c47be8f28",
+              "leftValue": "={{ !['sanitas','adeslas','vitaldent','dentix'].some(marca => ($json.Empresa || '').toLowerCase().includes(marca)) }}",
+              "rightValue": "",
+              "operator": {
+                "type": "boolean",
+                "operation": "true",
+                "singleValue": true
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.filter",
+      "typeVersion": 2.3,
+      "position": [
+        112,
+        -368
+      ],
+      "id": "21931dba-439b-412c-8e63-f43feffb45af",
+      "name": "07 - Excluir Cadenas No Objetivo en Revisión"
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 3
+          },
+          "conditions": [
+            {
+              "id": "74233d3f-4813-4a2b-8000-6380ef6d3634",
+              "leftValue": "={{ $json['Tiene Web'] }}",
+              "rightValue": "",
+              "operator": {
+                "type": "boolean",
+                "operation": "true",
+                "singleValue": true
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.3,
+      "position": [
+        880,
+        -368
+      ],
+      "id": "60be3581-5736-4e62-81be-ded987088204",
+      "name": "08 - Separar Prospectos con Web"
+    },
+    {
+      "parameters": {
+        "url": "={{ $json['URL Investigación'] }}",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.4,
+      "position": [
+        432,
+        -224
+      ],
+      "id": "194a8187-d9c1-4b07-8c8f-cf2f2dbf7632",
+      "name": "09 - Obtener Web del Prospecto",
+      "onError": "continueErrorOutput"
+    },
+    {
+      "parameters": {
+        "jsCode": "const items = $input.all();\n\nreturn items.map(item => {\n  const web = String(item.json.Web || '').trim();\n\n  return {\n    ...item,\n    json: {\n      ...item.json,\n      'URL Investigación': web\n    }\n  };\n});"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        608,
+        -160
+      ],
+      "id": "1b613c36-fae9-46be-90ae-a0c867f8b91b",
+      "name": "08A - Preparar URL Web"
+    },
+    {
+      "parameters": {
+        "jsCode": "const items = $input.all();\n\nreturn items.map(item => {\n  const errorOriginal = String(item.json.error?.message || '');\n\n  let motivo = 'No se pudo acceder automáticamente a la web.';\n\n  if (/SSL/i.test(errorOriginal)) {\n    motivo = 'No se pudo acceder automáticamente a la web por un problema SSL.';\n  } else if (/\\b503\\b/.test(errorOriginal)) {\n    motivo = 'La web respondió con error HTTP 503: temporalmente no disponible.';\n  } else if (/\\b403\\b/.test(errorOriginal)) {\n    motivo = 'La web respondió con error HTTP 403: acceso bloqueado.';\n  } else if (/\\b404\\b/.test(errorOriginal)) {\n    motivo = 'La web respondió con error HTTP 404: página no encontrada.';\n  } else if (/\\b429\\b/.test(errorOriginal)) {\n    motivo = 'La web respondió con error HTTP 429: demasiadas solicitudes.';\n  }\n\n  return {\n    json: {\n      ...item.json,\n      'Estado Investigación': 'Revisión manual',\n      'Motivo Revisión': motivo,\n      'Acción Recomendada':\n        'Revisar web manualmente antes de preparar propuesta comercial'\n    }\n  };\n});"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        -480,
+        176
+      ],
+      "id": "63ef1d7e-b047-4c9c-98aa-bcd416e63141",
+      "name": "09E - Preparar Revisión Manual Web"
+    },
+    {
+      "parameters": {
+        "jsCode": "const items = $input.all();\n\nfunction limpiarHtml(html = '') {\n  return String(html)\n    .replace(/<!--[\\s\\S]*?-->/g, ' ')\n    .replace(/<script[\\s\\S]*?<\\/script>/gi, ' ')\n    .replace(/<style[\\s\\S]*?<\\/style>/gi, ' ')\n    .replace(/<noscript[\\s\\S]*?<\\/noscript>/gi, ' ')\n    .replace(/<svg[\\s\\S]*?<\\/svg>/gi, ' ')\n    .replace(/<iframe[\\s\\S]*?<\\/iframe>/gi, ' ')\n    .replace(\n      /<\\/(p|div|section|article|h1|h2|h3|h4|h5|li|br|tr|td)>/gi,\n      '\\n'\n    )\n    .replace(/<[^>]+>/g, ' ')\n    .replace(/&nbsp;/gi, ' ')\n    .replace(/&amp;/gi, '&')\n    .replace(/&quot;/gi, '\"')\n    .replace(/&#39;/gi, \"'\")\n    .replace(/&lt;/gi, '<')\n    .replace(/&gt;/gi, '>')\n    .replace(/[ \\t]+/g, ' ')\n    .replace(/\\n\\s*\\n+/g, '\\n')\n    .trim();\n}\n\nreturn items.map((item, index) => {\n\n  const html = String(item.json.data || '');\n  const textoLimpio = limpiarHtml(html);\n\n  // Recuperar el prospecto realmente vinculado a este resultado HTTP\n  const origen = $('08A - Preparar URL Web')\n    .itemMatching(index)\n    .json;\n\n  return {\n    json: {\n      row_number: origen.row_number || '',\n      Empresa: origen.Empresa || '',\n      Sector: origen.Sector || '',\n      Ciudad: origen.Ciudad || '',\n      Web: origen.Web || '',\n      Email: origen.Email || '',\n      'Teléfono': origen['Teléfono'] || '',\n\n      'Contenido Web Limpio': textoLimpio.slice(0, 12000),\n\n      'Longitud Contenido Original': html.length,\n\n      'Longitud Contenido IA': Math.min(\n        textoLimpio.length,\n        12000\n      ),\n\n      'Estado Contenido Web':\n        textoLimpio.length > 100\n          ? 'Contenido preparado'\n          : 'Contenido insuficiente'\n    },\n\n    pairedItem: {\n      item: index\n    }\n  };\n});"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        288,
+        -256
+      ],
+      "id": "27e08d9f-b5f8-4ee7-9a7b-a74467c005ec",
+      "name": "10 - Preparar Contenido Web para IA"
+    },
+    {
+      "parameters": {
+        "promptType": "define",
+        "text": "={{ `\nActúa como analista comercial B2B de RITEALMAR, empresa española especializada en inteligencia artificial, automatización de procesos, CRM, chatbots, formularios conectados, diseño web, software a medida y sistemas de atención y seguimiento comercial.\n\nTu misión es analizar un prospecto empresarial utilizando EXCLUSIVAMENTE la información facilitada.\n\nREGLAS OBLIGATORIAS:\n- No inventes datos, problemas, herramientas utilizadas, resultados ni necesidades.\n- No afirmes que algo \"no existe\" solamente porque no aparezca en el texto.\n- Cuando no pueda comprobarse algo, utiliza expresiones como \"no se ha podido confirmar\" o \"convendría revisar\".\n- No critiques agresivamente la empresa ni su web.\n- Busca oportunidades comerciales razonables y útiles para RITEALMAR.\n- Prioriza automatización de captación, gestión de consultas, seguimiento de leads, CRM, formularios, WhatsApp, reservas/citas, chatbots, IA aplicada y mejora de conversión.\n- No prepares spam ni prometas resultados garantizados.\n- El resultado será revisado por una persona antes de contactar al prospecto.\n\nDATOS DEL PROSPECTO:\n\nFila CRM: ${$json.row_number || ''}\nEmpresa: ${$json.Empresa || ''}\nSector: ${$json.Sector || ''}\nCiudad: ${$json.Ciudad || ''}\nWeb: ${$json.Web || ''}\n\nCONTENIDO PÚBLICO EXTRAÍDO DE SU WEB:\n\n${$json['Contenido Web Limpio'] || ''}\n\nAnaliza la empresa y devuelve ÚNICAMENTE un JSON válido, sin markdown, sin bloques de código y sin texto antes o después.\n\nUtiliza exactamente esta estructura:\n\n{\n  \"row_number\": ${$json.row_number || 0},\n  \"empresa\": \"${String($json.Empresa || '').replace(/\"/g, '\\\\\"')}\",\n  \"resumen_negocio\": \"\",\n  \"oportunidad_detectada\": \"\",\n  \"evidencia_web\": \"\",\n  \"servicio_recomendado\": \"\",\n  \"prioridad_comercial\": \"Alta|Media|Baja\",\n  \"motivo_prioridad\": \"\",\n  \"angulo_contacto\": \"\",\n  \"accion_recomendada\": \"\",\n  \"estado_revision\": \"Pendiente de revisión humana\"\n}\n\nCRITERIOS:\n\nresumen_negocio:\nResume qué hace la empresa basándote únicamente en el contenido recibido.\n\noportunidad_detectada:\nDescribe una oportunidad concreta donde RITEALMAR podría aportar valor. Si no existe evidencia suficiente, indícalo claramente.\n\nevidencia_web:\nIndica brevemente qué información de la web justifica la oportunidad propuesta.\n\nservicio_recomendado:\nSelecciona el servicio de RITEALMAR más lógico. Ejemplos:\n- Automatización de leads y CRM\n- Chatbot con IA\n- Automatización de citas y seguimiento\n- Formularios conectados y seguimiento comercial\n- Automatización WhatsApp\n- Mejora web y conversión\n- Sistema comercial con IA\n- Auditoría IA y automatización\n\nprioridad_comercial:\nAlta únicamente cuando exista una oportunidad bastante clara.\nMedia cuando exista una oportunidad razonable pero deba verificarse.\nBaja cuando haya poca información o poco encaje evidente.\n\nangulo_contacto:\nPropón una frase breve y personalizada que Ricardo pueda utilizar como punto de partida para contactar, sin vender agresivamente.\n\naccion_recomendada:\nIndica cuál sería el siguiente paso comercial más sensato: revisar manualmente, preparar auditoría, contactar de forma personalizada, investigar un punto concreto, etc.\n` }}",
+        "batching": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.chainLlm",
+      "typeVersion": 1.9,
+      "position": [
+        -160,
+        -208
+      ],
+      "id": "5b3a282b-7501-4ee9-8c40-309d214821cd",
+      "name": "11 - Analizar Oportunidad Comercial con IA"
+    },
+    {
+      "parameters": {
+        "model": {
+          "__rl": true,
+          "mode": "list",
+          "value": "gpt-5-mini"
+        },
+        "builtInTools": {},
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatOpenAi",
+      "typeVersion": 1.3,
+      "position": [
+        -432,
+        -176
+      ],
+      "id": "4058a894-6c06-43d0-bd31-abff582be480",
+      "name": "11A - Modelo IA Revisión Comercial",
+      "credentials": {
+        "openAiApi": {
+          "id": null,
+          "name": "",
+          "__aiGatewayManaged": true
+        }
+      }
+    },
+    {
+      "parameters": {
+        "jsCode": "const items = $input.all();\n\nreturn items.map(item => {\n  let texto = String(item.json.text || '').trim();\n\n  // Por seguridad, elimina posibles bloques ```json ... ```\n  texto = texto\n    .replace(/^```json\\s*/i, '')\n    .replace(/^```\\s*/i, '')\n    .replace(/```$/i, '')\n    .trim();\n\n  try {\n    const analisis = JSON.parse(texto);\n\n    return {\n      json: {\n        ...analisis,\n        'Estado Parseo IA': 'Correcto'\n      }\n    };\n  } catch (error) {\n    return {\n      json: {\n        'Estado Parseo IA': 'Error',\n        'Texto Original IA': texto,\n        'Error Parseo IA': error.message\n      }\n    };\n  }\n});"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        48,
+        -80
+      ],
+      "id": "7bb34352-e4b4-430b-b155-4bbefdda8236",
+      "name": "12 - Convertir Análisis IA a Datos CRM"
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 3
+          },
+          "conditions": [
+            {
+              "id": "303816ac-7f67-4ef7-83d5-5affb33b4a80",
+              "leftValue": "={{ $json['Estado Parseo IA'] }}",
+              "rightValue": "Correcto",
+              "operator": {
+                "type": "string",
+                "operation": "equals",
+                "name": "filter.operator.equals"
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.filter",
+      "typeVersion": 2.3,
+      "position": [
+        560,
+        176
+      ],
+      "id": "ef2e378a-3c9a-4141-a91f-aaeb4c730d2f",
+      "name": "13 - Validar Análisis IA"
+    },
+    {
+      "parameters": {
+        "jsCode": "const items = $input.all();\n\n// Leemos las filas originales del CRM para conservar datos existentes\nconst crm = $('02 - Leer Prospectos del CRM')\n  .all()\n  .map(item => item.json);\n\n// Fecha/hora de Madrid con formato del CRM\nconst fecha = new Date()\n  .toLocaleString('es-ES', {\n    timeZone: 'Europe/Madrid',\n    day: '2-digit',\n    month: '2-digit',\n    year: 'numeric',\n    hour: '2-digit',\n    minute: '2-digit',\n    second: '2-digit',\n    hour12: false,\n  })\n  .replace(',', '');\n\n// Prioridades válidas\nconst prioridadesValidas = new Set([\n  'Alta',\n  'Media',\n  'Baja'\n]);\n\nreturn items.map(item => {\n  const analisis = item.json;\n\n  // Buscar la fila original exacta del CRM\n  const original = crm.find(fila =>\n    String(fila.row_number) === String(analisis.row_number)\n  ) || {};\n\n  // Conservar las notas anteriores\n  const notasAnteriores = String(\n    original.Notas || ''\n  ).trim();\n\n  // Crear bloque nuevo de análisis IA\n  const bloqueIA = [\n    `[Revisión comercial IA - ${fecha}]`,\n    `Resumen: ${analisis.resumen_negocio || ''}`,\n    `Oportunidad detectada: ${analisis.oportunidad_detectada || ''}`,\n    `Evidencia web: ${analisis.evidencia_web || ''}`,\n    `Motivo prioridad: ${analisis.motivo_prioridad || ''}`,\n    `Ángulo de contacto: ${analisis.angulo_contacto || ''}`,\n    `Acción recomendada: ${analisis.accion_recomendada || ''}`,\n    `Estado revisión: ${analisis.estado_revision || 'Pendiente de revisión humana'}`\n  ].join('\\n');\n\n  // Unir notas antiguas + nuevo análisis\n  const notasFinales = notasAnteriores\n    ? `${notasAnteriores}\\n\\n${bloqueIA}`\n    : bloqueIA;\n\n  // Validar prioridad devuelta por IA\n  const prioridadIA = prioridadesValidas.has(\n    analisis.prioridad_comercial\n  )\n    ? analisis.prioridad_comercial\n    : (original.Prioridad || 'Media');\n\n  return {\n    json: {\n      row_number: analisis.row_number,\n\n      Empresa:\n        analisis.empresa ||\n        original.Empresa ||\n        '',\n\n      'Servicio recomendado':\n        analisis.servicio_recomendado ||\n        original['Servicio recomendado'] ||\n        '',\n\n      Prioridad: prioridadIA,\n\n      Notas: notasFinales,\n\n      'Fecha Actualización': fecha\n    }\n  };\n});"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        704,
+        176
+      ],
+      "id": "0678310a-c614-4683-94c4-fd6ab315b86e",
+      "name": "14 - Preparar Actualización CRM"
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 3
+          },
+          "conditions": [
+            {
+              "id": "97b88131-53e4-4757-a51f-6162fe9c55bd",
+              "leftValue": "={{ String($json.row_number) }}",
+              "rightValue": "77",
+              "operator": {
+                "type": "string",
+                "operation": "equals",
+                "name": "filter.operator.equals"
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.filter",
+      "typeVersion": 2.3,
+      "position": [
+        1024,
+        -48
+      ],
+      "id": "a05ba0a0-f564-4d93-bbd9-ca7bd3645d9d",
+      "name": "14A - Prueba CRM - Solo Clínica Sanzmar"
+    },
+    {
+      "parameters": {
+        "operation": "update",
+        "documentId": {
+          "__rl": true,
+          "value": "https://docs.google.com/spreadsheets/d/1ZshJY8CQWkciFk8T0-3LNeqVuC4lUMMl-l9_DdXvdLY/edit?gid=0#gid=0",
+          "mode": "url"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": "gid=0",
+          "mode": "list",
+          "cachedResultName": "Empresas",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1ZshJY8CQWkciFk8T0-3LNeqVuC4lUMMl-l9_DdXvdLY/edit#gid=0"
+        },
+        "columns": {
+          "mappingMode": "autoMapInputData",
+          "value": {
+            "row_number": "={{ $json.row_number }}"
+          },
+          "matchingColumns": [
+            "row_number"
+          ],
+          "schema": [
+            {
+              "id": "Fecha Alta",
+              "displayName": "Fecha Alta",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Empresa",
+              "displayName": "Empresa",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Sector",
+              "displayName": "Sector",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Web",
+              "displayName": "Web",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Email",
+              "displayName": "Email",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Teléfono",
+              "displayName": "Teléfono",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Persona contacto",
+              "displayName": "Persona contacto",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Cargo",
+              "displayName": "Cargo",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Ciudad",
+              "displayName": "Ciudad",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Provincia",
+              "displayName": "Provincia",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "País",
+              "displayName": "País",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Estado",
+              "displayName": "Estado",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Prioridad",
+              "displayName": "Prioridad",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Origen Lead",
+              "displayName": "Origen Lead",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Campaña",
+              "displayName": "Campaña",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Último Contacto",
+              "displayName": "Último Contacto",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Próximo Seguimiento",
+              "displayName": "Próximo Seguimiento",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Respuesta",
+              "displayName": "Respuesta",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Interés",
+              "displayName": "Interés",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Servicio recomendado",
+              "displayName": "Servicio recomendado",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Importe (€)",
+              "displayName": "Importe (€)",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Thread Gmail",
+              "displayName": "Thread Gmail",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Message ID",
+              "displayName": "Message ID",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Calendly",
+              "displayName": "Calendly",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "WhatsApp",
+              "displayName": "WhatsApp",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Auditoría IA",
+              "displayName": "Auditoría IA",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Notas",
+              "displayName": "Notas",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Fecha Actualización",
+              "displayName": "Fecha Actualización",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Consentimiento",
+              "displayName": "Consentimiento",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Tipo formulario",
+              "displayName": "Tipo formulario",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Página origen",
+              "displayName": "Página origen",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "row_number",
+              "displayName": "row_number",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "number",
+              "canBeUsedToMatch": true,
+              "readOnly": true,
+              "removed": false
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.7,
+      "position": [
+        880,
+        176
+      ],
+      "id": "9c986804-9c84-43e0-98f4-e426c5d39465",
+      "name": "15 - Actualizar Revisión IA en CRM",
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "2CrAO5MHlm3a4UMM",
+          "name": "Google Sheets account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "jsCode": "const items = $input.all();\n\n// Leer CRM original para conservar las notas existentes\nconst crm = $('02 - Leer Prospectos del CRM')\n  .all()\n  .map(item => item.json);\n\nconst fecha = new Date()\n  .toLocaleString('es-ES', {\n    timeZone: 'Europe/Madrid',\n    day: '2-digit',\n    month: '2-digit',\n    year: 'numeric',\n    hour: '2-digit',\n    minute: '2-digit',\n    second: '2-digit',\n    hour12: false,\n  })\n  .replace(',', '');\n\nreturn items.map(item => {\n  const datos = item.json;\n\n  const original = crm.find(fila =>\n    String(fila.row_number) === String(datos.row_number)\n  ) || {};\n\n  const notasAnteriores = String(original.Notas || '').trim();\n\n  const bloqueRevision = [\n    `[Revisión manual web - ${fecha}]`,\n    `Motivo: ${datos['Motivo Revisión'] || 'No se pudo analizar automáticamente la web'}`,\n    `Acción recomendada: ${datos['Acción Recomendada'] || 'Revisar manualmente antes de contacto'}`\n  ].join('\\n');\n\n  return {\n    json: {\n      row_number: datos.row_number,\n      Empresa: datos.Empresa || original.Empresa || '',\n      Estado: 'Revisión manual',\n      Notas: notasAnteriores\n        ? `${notasAnteriores}\\n\\n${bloqueRevision}`\n        : bloqueRevision,\n      'Fecha Actualización': fecha\n    }\n  };\n});"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        -336,
+        176
+      ],
+      "id": "6f13e9fe-3971-49e5-bd67-7ea014f68f3a",
+      "name": "09F - Preparar Actualización Revisión Manual CRM"
+    },
+    {
+      "parameters": {
+        "operation": "update",
+        "documentId": {
+          "__rl": true,
+          "value": "https://docs.google.com/spreadsheets/d/1ZshJY8CQWkciFk8T0-3LNeqVuC4lUMMl-l9_DdXvdLY/edit?gid=0#gid=0",
+          "mode": "url"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": "gid=0",
+          "mode": "list",
+          "cachedResultName": "Empresas",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1ZshJY8CQWkciFk8T0-3LNeqVuC4lUMMl-l9_DdXvdLY/edit#gid=0"
+        },
+        "columns": {
+          "mappingMode": "autoMapInputData",
+          "value": {},
+          "matchingColumns": [
+            "row_number"
+          ],
+          "schema": [
+            {
+              "id": "Fecha Alta",
+              "displayName": "Fecha Alta",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Empresa",
+              "displayName": "Empresa",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Sector",
+              "displayName": "Sector",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Web",
+              "displayName": "Web",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Email",
+              "displayName": "Email",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Teléfono",
+              "displayName": "Teléfono",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Persona contacto",
+              "displayName": "Persona contacto",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Cargo",
+              "displayName": "Cargo",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Ciudad",
+              "displayName": "Ciudad",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Provincia",
+              "displayName": "Provincia",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "País",
+              "displayName": "País",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Estado",
+              "displayName": "Estado",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Prioridad",
+              "displayName": "Prioridad",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Origen Lead",
+              "displayName": "Origen Lead",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Campaña",
+              "displayName": "Campaña",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Último Contacto",
+              "displayName": "Último Contacto",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Próximo Seguimiento",
+              "displayName": "Próximo Seguimiento",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Respuesta",
+              "displayName": "Respuesta",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Interés",
+              "displayName": "Interés",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Servicio recomendado",
+              "displayName": "Servicio recomendado",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Importe (€)",
+              "displayName": "Importe (€)",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Thread Gmail",
+              "displayName": "Thread Gmail",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Message ID",
+              "displayName": "Message ID",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Calendly",
+              "displayName": "Calendly",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "WhatsApp",
+              "displayName": "WhatsApp",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Auditoría IA",
+              "displayName": "Auditoría IA",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Notas",
+              "displayName": "Notas",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Fecha Actualización",
+              "displayName": "Fecha Actualización",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Consentimiento",
+              "displayName": "Consentimiento",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Tipo formulario",
+              "displayName": "Tipo formulario",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Página origen",
+              "displayName": "Página origen",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "row_number",
+              "displayName": "row_number",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "number",
+              "canBeUsedToMatch": true,
+              "readOnly": true,
+              "removed": false
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.7,
+      "position": [
+        -176,
+        176
+      ],
+      "id": "1e9ef489-191b-44f0-977b-3673a00bdf4a",
+      "name": "09G - Guardar Revisión Manual en CRM",
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "2CrAO5MHlm3a4UMM",
+          "name": "Google Sheets account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "jsCode": "const items = $input.all();\n\n// Leer el CRM original para conservar las notas existentes\nconst crm = $('02 - Leer Prospectos del CRM')\n  .all()\n  .map(item => item.json);\n\n// Fecha/hora en Madrid\nconst fecha = new Date()\n  .toLocaleString('es-ES', {\n    timeZone: 'Europe/Madrid',\n    day: '2-digit',\n    month: '2-digit',\n    year: 'numeric',\n    hour: '2-digit',\n    minute: '2-digit',\n    second: '2-digit',\n    hour12: false,\n  })\n  .replace(',', '');\n\nreturn items.map(item => {\n  const datos = item.json;\n\n  // Buscar la fila original exacta\n  const original = crm.find(fila =>\n    String(fila.row_number) === String(datos.row_number)\n  ) || {};\n\n  const notasAnteriores = String(original.Notas || '').trim();\n\n  const telefono = String(\n    datos['Teléfono'] || original['Teléfono'] || ''\n  ).trim();\n\n  const bloqueRevision = [\n    `[Revisión manual sin web - ${fecha}]`,\n    `Motivo: No se dispone de una web pública en los datos actuales del prospecto.`,\n    `Teléfono disponible: ${telefono || 'No disponible'}`,\n    `Acción recomendada: Buscar información comercial pública y verificar identidad, web oficial o canal de contacto antes de preparar cualquier propuesta.`\n  ].join('\\n');\n\n  return {\n    json: {\n      row_number: datos.row_number,\n\n      Empresa:\n        datos.Empresa ||\n        original.Empresa ||\n        '',\n\n      Estado: 'Revisión manual',\n\n      Notas: notasAnteriores\n        ? `${notasAnteriores}\\n\\n${bloqueRevision}`\n        : bloqueRevision,\n\n      'Fecha Actualización': fecha\n    }\n  };\n});"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        784,
+        -144
+      ],
+      "id": "d725edd4-dc0a-4594-8c59-209000faf0f4",
+      "name": "08F - Preparar Revisión Manual Sin Web"
+    },
+    {
+      "parameters": {
+        "operation": "update",
+        "documentId": {
+          "__rl": true,
+          "value": "https://docs.google.com/spreadsheets/d/1ZshJY8CQWkciFk8T0-3LNeqVuC4lUMMl-l9_DdXvdLY/edit?gid=0#gid=0",
+          "mode": "url"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": "gid=0",
+          "mode": "list",
+          "cachedResultName": "Empresas",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1ZshJY8CQWkciFk8T0-3LNeqVuC4lUMMl-l9_DdXvdLY/edit#gid=0"
+        },
+        "columns": {
+          "mappingMode": "autoMapInputData",
+          "value": {},
+          "matchingColumns": [
+            "row_number"
+          ],
+          "schema": [
+            {
+              "id": "Fecha Alta",
+              "displayName": "Fecha Alta",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Empresa",
+              "displayName": "Empresa",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Sector",
+              "displayName": "Sector",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Web",
+              "displayName": "Web",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Email",
+              "displayName": "Email",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Teléfono",
+              "displayName": "Teléfono",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Persona contacto",
+              "displayName": "Persona contacto",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Cargo",
+              "displayName": "Cargo",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Ciudad",
+              "displayName": "Ciudad",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Provincia",
+              "displayName": "Provincia",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "País",
+              "displayName": "País",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Estado",
+              "displayName": "Estado",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Prioridad",
+              "displayName": "Prioridad",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Origen Lead",
+              "displayName": "Origen Lead",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Campaña",
+              "displayName": "Campaña",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Último Contacto",
+              "displayName": "Último Contacto",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Próximo Seguimiento",
+              "displayName": "Próximo Seguimiento",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Respuesta",
+              "displayName": "Respuesta",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Interés",
+              "displayName": "Interés",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Servicio recomendado",
+              "displayName": "Servicio recomendado",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Importe (€)",
+              "displayName": "Importe (€)",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Thread Gmail",
+              "displayName": "Thread Gmail",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Message ID",
+              "displayName": "Message ID",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Calendly",
+              "displayName": "Calendly",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "WhatsApp",
+              "displayName": "WhatsApp",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Auditoría IA",
+              "displayName": "Auditoría IA",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Notas",
+              "displayName": "Notas",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Fecha Actualización",
+              "displayName": "Fecha Actualización",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Consentimiento",
+              "displayName": "Consentimiento",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Tipo formulario",
+              "displayName": "Tipo formulario",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Página origen",
+              "displayName": "Página origen",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "row_number",
+              "displayName": "row_number",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "number",
+              "canBeUsedToMatch": true,
+              "readOnly": true,
+              "removed": false
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.7,
+      "position": [
+        928,
+        -144
+      ],
+      "id": "ad716f7e-b2cc-4c88-9136-96da54d970e5",
+      "name": "08G - Guardar Revisión Sin Web en CRM",
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "2CrAO5MHlm3a4UMM",
+          "name": "Google Sheets account"
+        }
+      }
+    }
+  ],
+  "connections": {
+    "01 - Iniciar Revisión Manual": {
+      "main": [
+        [
+          {
+            "node": "02 - Leer Prospectos del CRM",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "02 - Leer Prospectos del CRM": {
+      "main": [
+        [
+          {
+            "node": "03 - Filtrar Prospectos Pendientes",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "03 - Filtrar Prospectos Pendientes": {
+      "main": [
+        [
+          {
+            "node": "04 - Ordenar Prospectos Más Recientes",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "04 - Ordenar Prospectos Más Recientes": {
+      "main": [
+        [
+          {
+            "node": "07 - Excluir Cadenas No Objetivo en Revisión",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "05 - Limitar a 5 Prospectos para Revisión": {
+      "main": [
+        [
+          {
+            "node": "06 - Preparar Datos para Investigación",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "06 - Preparar Datos para Investigación": {
+      "main": [
+        [
+          {
+            "node": "08 - Separar Prospectos con Web",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "07 - Excluir Cadenas No Objetivo en Revisión": {
+      "main": [
+        [
+          {
+            "node": "05 - Limitar a 5 Prospectos para Revisión",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "08 - Separar Prospectos con Web": {
+      "main": [
+        [
+          {
+            "node": "08A - Preparar URL Web",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "08F - Preparar Revisión Manual Sin Web",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "08A - Preparar URL Web": {
+      "main": [
+        [
+          {
+            "node": "09 - Obtener Web del Prospecto",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "09 - Obtener Web del Prospecto": {
+      "main": [
+        [
+          {
+            "node": "10 - Preparar Contenido Web para IA",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "09E - Preparar Revisión Manual Web",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "10 - Preparar Contenido Web para IA": {
+      "main": [
+        [
+          {
+            "node": "11 - Analizar Oportunidad Comercial con IA",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "11A - Modelo IA Revisión Comercial": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "11 - Analizar Oportunidad Comercial con IA",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "11 - Analizar Oportunidad Comercial con IA": {
+      "main": [
+        [
+          {
+            "node": "12 - Convertir Análisis IA a Datos CRM",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "12 - Convertir Análisis IA a Datos CRM": {
+      "main": [
+        [
+          {
+            "node": "13 - Validar Análisis IA",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "13 - Validar Análisis IA": {
+      "main": [
+        [
+          {
+            "node": "14 - Preparar Actualización CRM",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "14 - Preparar Actualización CRM": {
+      "main": [
+        [
+          {
+            "node": "15 - Actualizar Revisión IA en CRM",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "14A - Prueba CRM - Solo Clínica Sanzmar": {
+      "main": [
+        []
+      ]
+    },
+    "09E - Preparar Revisión Manual Web": {
+      "main": [
+        [
+          {
+            "node": "09F - Preparar Actualización Revisión Manual CRM",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "09F - Preparar Actualización Revisión Manual CRM": {
+      "main": [
+        [
+          {
+            "node": "09G - Guardar Revisión Manual en CRM",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "09G - Guardar Revisión Manual en CRM": {
+      "main": [
+        []
+      ]
+    },
+    "08F - Preparar Revisión Manual Sin Web": {
+      "main": [
+        [
+          {
+            "node": "08G - Guardar Revisión Sin Web en CRM",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "settings": {
+    "executionOrder": "v1",
+    "binaryMode": "separate",
+    "availableInMCP": false
+  },
+  "staticData": null,
+  "pinData": {},
+  "triggerCount": 0,
+  "meta": {
+    "templateCredsSetupCompleted": true
+  }
+}

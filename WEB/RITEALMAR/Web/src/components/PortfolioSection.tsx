@@ -134,9 +134,9 @@ export default function PortfolioSection() {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ delay: i * 0.1 }}
-              className="group glass-card overflow-hidden flex flex-col md:flex-row h-full"
+              className="group glass-card overflow-hidden flex flex-col lg:flex-row h-full"
             >
-              <div className="relative md:w-2/5 aspect-video md:aspect-auto overflow-hidden shrink-0">
+              <div className="relative lg:w-2/5 aspect-video lg:aspect-auto overflow-hidden shrink-0">
                 <img 
                   src={project.image} 
                   alt={project.title}
@@ -146,7 +146,7 @@ export default function PortfolioSection() {
                   height="450"
                   className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
                 />
-                <div className="absolute inset-0 bg-gradient-to-r from-[#0F172A] to-transparent opacity-40 md:opacity-80" />
+                <div className="absolute inset-0 bg-gradient-to-r from-[#0F172A] to-transparent opacity-40 lg:opacity-80" />
                 <div className="absolute top-4 left-4 flex flex-col gap-2">
                   <div className={`px-3 py-1 rounded-full text-xs font-bold border backdrop-blur-md ${getTagColor(project.tag)}`}>
                     {project.tag}
@@ -154,7 +154,7 @@ export default function PortfolioSection() {
                 </div>
               </div>
               
-              <div className="p-6 md:p-8 flex-grow flex flex-col md:w-3/5">
+              <div className="p-6 lg:p-8 flex-grow flex flex-col lg:w-3/5">
                 <div className="flex items-start justify-between gap-4 mb-2">
                   <h3 className="text-2xl font-bold text-white">{project.title}</h3>
                   <span className="text-[10px] text-slate-400 font-bold uppercase tracking-wider border border-slate-700 px-2 py-1 rounded shrink-0">
@@ -162,7 +162,7 @@ export default function PortfolioSection() {
                   </span>
                 </div>
                 
-                <p className="text-sm text-slate-300 font-medium mb-6 pb-4 border-b border-white/5">
+                <p className="text-base md:text-sm text-slate-300 font-medium mb-6 pb-4 border-b border-white/5">
                   {project.description}
                 </p>
                 
@@ -171,7 +171,7 @@ export default function PortfolioSection() {
                     <Target size={16} className="text-[#FF006E] shrink-0 mt-0.5" />
                     <div>
                       <span className="text-[10px] uppercase font-bold tracking-wider text-slate-400 block mb-0.5">Problema</span>
-                      <p className="text-xs text-slate-400">{project.problema}</p>
+                      <p className="text-sm md:text-xs text-slate-400">{project.problema}</p>
                     </div>
                   </div>
                   
@@ -179,7 +179,7 @@ export default function PortfolioSection() {
                     <Lightbulb size={16} className="text-[#00D4FF] shrink-0 mt-0.5" />
                     <div>
                       <span className="text-[10px] uppercase font-bold tracking-wider text-slate-400 block mb-0.5">Solución</span>
-                      <p className="text-xs text-slate-400">{project.solucion}</p>
+                      <p className="text-sm md:text-xs text-slate-400">{project.solucion}</p>
                     </div>
                   </div>
 
@@ -187,7 +187,7 @@ export default function PortfolioSection() {
                     <CheckCircle2 size={16} className="text-[#00FF9D] shrink-0 mt-0.5" />
                     <div>
                       <span className="text-[10px] uppercase font-bold tracking-wider text-slate-400 block mb-0.5">Resultado Esperado</span>
-                      <p className="text-xs text-slate-400 leading-relaxed">{project.resultado}</p>
+                      <p className="text-sm md:text-xs text-slate-400 leading-relaxed">{project.resultado}</p>
                     </div>
                   </div>
                 </div>

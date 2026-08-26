@@ -186,6 +186,11 @@ export default function ROICalculator() {
                     <>Ejecutar Diagnóstico Operativo <Sparkles size={16} /></>
                   )}
                 </button>
+                <div className="text-center mt-4">
+                  <a href="/auditoria-ia-gratis" className="text-sm text-cyan-400 font-bold hover:text-white transition-colors border-b border-cyan-400/30 hover:border-white pb-0.5">
+                    O solicita una auditoría IA gratuita personalizada
+                  </a>
+                </div>
               </div>
             </motion.form>
           ) : (

@@ -4,3 +4,7 @@ compatibility_date = "2024-04-17"
 
 # Nota: Recuerda configurar tus API KEYS (GEMINI_API_KEY y RESEND_API_KEY)
 # en el panel de Cloudflare o vía 'npx wrangler secret put'
+# Ejemplos seguros (ejecutar en tu máquina con wrangler configurado):
+# npx wrangler secret put GEMINI_API_KEY
+# npx wrangler secret put RESEND_API_KEY
+# npx wrangler secret put GOOGLE_SHEETS_URL

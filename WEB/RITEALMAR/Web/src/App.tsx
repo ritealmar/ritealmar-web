@@ -5,6 +5,8 @@ import { ModalController } from './components/ModalController';
 import ResponsibleIASection from './components/ResponsibleIASection';
 import CookieBanner from './components/CookieBanner';
 import WhatsAppFloatingButton from './components/WhatsAppFloatingButton';
+import RitealmarAgent from './components/RitealmarAgent';
+import StickyMobileCTA from './components/StickyMobileCTA';
 import AnalyticsPageTracker from './components/AnalyticsPageTracker';
 
 import { projectsData } from './data/projectsData';
@@ -162,6 +164,9 @@ export default function App() {
       case '/auditoria-ia-pymes': return <AuditoriaIaPymesPage />;
       case '/ia-para-despachos-abogados': return <IaAbogadosPage />;
       case '/precios': return <PreciosPage onOpenForm={handleOpenModal} />;
+      case '/contacto':
+        window.location.replace('/auditoria-ia-gratis' + window.location.search);
+        return null;
       case '/auditoria-ia-gratis': return <AuditoriaIaGratis />;
       case '/estado-plataforma': return <EstadoPlataforma />;
       case '/casos-de-exito': return <CasosExito />;
@@ -262,7 +267,9 @@ export default function App() {
           />
           <LegalFooter />
           <ResponsibleIASection />
+          <RitealmarAgent />
           <WhatsAppFloatingButton />
+          <StickyMobileCTA />
           <CookieBanner />
         </footer>
       </div>

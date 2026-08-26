@@ -1,0 +1,824 @@
+{
+  "name": "05 - RITEALMAR - Calendly CRM",
+  "nodes": [
+    {
+      "parameters": {
+        "httpMethod": "POST",
+        "path": "calendly-ritealmar-reserva",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 2.1,
+      "position": [
+        -224,
+        -704
+      ],
+      "id": "05167098-28ba-4aa4-8870-5aeadd6699bc",
+      "name": "01 - Recibir Reserva Calendly",
+      "webhookId": "66b4b365-58c8-4af8-95f4-9a85b6f2c56c"
+    },
+    {
+      "parameters": {
+        "url": "https://api.calendly.com/users/me",
+        "authentication": "genericCredentialType",
+        "genericAuthType": "httpBearerAuth",
+        "options": {
+          "timeout": 10000
+        }
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.4,
+      "position": [
+        -800,
+        -368
+      ],
+      "id": "2d3b616e-df10-49f6-8349-f0c0a60624e7",
+      "name": "00 - Obtener Usuario Calendly",
+      "retryOnFail": true,
+      "waitBetweenTries": 5000,
+      "credentials": {
+        "httpBearerAuth": {
+          "id": "BprVtrbul8O3V5wM",
+          "name": "Calendly RITEALMAR API"
+        }
+      }
+    },
+    {
+      "parameters": {},
+      "type": "n8n-nodes-base.manualTrigger",
+      "typeVersion": 1,
+      "position": [
+        -768,
+        -688
+      ],
+      "id": "f24a130b-c743-45f7-823a-1f16e5d42e42",
+      "name": "TEMP - Probar API Calendly"
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "https://api.calendly.com/webhook_subscriptions",
+        "authentication": "genericCredentialType",
+        "genericAuthType": "httpBearerAuth",
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={\n  \"url\": \"https://ritealmar.app.n8n.cloud/webhook/calendly-ritealmar-reserva\",\n  \"events\": [\"invitee.created\"],\n  \"organization\": \"{{ $json.resource.current_organization }}\",\n  \"user\": \"{{ $json.resource.uri }}\",\n  \"scope\": \"user\"\n}",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.4,
+      "position": [
+        -480,
+        -704
+      ],
+      "id": "72a3bb2c-1a53-4902-95f5-deb4a8d383d4",
+      "name": "00B - Crear Suscripción Webhook Calendly",
+      "credentials": {
+        "httpBearerAuth": {
+          "id": "BprVtrbul8O3V5wM",
+          "name": "Calendly RITEALMAR API"
+        }
+      },
+      "disabled": true
+    },
+    {
+      "parameters": {
+        "rule": {
+          "interval": [
+            {
+              "field": "hours"
+            }
+          ]
+        }
+      },
+      "type": "n8n-nodes-base.scheduleTrigger",
+      "typeVersion": 1.3,
+      "position": [
+        -992,
+        -368
+      ],
+      "id": "1bc0c5b7-0157-47ad-af5d-4c1c7e6b3974",
+      "name": "01A - Comprobar Reservas Calendly"
+    },
+    {
+      "parameters": {
+        "url": "https://api.calendly.com/scheduled_events",
+        "authentication": "genericCredentialType",
+        "genericAuthType": "httpBearerAuth",
+        "sendQuery": true,
+        "queryParameters": {
+          "parameters": [
+            {
+              "name": "user",
+              "value": "={{ $json.resource.uri }}"
+            },
+            {
+              "name": "status",
+              "value": "active"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.4,
+      "position": [
+        -656,
+        -368
+      ],
+      "id": "4da40828-6863-4034-b533-c998b380a710",
+      "name": "02 - Buscar Reservas Calendly",
+      "retryOnFail": true,
+      "waitBetweenTries": 5000,
+      "credentials": {
+        "httpBearerAuth": {
+          "id": "BprVtrbul8O3V5wM",
+          "name": "Calendly RITEALMAR API"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "fieldToSplitOut": "collection",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.splitOut",
+      "typeVersion": 1,
+      "position": [
+        -496,
+        -368
+      ],
+      "id": "a1c9e134-8edc-46bc-9152-1202a9874773",
+      "name": "03 - Separar Reservas"
+    },
+    {
+      "parameters": {
+        "url": "={{ $json[\"uri\"] + \"/invitees\" }}",
+        "authentication": "genericCredentialType",
+        "genericAuthType": "httpBearerAuth",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.4,
+      "position": [
+        -336,
+        -352
+      ],
+      "id": "71539abc-9515-478c-89eb-6edde86ff41b",
+      "name": "04 - Obtener Invitado Calendly",
+      "retryOnFail": true,
+      "waitBetweenTries": 5000,
+      "credentials": {
+        "httpBearerAuth": {
+          "id": "BprVtrbul8O3V5wM",
+          "name": "Calendly RITEALMAR API"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "fieldToSplitOut": "collection",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.splitOut",
+      "typeVersion": 1,
+      "position": [
+        -96,
+        -352
+      ],
+      "id": "4b9610ac-eb4b-4196-bd02-7f9d03532602",
+      "name": "05 - Separar Invitados"
+    },
+    {
+      "parameters": {
+        "documentId": {
+          "__rl": true,
+          "value": "https://docs.google.com/spreadsheets/d/1ZshJY8CQWkciFk8T0-3LNeqVuC4lUMMl-l9_DdXvdLY/edit?gid=0#gid=0",
+          "mode": "url"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": "gid=0",
+          "mode": "list",
+          "cachedResultName": "Empresas",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1ZshJY8CQWkciFk8T0-3LNeqVuC4lUMMl-l9_DdXvdLY/edit#gid=0"
+        },
+        "filtersUI": {
+          "values": [
+            {
+              "lookupColumn": "=Email",
+              "lookupValue": "={{ $json[\"email\"] }}"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.7,
+      "position": [
+        32,
+        -352
+      ],
+      "id": "29fbf279-9d3d-4224-a38e-ccbd06e6e249",
+      "name": "06 - Buscar Lead Calendly en CRM",
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "2CrAO5MHlm3a4UMM",
+          "name": "Google Sheets account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "sortFieldsUi": {
+          "sortField": [
+            {
+              "fieldName": "row_number",
+              "order": "descending"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.sort",
+      "typeVersion": 1,
+      "position": [
+        192,
+        -352
+      ],
+      "id": "9d918123-de6f-4742-b13c-9809e4b93e3c",
+      "name": "07 - Priorizar Lead más reciente"
+    },
+    {
+      "parameters": {},
+      "type": "n8n-nodes-base.limit",
+      "typeVersion": 1,
+      "position": [
+        32,
+        -704
+      ],
+      "id": "30a2f137-ade7-4dfd-b534-fa51f357b4d0",
+      "name": "08 - Usar solo Lead más reciente"
+    },
+    {
+      "parameters": {
+        "operation": "update",
+        "documentId": {
+          "__rl": true,
+          "value": "https://docs.google.com/spreadsheets/d/1ZshJY8CQWkciFk8T0-3LNeqVuC4lUMMl-l9_DdXvdLY/edit?gid=0#gid=0",
+          "mode": "url"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": "gid=0",
+          "mode": "list",
+          "cachedResultName": "Empresas",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1ZshJY8CQWkciFk8T0-3LNeqVuC4lUMMl-l9_DdXvdLY/edit#gid=0"
+        },
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "row_number": "={{ $json[\"row_number\"] }}",
+            "Estado": "=Reunión agendada",
+            "Calendly": "=Sí",
+            "Fecha Actualización": "={{ $now.toFormat(\"dd/MM/yyyy\") }}",
+            "Próximo Seguimiento": "={{ \"\" }}"
+          },
+          "matchingColumns": [
+            "row_number"
+          ],
+          "schema": [
+            {
+              "id": "Fecha Alta",
+              "displayName": "Fecha Alta",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "Empresa",
+              "displayName": "Empresa",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "Sector",
+              "displayName": "Sector",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "Web",
+              "displayName": "Web",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "Email",
+              "displayName": "Email",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "Teléfono",
+              "displayName": "Teléfono",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "Persona contacto",
+              "displayName": "Persona contacto",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "Cargo",
+              "displayName": "Cargo",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "Ciudad",
+              "displayName": "Ciudad",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "Provincia",
+              "displayName": "Provincia",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "País",
+              "displayName": "País",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "Estado",
+              "displayName": "Estado",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Prioridad",
+              "displayName": "Prioridad",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "Origen Lead",
+              "displayName": "Origen Lead",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "Campaña",
+              "displayName": "Campaña",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "Último Contacto",
+              "displayName": "Último Contacto",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "Próximo Seguimiento",
+              "displayName": "Próximo Seguimiento",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Respuesta",
+              "displayName": "Respuesta",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "Interés",
+              "displayName": "Interés",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "Servicio recomendado",
+              "displayName": "Servicio recomendado",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "Importe (€)",
+              "displayName": "Importe (€)",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "Thread Gmail",
+              "displayName": "Thread Gmail",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "Message ID",
+              "displayName": "Message ID",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "Calendly",
+              "displayName": "Calendly",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "WhatsApp",
+              "displayName": "WhatsApp",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "Auditoría IA",
+              "displayName": "Auditoría IA",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "Notas",
+              "displayName": "Notas",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "Fecha Actualización",
+              "displayName": "Fecha Actualización",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Consentimiento",
+              "displayName": "Consentimiento",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "Tipo formulario",
+              "displayName": "Tipo formulario",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "Página origen",
+              "displayName": "Página origen",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "row_number",
+              "displayName": "row_number",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "number",
+              "canBeUsedToMatch": true,
+              "readOnly": true,
+              "removed": false
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.7,
+      "position": [
+        704,
+        -352
+      ],
+      "id": "f3957c04-d65f-4aac-8a9b-432aa8effc6c",
+      "name": "09 - Marcar Reunión Calendly en CRM",
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "2CrAO5MHlm3a4UMM",
+          "name": "Google Sheets account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 3
+          },
+          "conditions": [
+            {
+              "id": "110b00e8-d354-46a1-b3cd-68279456bd68",
+              "leftValue": "={{ !(($json[\"Calendly\"] || \"\").trim().toLowerCase() === \"sí\" && ($json[\"Estado\"] || \"\").trim().toLowerCase() === \"reunión agendada\") }}",
+              "rightValue": "",
+              "operator": {
+                "type": "boolean",
+                "operation": "true",
+                "singleValue": true
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.filter",
+      "typeVersion": 2.3,
+      "position": [
+        528,
+        -352
+      ],
+      "id": "73c9d3f2-67c1-4ca9-8e1e-b10c21bca97d",
+      "name": "08B - Evitar Reserva ya Procesada"
+    },
+    {
+      "parameters": {
+        "compare": "selectedFields",
+        "fieldsToCompare": "Email",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.removeDuplicates",
+      "typeVersion": 2,
+      "position": [
+        368,
+        -352
+      ],
+      "id": "e91819d2-87be-44fa-bdbb-531b199e276b",
+      "name": "08A - Conservar Lead más reciente por Email"
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "01 - Recibir Reserva Calendly": {
+      "main": [
+        []
+      ]
+    },
+    "TEMP - Probar API Calendly": {
+      "main": [
+        []
+      ]
+    },
+    "00 - Obtener Usuario Calendly": {
+      "main": [
+        [
+          {
+            "node": "02 - Buscar Reservas Calendly",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "01A - Comprobar Reservas Calendly": {
+      "main": [
+        [
+          {
+            "node": "00 - Obtener Usuario Calendly",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "02 - Buscar Reservas Calendly": {
+      "main": [
+        [
+          {
+            "node": "03 - Separar Reservas",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "03 - Separar Reservas": {
+      "main": [
+        [
+          {
+            "node": "04 - Obtener Invitado Calendly",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "04 - Obtener Invitado Calendly": {
+      "main": [
+        [
+          {
+            "node": "05 - Separar Invitados",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "05 - Separar Invitados": {
+      "main": [
+        [
+          {
+            "node": "06 - Buscar Lead Calendly en CRM",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "06 - Buscar Lead Calendly en CRM": {
+      "main": [
+        [
+          {
+            "node": "07 - Priorizar Lead más reciente",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "07 - Priorizar Lead más reciente": {
+      "main": [
+        [
+          {
+            "node": "08A - Conservar Lead más reciente por Email",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "08 - Usar solo Lead más reciente": {
+      "main": [
+        []
+      ]
+    },
+    "08B - Evitar Reserva ya Procesada": {
+      "main": [
+        [
+          {
+            "node": "09 - Marcar Reunión Calendly en CRM",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "08A - Conservar Lead más reciente por Email": {
+      "main": [
+        [
+          {
+            "node": "08B - Evitar Reserva ya Procesada",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": true,
+  "settings": {
+    "executionOrder": "v1",
+    "binaryMode": "separate",
+    "availableInMCP": false,
+    "timeSavedMode": "fixed",
+    "errorWorkflow": "R8GxZkAxRmHhAJwY",
+    "callerPolicy": "workflowsFromSameOwner"
+  },
+  "versionId": "df6ca6be-827c-464d-9e78-5a41ca505fb2",
+  "meta": {
+    "templateCredsSetupCompleted": true,
+    "instanceId": "f7d1fc1ea290ea7f52cbc1fba9695e0040cad9fb7f2e7953cd729a6d6d25fc46"
+  },
+  "nodeGroups": [],
+  "id": "4gzVQmvh3DFH139f",
+  "tags": []
+}

@@ -41,6 +41,66 @@ export default {
     }
 
     if (request.method === "POST") {
+      // Route: /api/save-to-sheets -> server-side proxy to Google Sheets webhook
+      try {
+        const url = new URL(request.url);
+        if (url.pathname === '/api/save-to-sheets') {
+          // CORS already handled via corsHeaders
+          const contentType = request.headers.get('Content-Type') || request.headers.get('content-type') || '';
+          if (!contentType.includes('application/json')) {
+            return new Response(JSON.stringify({ ok: false, error: 'invalid_content_type' }), { status: 400, headers: { ...corsHeaders, 'Content-Type': 'application/json' } });
+          }
+
+          // Limit payload size
+          const text = await request.text();
+          if (text.length > 10000) {
+            return new Response(JSON.stringify({ ok: false, error: 'payload_too_large' }), { status: 413, headers: { ...corsHeaders, 'Content-Type': 'application/json' } });
+          }
+
+          let payload;
+          try {
+            payload = JSON.parse(text);
+          } catch (e) {
+            return new Response(JSON.stringify({ ok: false, error: 'invalid_json' }), { status: 400, headers: { ...corsHeaders, 'Content-Type': 'application/json' } });
+          }
+
+          // Minimal validation: require at least one contact field or empresa
+          if (!payload.email && !payload.telefono && !payload.empresa) {
+            return new Response(JSON.stringify({ ok: false, error: 'missing_fields' }), { status: 400, headers: { ...corsHeaders, 'Content-Type': 'application/json' } });
+          }
+
+          // Ensure server-side secret is configured
+          if (!env.GOOGLE_SHEETS_URL) {
+            return new Response(JSON.stringify({ ok: false, error: 'server_not_configured' }), { status: 500, headers: { ...corsHeaders, 'Content-Type': 'application/json' } });
+          }
+
+          // Build safe forwarding payload with allowed keys only
+          const allowed = ['fecha','empresa','sector','web','telefono','email','ciudad','contactado','respuesta','notas','servicioRecomendado','observacion'];
+          const forwardPayload = {};
+          for (const k of allowed) {
+            if (payload[k] !== undefined) forwardPayload[k] = payload[k];
+          }
+
+          try {
+            const resp = await fetch(env.GOOGLE_SHEETS_URL, {
+              method: 'POST',
+              headers: { 'Content-Type': 'application/json' },
+              body: JSON.stringify(forwardPayload)
+            });
+
+            if (!resp.ok) {
+              return new Response(JSON.stringify({ ok: false, error: 'upstream_error' }), { status: 502, headers: { ...corsHeaders, 'Content-Type': 'application/json' } });
+            }
+
+            return new Response(JSON.stringify({ ok: true }), { status: 200, headers: { ...corsHeaders, 'Content-Type': 'application/json' } });
+          } catch (e) {
+            return new Response(JSON.stringify({ ok: false, error: 'internal_error' }), { status: 500, headers: { ...corsHeaders, 'Content-Type': 'application/json' } });
+          }
+        }
+      } catch (routeErr) {
+        // fall through to general handler below if any route parsing issue
+      }
+
       try {
         const body = await request.json();
 

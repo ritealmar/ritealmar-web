@@ -37,10 +37,10 @@ export default function ServicesBentoGrid({ onOpenForm }: { onOpenForm: () => vo
                 <Workflow size={22} />
               </div>
               <h3 className="text-2xl font-black text-white uppercase tracking-tight mb-4">
-                Automatización de Procesos End-to-End
+                Automatización de Procesos y Tareas
               </h3>
               <p className="text-slate-400 font-medium text-sm leading-relaxed max-w-xl">
-                Conectamos tu CRM, canales de WhatsApp y sistemas de facturación en un único pipeline automatizado. Eliminamos el "copiar y pegar" de datos, reduciendo los errores humanos a cero.
+                Conectamos tu web, tu CRM y tu facturación para que todo fluya sin intervención manual. Eliminamos el "copiar y pegar" de datos, reduciendo los errores humanos a cero.
               </p>
             </div>
             
@@ -62,10 +62,10 @@ export default function ServicesBentoGrid({ onOpenForm }: { onOpenForm: () => vo
                 <Cpu size={22} />
               </div>
               <h3 className="text-2xl font-black text-white uppercase tracking-tight mb-4">
-                Agentes Conversacionales
+                Asistentes 24/7 (Chatbots)
               </h3>
               <p className="text-slate-400 font-medium text-sm leading-relaxed">
-                Clonamos el conocimiento operativo de tu empresa en una IA autónoma que atiende consultas, cualifica leads y cierra citas en tu calendario las 24 horas.
+                Asistentes de IA que atienden consultas, organizan información y agendan citas automáticamente en tu calendario las 24 horas.
               </p>
             </div>
 
@@ -106,10 +106,10 @@ export default function ServicesBentoGrid({ onOpenForm }: { onOpenForm: () => vo
                 <Database size={22} />
               </div>
               <h3 className="text-2xl font-black text-white uppercase tracking-tight mb-4">
-                Desarrollo de Software y SaaS a Medida
+                Plataformas a medida para tu empresa
               </h3>
               <p className="text-slate-400 font-medium text-sm leading-relaxed max-w-xl">
-                Cuando las herramientas del mercado se quedan cortas, construimos plataformas en la nube, extranets y paneles de administración de tu propiedad absoluta. Sin dependencias técnicas de terceros ni licencias abusivas[cite: 1].
+                Plataformas a medida para gestionar todos los datos de tu empresa en un solo lugar y tomar mejores decisiones, sin dependencias técnicas de terceros ni licencias abusivas.
               </p>
             </div>
             

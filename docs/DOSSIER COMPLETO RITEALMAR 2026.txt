@@ -1,0 +1,1605 @@
+DOSSIER COMPLETO RITEALMAR 2026
+Web · Analítica · CRM · Automatización · Captación B2B · Google Business · Sistema Comercial
+
+Proyecto: RITEALMAR
+Nombre comercial: RITEALMAR / RITEALMAR Sistemas IA
+Responsable: Ricardo Calvo
+Web: https://ritealmar.es/
+Email: info@ritealmar.es
+WhatsApp: +34 611 155 415
+Auditoría gratuita: https://ritealmar.es/auditoria-ia-gratis
+Calendly: https://calendly.com/ritealmar/30min
+CRM principal: RITEALMAR CRM Captación B2B 2026
+2Fecha de referencia: 23/07/2026
+
+
+ÍNDICE
+
+1. Resumen ejecutivo
+2. Qué es RITEALMAR
+3. Qué ofrece RITEALMAR
+4. Sistema comercial completo
+5. Web principal
+6. Tecnología utilizada
+7. Páginas principales de la web
+8. Home principal
+9. Página de auditoría gratuita
+10. Página de precios
+11. Página de diseño web
+12. Página interna de captación
+13. Formularios y flujo de datos
+14. Seguridad web y protección del webhook
+15. Google Analytics 4
+16. Consent Mode y cookies
+17. Google Business
+18. Redes sociales
+19. CRM RITEALMAR
+20. Hojas del CRM
+21. Automatizaciones con Apps Script
+22. Resumen diario limpio
+23. Detector de respuestas y rebotes
+24. Dashboard comercial
+25. Sistema de campañas comerciales
+26. Seguimientos comerciales
+27. Gmail e IONOS
+28. Diseño visual de la web
+29. Sprint de conversión
+30. Sprint Visual 2
+31. Servicios que se pueden vender
+32. Precios orientativos
+33. Diferencia frente a una agencia web tradicional
+34. Estado actual del proyecto
+35. Riesgos y puntos a vigilar
+36. Próximos pasos recomendados
+37. Conclusión
+
+
+1. RESUMEN EJECUTIVO
+
+RITEALMAR es una empresa digital española creada para ayudar a pymes, clínicas, inmobiliarias, comercios y empresas de servicios a captar más clientes, mejorar su presencia online y automatizar procesos comerciales mediante inteligencia artificial, diseño web, CRM, formularios conectados, automatizaciones, analítica y sistemas de seguimiento.
+
+El proyecto ha evolucionado desde una web corporativa hacia un sistema comercial completo.
+
+Actualmente RITEALMAR cuenta con:
+
+- Web profesional publicada.
+- Diseño dark premium B2B.
+- Página de auditoría gratuita.
+- Página de precios.
+- Página de diseño web.
+- Página interna de captación.
+- Formularios conectados.
+- WhatsApp comercial visible.
+- Calendly conectado.
+- Google Analytics 4.
+- Eventos clave de conversión.
+- Consent Mode y gestión de cookies.
+- Google Business optimizado.
+- CRM en Google Sheets.
+- Automatizaciones con Google Apps Script.
+- Resumen diario automático.
+- Detector de respuestas comerciales.
+- Detector de rebotes.
+- Dashboard comercial.
+- Sistema de campañas B2B.
+- Seguimientos pendientes.
+- Control de.
+- Detector de respuestas comerciales.
+- Detector de rebotes.
+- Dashboard comercial.
+- Sistema de campañas B2B.
+ próximas acciones.
+- Seguridad reforzada con Cloudflare Worker.
+- Webhook de Google Sheets protegido.
+
+La propuesta actual de RITEALMAR ya no es vender solo una web o una automatización aislada. La propuesta es crear sistemas de captación y seguimiento comercial.
+
+El flujo principal es:
+
+Web → Formulario → WhatsApp → CRM → Gmail → Seguimiento → Dashboard → Medición
+
+Esto permite presentar RITEALMAR como una solución más completa, más valiosa y más profesional que una agencia web tradicional.
+
+
+2. QUÉ ES RITEALMAR
+
+RITEALMAR es una empresa digital especializada en inteligencia artificial, automatización, diseño web, CRM y sistemas comerciales para pequeñas y medianas empresas.
+
+Su objetivo es ayudar a negocios reales a no perder oportunidades comerciales.
+
+RITEALMAR se dirige principalmente a:
+
+- Clínicas.
+- Inmobiliarias.
+- Comercios.
+- Empresas de servicios.
+- Pymes.
+- Centros de estética.
+- Clínicas dentales.
+- Fisioterapeutas.
+- Profesionales que reciben contactos por web, WhatsApp o email.
+- Empresas que necesitan ordenar su captación comercial.
+
+La idea principal es sencilla:
+
+No basta con tener una web. Cada contacto debe quedar registrado, medido y con seguimiento.
+
+Por eso RITEALMAR une varias piezas:
+
+- Web.
+- Formularios.
+- WhatsApp.
+- CRM.
+- Automatizaciones.
+- Gmail.
+- Analytics.
+- Dashboard.
+- Seguimiento comercial.
+
+
+3. QUÉ OFRECE RITEALMAR
+
+RITEALMAR ofrece soluciones digitales orientadas a captación, automatización y mejora comercial.
+
+Los servicios principales son:
+
+1. Diseño web profesional.
+2. Automatización con IA.
+3. CRM comercial.
+4. Formularios conectados.
+5. WhatsApp comercial.
+6. Google Analytics y medición.
+7. Google Business.
+8. Captación B2B.
+9. Software a medida.
+10. Sistemas completos de captación.
+
+
+3.1 DISEÑO WEB PROFESIONAL
+
+RITEALMAR crea webs modernas, rápidas, responsive y orientadas a conversión.
+
+No se plantea la web como un simple escaparate, sino como una herramienta comercial.
+
+Una web de RITEALMAR puede incluir:
+
+- Diseño responsive.
+- Estructura profesional.
+- Textos orientados a conversión.
+- Botones de WhatsApp.
+- Formularios conectados.
+- Página de servicios.
+- Página de precios.
+- Página de auditoría.
+- SEO básico.
+- Medición con Google Analytics.
+- CTA hacia auditoría gratuita.
+- CTA hacia WhatsApp.
+- CTA hacia Calendly.
+
+
+3.2 AUTOMATIZACIÓN CON IA
+
+RITEALMAR crea automatizaciones para reducir tareas repetitivas y mejorar el seguimiento comercial.
+
+Ejemplos:
+
+- Registro automático de leads.
+- Autorespuestas.
+- Seguimiento de contactos.
+- Resumen diario.
+- Detección de respuestas.
+- Detección de rebotes.
+- Control de campañas.
+- Avisos de próximas acciones.
+- Clasificación de leads.
+- Conexión entre formularios, Gmail y CRM.
+
+
+3.3 CRM Y SEGUIMIENTO COMERCIAL
+
+RITEALMAR puede crear sistemas CRM personalizados en Google Sheets.
+
+El CRM no es solo una tabla. Es un sistema para controlar la actividad comercial.
+
+Puede incluir:
+
+- Empresas.
+- Contactos.
+- Estados comerciales.
+- Campañas.
+- Emails enviados.
+- Respuestas.
+- Rebotes.
+- Auditorías.
+- Próximo seguimiento.
+- Dashboard.
+- Próximas acciones.
+- Registro de automatizaciones.
+
+
+3.4 FORMULARIOS CONECTADOS
+
+Los formularios no se quedan solo en un email.
+
+El flujo es:
+
+Formulario web → Backend seguro → Apps Script → Google Sheets CRM → Gmail / seguimiento
+
+Esto permite que cada solicitud quede registrada.
+
+
+3.5 WHATSAPP COMERCIAL
+
+La web tiene WhatsApp visible como canal directo.
+
+Sirve para:
+
+- Reducir fricción.
+- Facilitar conversación inmediata.
+- Aumentar confianza.
+- Permitir contacto rápido.
+- Convertir visitas en conversaciones.
+
+
+3.6 ANALÍTICA Y MEDICIÓN
+
+RITEALMAR tiene Google Analytics 4 configurado.
+
+Se miden acciones reales, no solo visitas.
+
+Eventos principales:
+
+- click_whatsapp
+- click_calendly
+- submit_auditoria_ia
+
+
+3.7 GOOGLE BUSINESS
+
+RITEALMAR tiene perfil de Google Business optimizado.
+
+Nombre del perfil:
+
+Ritealmar - IA y Automatización
+
+Objetivo:
+
+- Mejorar presencia local.
+- Generar confianza.
+- Publicar novedades.
+- Conseguir reseñas reales.
+- Captar tráfico cualificado.
+
+
+3.8 CAPTACIÓN B2B
+
+RITEALMAR tiene un sistema de prospección B2B controlada.
+
+Sectores trabajados:
+
+- Fisioterapia.
+- Medicina estética.
+- Clínicas dentales.
+- Belleza.
+- Inmobiliarias.
+- Empresas de servicios.
+
+La captación no se basa en spam, sino en campañas pequeñas, revisadas y con seguimiento.
+
+
+4. SISTEMA COMERCIAL COMPLETO
+
+RITEALMAR funciona como un ecosistema comercial.
+
+El sistema completo incluye:
+
+1. Web profesional.
+2. Página de auditoría gratuita.
+3. WhatsApp visible.
+4. Calendly.
+5. Formularios conectados.
+6. CRM en Google Sheets.
+7. Automatizaciones con Apps Script.
+8. Detección de respuestas.
+9. Detección de rebotes.
+10. Dashboard.
+11. Resumen diario.
+12. Seguimientos.
+13. Google Analytics.
+14. Google Business.
+15. Publicaciones y contenido.
+16. Campañas B2B.
+
+El flujo comercial es:
+
+Visita web
+→ Lee propuesta de valor
+→ Solicita auditoría o escribe por WhatsApp
+→ El contacto entra en el CRM
+→ Se registra la actividad
+→ Se mide la conversión
+→ Se prepara seguimiento
+→ Se revisa el dashboard
+→ Se toman próximas acciones
+
+
+5. WEB PRINCIPAL
+
+La web principal es:
+
+https://ritealmar.es/
+
+Objetivo principal:
+
+Conseguir solicitudes de auditoría gratuita.
+
+Objetivos secundarios:
+
+- Conseguir clics en WhatsApp.
+- Conseguir reservas en Calendly.
+- Generar confianza.
+- Explicar servicios.
+- Mostrar precios orientativos.
+- Presentar RITEALMAR como sistema, no solo como agencia web.
+- Posicionar en Google.
+- Apoyar campañas comerciales.
+
+
+6. TECNOLOGÍA UTILIZADA
+
+La web está construida con tecnología moderna.
+
+Stack principal:
+
+- React 19.
+- TypeScript.
+- Vite.
+- TailwindCSS.
+- Framer Motion.
+- Lucide Icons.
+- Cloudflare Pages.
+- Cloudflare Worker.
+- Google Analytics 4.
+- Google Sheets.
+- Google Apps Script.
+- Gmail.
+- Calendly.
+- WhatsApp.
+
+Hosting:
+
+- Cloudflare Pages.
+
+Ventajas:
+
+- Velocidad.
+- Seguridad.
+- CDN.
+- Deploys controlados.
+- Integración con dominio.
+- Variables secretas protegidas.
+
+Comandos usados en Windows CMD:
+
+rmdir /s /q dist
+npm run build
+npm run publish
+npm run preview
+
+Carpeta local del proyecto:
+
+C:\Users\Usuario\Desktop\RITEALMAR\WEB\RITEALMAR\Web
+
+
+7. PÁGINAS PRINCIPALES DE LA WEB
+
+Rutas principales confirmadas:
+
+1. /
+Página principal de RITEALMAR.
+
+2. /auditoria-ia-gratis
+Página principal de conversión para solicitar auditoría gratuita.
+
+3. /plan-captacion
+Página interna de captación conectada al CRM.
+
+4. /precios
+Página de precios orientativos.
+
+5. /diseno-web
+Página específica del servicio de diseño web.
+
+Secciones internas importantes de la Home:
+
+- Inicio.
+- Servicios.
+- Sistema de captación.
+- Caso interno.
+- Automatizaciones.
+- Mejoras.
+- CTA auditoría.
+- WhatsApp.
+- Casos de éxito / caso interno demostrable.
+
+
+8. HOME PRINCIPAL
+
+La Home ha sido transformada para comunicar mejor el valor real de RITEALMAR.
+
+Mensaje anterior:
+
+Automatizamos tu empresa con IA, software y sistemas que venden por ti.
+
+Mensaje nuevo aprobado:
+
+Automatizamos tu captación comercial con IA, web, CRM y seguimiento.
+
+Este mensaje es más claro porque explica:
+
+- Qué se automatiza.
+- Qué elementos se conectan.
+- Qué objetivo comercial tiene.
+- Por qué no es solo una web.
+
+La Home comunica actualmente:
+
+- Web orientada a conversión.
+- Formularios conectados.
+- WhatsApp.
+- CRM.
+- Automatizaciones.
+- Medición en Analytics.
+
+CTA principales:
+
+- Solicitar auditoría gratuita.
+- Hablar por WhatsApp.
+
+Mensaje estratégico:
+
+No es solo una web. Es un sistema de captación.
+
+
+9. PÁGINA DE AUDITORÍA GRATUITA
+
+Ruta:
+
+https://ritealmar.es/auditoria-ia-gratis
+
+Esta es la página más importante para conversión.
+
+Objetivo:
+
+Conseguir que empresas soliciten una revisión gratuita de su sistema digital y comercial.
+
+La auditoría puede revisar:
+
+- Web actual.
+- Formularios.
+- WhatsApp.
+- Proceso de captación.
+- Seguimiento comercial.
+- Automatizaciones posibles.
+- Presencia online.
+- Puntos de fuga de leads.
+- CRM o ausencia de CRM.
+- Medición de conversiones.
+
+Evento Analytics asociado:
+
+submit_auditoria_ia
+
+Este evento está marcado como evento clave en GA4.
+
+
+10. PÁGINA DE PRECIOS
+
+Ruta:
+
+https://ritealmar.es/precios
+
+Objetivo:
+
+Dar transparencia, filtrar mejor al cliente y justificar que RITEALMAR vende sistemas de valor, no servicios baratos sin estructura.
+
+La página de precios ayuda a:
+
+- Generar confianza.
+- Evitar conversaciones poco cualificadas.
+- Posicionar servicios de mayor ticket.
+- Explicar niveles de solución.
+- Diferenciar web básica de sistema completo.
+
+Rangos orientativos:
+
+Web profesional de captación:
+Instalación: 900 € – 1.800 €
+Mantenimiento: 90 € – 180 €/mes
+
+Web + CRM básico:
+Instalación: 1.800 € – 3.500 €
+Mantenimiento: 250 € – 450 €/mes
+
+Automatización comercial:
+Instalación: 3.500 € – 6.500 €
+Mantenimiento: 450 € – 900 €/mes
+
+Sistema completo tipo RITEALMAR:
+Instalación: 6.500 € – 12.000 €
+Mantenimiento: 900 € – 1.500 €/mes
+
+SEO / contenido mensual:
+300 € – 900 €/mes
+
+Google Business mensual:
+150 € – 350 €/mes
+
+Campañas de prospección asistida:
+300 € – 1.000 €/mes
+
+Estos precios son orientativos y deben ajustarse al alcance, sector, número de integraciones, soporte y complejidad.
+
+
+11. PÁGINA DE DISEÑO WEB
+
+Ruta:
+
+https://ritealmar.es/diseno-web
+
+Esta página fue rediseñada como piloto.
+
+Objetivo:
+
+Presentar el diseño web como una herramienta de captación, no como una simple web decorativa.
+
+La página debe transmitir:
+
+- Una web debe captar.
+- Una web debe generar confianza.
+- Una web debe tener CTA claros.
+- Una web debe medir conversiones.
+- Una web debe conectar formularios.
+- Una web debe dirigir a WhatsApp, auditoría o contacto.
+- Una web debe formar parte de un sistema comercial.
+
+Diferencia frente a una web tradicional:
+
+Una web tradicional puede quedarse en diseño.
+
+Una web RITEALMAR se conecta con:
+
+- CRM.
+- WhatsApp.
+- Formularios.
+- Analytics.
+- Seguimiento comercial.
+
+
+12. PÁGINA INTERNA DE CAPTACIÓN
+
+Ruta:
+
+https://ritealmar.es/plan-captacion
+
+Función:
+
+Página interna usada como parte del sistema de captación y CRM.
+
+Uso:
+
+- Registrar datos.
+- Conectar pruebas internas.
+- Apoyar procesos comerciales.
+- Integrar información con Google Sheets.
+
+No se recomienda usar esta página como enlace principal público.
+
+El enlace público prioritario debe ser:
+
+https://ritealmar.es/auditoria-ia-gratis
+
+
+13. FORMULARIOS Y FLUJO DE DATOS
+
+El sistema de formularios está diseñado para que los contactos no se pierdan.
+
+Flujo general:
+
+Usuario entra en la web
+→ Solicita auditoría o contacto
+→ Formulario recoge datos
+→ Worker seguro recibe la solicitud
+→ Apps Script registra en Google Sheets
+→ CRM actualiza información
+→ Gmail puede recibir aviso
+→ Sistema prepara seguimiento
+→ Dashboard muestra datos
+
+Ventaja:
+
+Cada contacto queda registrado, no se pierde en un email suelto.
+
+
+14. SEGURIDAD WEB Y PROTECCIÓN DEL WEBHOOK
+
+Se corrigió un punto importante de seguridad.
+
+Antes existía riesgo de exponer directamente el webhook de Apps Script en el frontend.
+
+Ese riesgo se corrigió.
+
+Arquitectura segura actual:
+
+Frontend RITEALMAR
+→ /api/save-to-sheets
+→ Cloudflare Worker
+→ Secret GOOGLE_SHEETS_URL
+→ Apps Script
+→ Google Sheets CRM
+
+Medidas aplicadas:
+
+- Webhook directo eliminado del frontend.
+- Endpoint interno /api/save-to-sheets.
+- Cloudflare Worker como capa intermedia.
+- Secret GOOGLE_SHEETS_URL protegido en Cloudflare.
+- Webhook de Apps Script rotado.
+- Dist escaneado.
+- No hay claves sensibles visibles.
+
+Elementos protegidos:
+
+- GOOGLE_SHEETS_URL.
+- Apps Script webhook real.
+- GEMINI_API_KEY.
+- RESEND_API_KEY.
+- Variables de entorno.
+- Lógica de CRM.
+
+Escaneos realizados:
+
+script.google.com: no encontrado
+VITE_GOOGLE_SHEETS_WEBHOOK_URL: no encontrado
+GEMINI_API_KEY: no encontrado
+RESEND_API_KEY: no encontrado
+GOOGLE_SHEETS_URL: no encontrado
+
+
+15. GOOGLE ANALYTICS 4
+
+RITEALMAR tiene Google Analytics 4 configurado.
+
+Propiedad:
+
+RITEALMAR GA4 Web Nueva
+
+ID de medición actual:
+
+G-ZGB3DG38K5
+
+Eventos principales:
+
+- click_whatsapp
+- click_calendly
+- submit_auditoria_ia
+
+Eventos clave configurados:
+
+- click_whatsapp
+- click_calendly
+- submit_auditoria_ia
+
+Eventos que no se deben marcar como clave:
+
+- page_view
+- session_start
+- first_visit
+- scroll
+- form_start
+- user_engagement
+- internal_link
+
+Motivo:
+
+No conviene inflar conversiones con eventos genéricos. Lo importante es medir acciones comerciales reales.
+
+
+16. CONSENT MODE Y COOKIES
+
+La web tiene gestión de consentimiento.
+
+Funcionamiento:
+
+- Consentimiento denegado por defecto.
+- Consentimiento actualizado cuando el usuario acepta cookies.
+- Banner de privacidad y cookies visible.
+- Botones de configurar, rechazar y aceptar.
+
+Objetivo:
+
+- Cumplir con privacidad.
+- No medir sin consentimiento cuando corresponda.
+- Mantener control sobre Analytics.
+
+
+17. GOOGLE BUSINESS
+
+Perfil:
+
+Ritealmar - IA y Automatización
+
+Objetivo:
+
+- Mejorar presencia local.
+- Aparecer en búsquedas relacionadas.
+- Generar confianza.
+- Publicar novedades.
+- Conseguir reseñas reales.
+- Llevar tráfico hacia la web.
+- Llevar tráfico hacia la auditoría gratuita.
+
+Acciones trabajadas:
+
+- Perfil optimizado.
+- Servicios añadidos.
+- Productos añadidos.
+- Fotos.
+- Publicaciones.
+- Enlace a reseñas.
+- Enlace a web.
+- Enlace a auditoría gratuita.
+
+Rutina recomendada:
+
+Lunes:
+Publicación en Google Business.
+
+Miércoles:
+Pedir reseñas reales.
+
+Viernes:
+Revisar métricas.
+
+Enlace de reseñas:
+
+https://g.page/r/CRTqo5MvkinrEBM/review
+
+
+18. REDES SOCIALES
+
+Canales principales:
+
+Facebook:
+https://www.facebook.com/profile.php?id=61586678082779
+
+LinkedIn perfil:
+https://www.linkedin.com/in/ritealmar
+
+LinkedIn empresa:
+https://www.linkedin.com/company/ritealmar-sistemas-ia
+
+Objetivo de redes:
+
+- Reforzar confianza.
+- Publicar contenido educativo.
+- Llevar tráfico a auditoría gratuita.
+- Mostrar que RITEALMAR está activo.
+- Explicar automatización con lenguaje sencillo.
+
+Enlaces recomendados para publicaciones:
+
+Web principal:
+https://ritealmar.es/
+
+Auditoría gratuita:
+https://ritealmar.es/auditoria-ia-gratis
+
+WhatsApp:
+https://wa.me/34611155415
+
+Calendly:
+https://calendly.com/ritealmar/30min
+
+Mensaje central de contenido:
+
+No es solo una web. Es un sistema de captación.
+
+
+19. CRM RITEALMAR
+
+Nombre:
+
+RITEALMAR CRM Captación B2B 2026
+
+URL:
+
+https://docs.google.com/spreadsheets/d/1ZshJY8CQWkciFk8T0-3LNeqVuC4lUMMl-l9_DdXvdLY/edit
+
+Objetivo:
+
+Centralizar toda la actividad comercial de RITEALMAR.
+
+El CRM permite controlar:
+
+- Empresas.
+- Contactos.
+- Actividad.
+- Emails.
+- Rebotes.
+- Auditorías.
+- Campañas.
+- Seguimientos.
+- Próximas acciones.
+- Dashboard.
+- Automatizaciones.
+
+
+20. HOJAS DEL CRM
+
+El CRM contiene las siguientes hojas:
+
+- Empresas
+- Contactos
+- Actividad
+- Emails
+- Rebotes
+- Auditorías
+- Panel CRM
+- Registro automatizaciones
+- Configuración
+- Prospección activa
+- Seguimientos pendientes
+- Dashboard RITEALMAR
+- Control autorespuestas
+- Próximas acciones
+- Campañas
+
+Hoja principal:
+
+Empresas
+
+Columnas principales de Empresas:
+
+1. Fecha Alta
+2. Empresa
+3. Sector
+4. Web
+5. Email
+6. Teléfono
+7. Persona contacto
+8. Cargo
+9. Ciudad
+10. Provincia
+11. País
+12. Estado
+13. Prioridad
+14. Origen Lead
+15. Campaña
+16. Último Contacto
+17. Próximo Seguimiento
+18. Respuesta
+19. Interés
+20. Servicio recomendado
+21. Importe (€)
+22. Thread Gmail
+23. Message ID
+24. Calendly
+25. WhatsApp
+26. Auditoría IA
+27. Notas
+28. Fecha Actualización
+
+Estados comerciales posibles:
+
+- Pendiente
+- Contactado
+- Seguimiento pendiente
+- Respondió
+- Auditoría solicitada
+- Rebote
+- No interesado
+- Interesado
+
+
+21. AUTOMATIZACIONES CON APPS SCRIPT
+
+El CRM está conectado a Google Apps Script.
+
+Proyecto:
+
+RITEALMAR CRM Captación B2B 2026
+
+Cuenta:
+
+llargo34@gmail.com
+
+Automatizaciones creadas:
+
+- Menú personalizado RITEALMAR CRM.
+- Actualizar todo CRM.
+- Automatización maestra.
+- Webhook de auditorías.
+- Lector Gmail FormSubmit.
+- Autorespuesta de auditoría.
+- Pausar autorespuestas.
+- Control de autorespuestas.
+- Detector seguro de respuestas Gmail.
+- Detector de rebotes.
+- Resumen diario limpio.
+- Dashboard.
+- Próximas acciones inteligentes.
+- Campañas.
+- Registro de automatizaciones.
+
+Función maestra:
+
+automatizacionMaestraCRM_RITEALMAR
+
+Objetivo:
+
+- Revisar actividad.
+- Detectar respuestas.
+- Detectar rebotes.
+- Actualizar CRM.
+- Actualizar dashboard.
+- Preparar próximas acciones.
+
+
+22. RESUMEN DIARIO LIMPIO
+
+Se creó un resumen diario automático que llega por email.
+
+Ejemplo recibido el 23/07/2026:
+
+Resumen diario limpio RITEALMAR CRM
+
+Datos comerciales reales:
+
+Leads web reales: 0
+Autorespuestas reales registradas: 0
+Respuestas comerciales reales: 0
+Rebotes reales: 0
+Empresas contactadas: 20
+
+Seguimientos:
+
+Seguimientos para hoy: 0
+Seguimientos atrasados: 0
+
+Acción recomendada:
+
+Sistema estable. Revisar Gmail durante el día y esperar respuestas de Campaña 1 y Campaña 2.
+
+Objetivo del resumen:
+
+- Evitar revisar manualmente todo el CRM.
+- Saber si hay leads.
+- Saber si hay respuestas.
+- Saber si hay rebotes.
+- Saber si hay seguimientos.
+- Recibir una acción recomendada.
+
+
+23. DETECTOR DE RESPUESTAS Y REBOTES
+
+Se creó un detector seguro de respuestas reales en Gmail.
+
+Resultado validado:
+
+Contactos comerciales cargados: 20
+Threads encontrados: 44
+Mensajes revisados: 47
+Respuestas reales detectadas: 0
+Omitidos: 47
+Duplicados: 0
+Errores: 0
+
+Esto confirma que el sistema no estaba confundiendo mensajes internos, pruebas o automatizaciones con respuestas comerciales reales.
+
+También existe sistema para detectar rebotes.
+
+Objetivo:
+
+- Identificar emails inválidos.
+- Evitar seguir contactando direcciones fallidas.
+- Mantener limpio el CRM.
+- Mejorar calidad de campañas.
+
+
+24. DASHBOARD COMERCIAL
+
+Existe una hoja:
+
+Dashboard RITEALMAR
+
+Función:
+
+Mostrar métricas comerciales limpias.
+
+Métricas actuales de referencia:
+
+Empresas: 45
+Contactadas: 20
+Leads web: 0
+Auditorías: 0
+Respuestas: 0
+Rebotes: 0
+Seguimientos hoy: 0
+Atrasados: 0
+
+También se planteó una fase llamada:
+
+Dashboard Ejecutivo V3
+
+Objetivo del Dashboard Ejecutivo V3:
+
+- KPIs superiores.
+- Empresas por sector.
+- Estados comerciales.
+- Empresas por campaña.
+- Leads por origen.
+- Acción recomendada.
+- Próximos seguimientos.
+- Gráficos visuales.
+
+
+25. SISTEMA DE CAMPAÑAS COMERCIALES
+
+RITEALMAR tiene campañas B2B controladas.
+
+Campaña 1:
+
+Sector principal:
+Fisioterapia y medicina estética.
+
+Empresas contactadas:
+
+- FisioMadrid
+- Clínica Osteo
+- Clínica Río
+- Clínica J.C. Ginés
+- Madrid FisioTecar
+- MClinic Fisioterapia
+- Instituto Medicina Estética
+- DA Clínica Medicina Estética Madrid
+- Doctora Bonina
+- VenusMed Madrid
+
+Estado:
+
+Enviada.
+Seguimiento programado.
+
+Campaña 2:
+
+Sector principal:
+Clínicas dentales, estética e inmobiliarias.
+
+Empresas contactadas:
+
+- Clínica Dental Madrid
+- CliniDent Madrid
+- Clínica Dental Roma
+- Clínica Dental Dentiessal
+- Felicidad Carrera
+- Clínica de Belleza María Navarra
+- Medicalesthetic
+- Clínica Eclipse
+- Home Gestión Inmobiliaria Integral
+- Gilmar Madrid
+
+Estado:
+
+Enviada.
+Seguimiento programado.
+
+Estado comercial actual de referencia:
+
+Empresas contactadas: 20
+Respuestas reales: 0
+Rebotes reales: 0
+Leads web reales: 0
+Auditorías solicitadas: 0
+
+Interpretación:
+
+No es un fallo técnico. Es una fase normal de espera comercial tras primeras campañas.
+
+
+26. SEGUIMIENTOS COMERCIALES
+
+Existe una hoja:
+
+Seguimientos pendientes
+
+Columnas visibles:
+
+- Fila CRM
+- Empresa
+- Prioridad
+- Campaña
+- Último Contacto
+- Próximo Seguimiento
+- Días
+- Acción recomendada
+
+Ejemplo de lectura:
+
+Campaña 1:
+Último contacto: 21/07/2026
+Próximo seguimiento: 23/07/2026
+
+Campaña 2:
+Último contacto: 22/07/2026
+Próximo seguimiento: 24/07/2026
+
+Recomendación comercial:
+
+No crear campañas nuevas hasta cerrar correctamente los seguimientos de las campañas anteriores.
+
+Texto base de seguimiento:
+
+Asunto: Re: Auditoría gratuita para mejorar la captación
+
+Hola,
+
+Te escribo solo para hacer seguimiento del correo anterior.
+
+En RITEALMAR estamos ofreciendo una auditoría gratuita para detectar mejoras en la captación digital: web, formularios, WhatsApp, seguimiento de contactos y posibles automatizaciones con IA.
+
+No se trata de vender una solución cerrada, sino de revisar si hay oportunidades reales de mejora.
+
+Si te encaja, puedes solicitarla aquí:
+https://ritealmar.es/auditoria-ia-gratis
+
+O, si lo prefieres, puedes responderme a este correo y te indico el siguiente paso.
+
+Un saludo,
+Ricardo Calvo
+RITEALMAR
+info@ritealmar.es
+https://ritealmar.es/
+
+
+27. GMAIL E IONOS
+
+Email principal:
+
+info@ritealmar.es
+
+Gmail configurado para enviar como:
+
+RITEALMAR <info@ritealmar.es>
+
+Servidor:
+
+smtp.ionos.es
+Puerto 587
+TLS
+
+Regla en IONOS:
+
+Copiar formularios RITEALMAR a Gmail CRM
+
+Acción:
+
+Redirigir a llargo34@gmail.com
+Mantener copia
+
+Objetivo:
+
+- Centralizar formularios.
+- Usar Gmail como apoyo.
+- Permitir que Apps Script revise actividad.
+- Mantener control comercial.
+
+
+28. DISEÑO VISUAL DE LA WEB
+
+Estilo actual:
+
+- Dark premium.
+- B2B tecnológico.
+- Azul noche.
+- Cian.
+- Blanco.
+- Grises suaves.
+- Acentos neon moderados.
+
+Se buscó que la web pareciera:
+
+- Seria.
+- Tecnológica.
+- Profesional.
+- Moderna.
+- Orientada a negocio.
+- No demasiado gaming.
+- No recargada.
+
+Cambios visuales aprobados:
+
+- Menos magenta.
+- Más cian.
+- Fondos menos negros.
+- Cards más limpias.
+- CTA más visibles.
+- Diseño más serio.
+- Mayor enfoque B2B.
+
+
+29. SPRINT DE CONVERSIÓN
+
+Se realizó un sprint de conversión aprobado.
+
+Cambios principales:
+
+- Nuevo hero comercial.
+- Mensaje más claro.
+- Sección “No es solo una web, es un sistema”.
+- Caso interno demostrable.
+- CTA móvil.
+- Sustitución de ROI decorativo.
+- Página de precios visible.
+- Cards más orientadas a negocio.
+- Mejor justificación del sistema completo.
+
+Resultado:
+
+La web comunica mejor que RITEALMAR no vende solo páginas web, sino sistemas de captación y seguimiento.
+
+
+30. SPRINT VISUAL 2
+
+Se intentó un Sprint Visual 2 para mejorar imágenes, fondos, cards y mockups.
+
+Objetivo:
+
+- Hacer la web más visual.
+- Añadir sensación de imágenes profesionales.
+- Usar fondos dinámicos.
+- Mejorar cards con visuales.
+- Acercarse a una imagen más premium.
+
+Problema:
+
+El resultado no fue aprobado.
+
+Motivos:
+
+- El mockup del hero se solapaba con el H1.
+- El texto principal perdía legibilidad.
+- Las ilustraciones parecían esquemas o placeholders.
+- Las cards se veían más pesadas.
+- La web quedaba menos clara.
+- No transmitía suficiente profesionalidad visual.
+
+Decisión recomendada:
+
+No publicar Sprint Visual 2.
+
+Acción recomendada:
+
+Hacer rollback completo del Sprint Visual 2 y volver a la versión estable anterior.
+
+Conclusión:
+
+La mejora visual con imágenes debe hacerse más adelante, como fase separada, usando imágenes o assets preparados con más criterio.
+
+
+31. SERVICIOS QUE SE PUEDEN VENDER
+
+RITEALMAR puede vender varios niveles de servicio.
+
+Servicio 1:
+Web profesional de captación.
+
+Incluye:
+
+- Diseño web.
+- Responsive.
+- CTA.
+- Formulario.
+- WhatsApp.
+- SEO básico.
+- Analytics.
+
+Servicio 2:
+Web + CRM.
+
+Incluye:
+
+- Web.
+- Formulario conectado.
+- CRM Google Sheets.
+- Estados comerciales.
+- Seguimientos.
+- Dashboard.
+
+Servicio 3:
+Automatización comercial.
+
+Incluye:
+
+- Autorespuestas.
+- Registro automático.
+- Gmail.
+- Rebotes.
+- Seguimientos.
+- Alertas.
+- Resumen diario.
+
+Servicio 4:
+Sistema completo de captación.
+
+Incluye:
+
+- Web.
+- CRM.
+- Automatización.
+- Analytics.
+- Dashboard.
+- WhatsApp.
+- Calendly.
+- Seguimientos.
+- Campañas.
+
+Servicio 5:
+Google Business y SEO local.
+
+Incluye:
+
+- Optimización de perfil.
+- Publicaciones.
+- Servicios.
+- Productos.
+- Reseñas.
+- Seguimiento de métricas.
+
+Servicio 6:
+Prospección asistida.
+
+Incluye:
+
+- Búsqueda de empresas.
+- CRM.
+- Emails.
+- Seguimientos.
+- Control de respuestas.
+- Control de rebotes.
+
+
+32. PRECIOS ORIENTATIVOS
+
+Web profesional de captación:
+
+Instalación: 900 € – 1.800 €
+Mantenimiento: 90 € – 180 €/mes
+
+Web + CRM básico:
+
+Instalación: 1.800 € – 3.500 €
+Mantenimiento: 250 € – 450 €/mes
+
+Automatización comercial:
+
+Instalación: 3.500 € – 6.500 €
+Mantenimiento: 450 € – 900 €/mes
+
+Sistema completo tipo RITEALMAR:
+
+Instalación: 6.500 € – 12.000 €
+Mantenimiento: 900 € – 1.500 €/mes
+
+SEO / contenido mensual:
+
+300 € – 900 €/mes
+
+Google Business mensual:
+
+150 € – 350 €/mes
+
+Campañas de prospección asistida:
+
+300 € – 1.000 €/mes
+
+Estos precios son orientativos y deben ajustarse caso por caso.
+
+
+33. DIFERENCIA FRENTE A UNA AGENCIA WEB TRADICIONAL
+
+Una agencia web tradicional suele entregar una web.
+
+RITEALMAR entrega un sistema.
+
+Agencia web tradicional:
+
+- Diseña una web.
+- Entrega el proyecto.
+- Puede no medir conversiones.
+- Puede no conectar CRM.
+- Puede no hacer seguimiento.
+- Puede no automatizar procesos.
+
+RITEALMAR:
+
+- Diseña web.
+- Conecta formularios.
+- Integra WhatsApp.
+- Registra leads en CRM.
+- Automatiza respuestas y seguimiento.
+- Mide eventos.
+- Crea dashboard.
+- Ayuda a captar y ordenar oportunidades.
+
+Mensaje diferencial:
+
+RITEALMAR no vende solo tecnología.
+RITEALMAR crea sistemas prácticos para captar, registrar, medir y seguir oportunidades comerciales.
+
+
+34. ESTADO ACTUAL DEL PROYECTO
+
+Cerrado y funcionando:
+
+- Web publicada.
+- GA4 configurado.
+- Eventos clave configurados.
+- Google Business activo.
+- CRM creado.
+- Apps Script operativo.
+- Resumen diario funcionando.
+- Campañas 1 y 2 enviadas.
+- Detector Gmail probado.
+- Detector de rebotes operativo.
+- Dashboard básico operativo.
+- Seguridad del webhook corregida.
+- Cloudflare Pages funcionando.
+- Worker seguro implementado.
+
+Pendiente o en revisión:
+
+- Rollback del Sprint Visual 2.
+- Seguimientos de Campaña 1 y Campaña 2.
+- Revisión semanal de métricas.
+- Más reseñas reales.
+- Más contenido SEO.
+- Más publicaciones en Google Business.
+- Captación diaria controlada.
+- Dashboard Ejecutivo V3.
+- Mejoras visuales futuras con imágenes reales o assets mejor preparados.
+
+
+35. RIESGOS Y PUNTOS A VIGILAR
+
+1. No tocar demasiado la web.
+
+La web ya es suficientemente buena para vender. Cambiarla cada día puede impedir medir resultados.
+
+Recomendación:
+
+Medir antes de volver a rediseñar.
+
+2. No inventar casos de éxito.
+
+Hasta tener clientes reales, usar:
+
+- Caso interno demostrable.
+- Sistema propio RITEALMAR.
+- Proceso real creado.
+
+No usar:
+
+- Clientes falsos.
+- Métricas inventadas.
+- Testimonios no reales.
+- Logos inventados.
+
+3. No enviar campañas masivas sin control.
+
+La captación debe seguir siendo manual, revisada y personalizada.
+
+Regla:
+
+Enviar poco.
+Medir respuesta.
+Hacer seguimiento.
+Ajustar mensaje.
+
+4. No publicar cambios visuales que reduzcan claridad.
+
+La web debe ser seria, clara y comercial.
+
+La animación o los efectos son secundarios.
+
+
+36. PRÓXIMOS PASOS RECOMENDADOS
+
+Prioridad 1:
+Volver a la versión estable de la web si el Sprint Visual 2 sigue mal.
+
+Prioridad 2:
+Realizar seguimiento comercial a Campaña 1 y Campaña 2.
+
+Prioridad 3:
+Publicar contenido en Google Business y redes con el mensaje:
+
+No es solo una web. Es un sistema de captación.
+
+Prioridad 4:
+Pedir reseñas reales.
+
+Prioridad 5:
+Revisar métricas semanalmente.
+
+Métricas a revisar:
+
+- Visitas web.
+- Clics en WhatsApp.
+- Clics en auditoría.
+- Clics en Calendly.
+- Formularios enviados.
+- Visitas a precios.
+- Respuestas de email.
+- Rebotes.
+- Seguimientos pendientes.
+
+Prioridad 6:
+Preparar una versión comercial corta del dossier para clientes.
+
+Esa versión debería tener 3 o 4 páginas y explicar:
+
+- Qué problema resuelve RITEALMAR.
+- Qué sistema ofrece.
+- Qué incluye.
+- Qué precios orientativos tiene.
+- Cómo solicitar auditoría gratuita.
+
+
+37. CONCLUSIÓN
+
+RITEALMAR ya no es solo una web.
+
+RITEALMAR es un ecosistema digital compuesto por:
+
+- Web.
+- CRM.
+- Automatización.
+- Analítica.
+- Google Business.
+- Captación B2B.
+- Seguimiento comercial.
+- Dashboard.
+- Seguridad.
+- Sistemas conectados.
+
+La base técnica y comercial está creada.
+
+El siguiente reto no es añadir más herramientas, sino conseguir conversaciones reales con empresas.
+
+La prioridad debe ser:
+
+1. Web estable.
+2. Seguimientos comerciales.
+3. Publicaciones semanales.
+4. Reseñas reales.
+5. Medición.
+6. Ajuste del mensaje según datos.
+
+RITEALMAR ya tiene estructura suficiente para vender servicios de alto valor como:
+
+- Webs de captación.
+- CRM comerciales.
+- Automatización de procesos.
+- Sistemas completos de captación.
+- Consultoría IA para pymes.
+- Google Business y SEO local.
+- Prospección asistida.
+
+La ventaja diferencial es clara:
+
+RITEALMAR no vende tecnología por moda.
+RITEALMAR crea sistemas prácticos para que las empresas capten, registren, midan y sigan mejor sus oportunidades comerciales.
+
+FIN DEL DOSSIER

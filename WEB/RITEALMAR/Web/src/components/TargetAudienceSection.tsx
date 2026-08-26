@@ -41,7 +41,7 @@ export default function TargetAudienceSection() {
           </p>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-8 mb-16">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-16">
           {/* Ideal para */}
           <motion.div 
             initial={{ opacity: 0, x: -30 }}
