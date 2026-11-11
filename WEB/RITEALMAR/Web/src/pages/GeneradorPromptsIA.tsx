@@ -539,7 +539,7 @@ Por favor, antes de darme la respuesta final, hazme cualquier pregunta aclarator
               </p>
               <ul className="list-disc pl-6 space-y-4 text-slate-400 text-lg">
                 <li><strong>Soporte al Cliente Omnicanal:</strong> Un equipo de atención al cliente utilizaba prompts básicos para responder incidencias. Al pasar a usar <em>Mega-Prompts</em> estructurados, lograron que ChatGPT devolviera respuestas legales perfectas. Luego, conectaron ese prompt a un <a href="/chatbots-ia" className="text-cyan-400 hover:underline">Chatbot de WhatsApp</a> automatizando el 70% de las consultas.</li>
-                <li><strong>Creación de Contenido Inmobiliario:</strong> Escribir descripciones atractivas para 500 viviendas era un calvario. Con un prompt avanzado que incluía variables de geolocalización y SEO, el tiempo de redacción cayó de semanas a horas. <a href="/casos-exito/inmobiliaria-ia" className="text-cyan-400 hover:underline">Ver caso Inmobiliario</a>.</li>
+                <li><strong>Creación de Contenido Inmobiliario:</strong> Escribir descripciones atractivas para 500 viviendas era un calvario. Con un prompt avanzado que incluía variables de geolocalización y SEO, el tiempo de redacción cayó de semanas a horas. <a href="/casos-de-exito/inmobiliaria-captacion-ia" className="text-cyan-400 hover:underline">Ver caso Inmobiliario</a>.</li>
               </ul>
             </div>
 

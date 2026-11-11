@@ -23,7 +23,7 @@ export default function AuditoriaIaGratis() {
       <SEO 
         title="Auditoría IA gratuita para PYMEs | RITEALMAR"
         description="Solicita una auditoría gratuita de IA y automatización para tu empresa. Detectamos procesos repetitivos, oportunidades de captación y mejoras con inteligencia artificial."
-        canonical={typeof window !== 'undefined' ? window.location.href : undefined}
+        canonical="https://ritealmar.es/auditoria-ia-gratis"
       />
       
       {/* 1. HERO SECTION */}

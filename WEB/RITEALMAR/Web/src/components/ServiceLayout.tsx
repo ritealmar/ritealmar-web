@@ -1,7 +1,5 @@
 import React from 'react';
 import { motion } from 'motion/react';
-import Navbar from './Navbar';
-import LegalFooter from './LegalFooter';
 import ContactForm from './ContactForm';
 import SEO from './SEO';
 
@@ -32,9 +30,8 @@ export default function ServiceLayout({
       <SEO 
         title={finalSeoTitle}
         description={finalSeoDesc}
-        canonical={typeof window !== 'undefined' ? window.location.href : undefined}
+        canonical={typeof window !== 'undefined' ? `${window.location.origin}${window.location.pathname}` : undefined}
       />
-      <Navbar onOpenCalendly={onOpenCalendly} />
       
       {/* Service Hero */}
       <section className="relative pt-40 pb-20 px-6 lg:pt-52 lg:pb-32 overflow-hidden border-b border-white/5 bg-[#0A1628]">
@@ -103,7 +100,6 @@ export default function ServiceLayout({
       </section>
 
       <ContactForm />
-      <LegalFooter />
     </div>
   );
 }

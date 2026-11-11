@@ -34,6 +34,13 @@ describe('Worker Edge API', () => {
          return new Response(JSON.stringify({ success: false, 'error-codes': ['invalid-input-response'] }));
       }
       
+      if (url.includes('api.resend.com')) {
+          if (init.body.includes('simular_error_resend')) {
+              return new Response("Resend Error", { status: 500 });
+          }
+          return new Response(JSON.stringify({ id: 'resend_mock_id' }), { status: 200 });
+      }
+
       if (url.includes('formsubmit.co')) {
           if (init.body.includes('simular_error_correo')) {
               return new Response("Error", { status: 500 });
@@ -174,6 +181,50 @@ describe('Worker Edge API', () => {
     const urls = vi.mocked(global.fetch).mock.calls.map(c => c[0]);
     expect(urls.some(u => String(u).includes('formsubmit.co'))).toBe(true);
     expect(urls.some(u => String(u).includes('google.sheets'))).toBe(true);
+  });
+
+  it('procesa un envío exitoso a través de Resend cuando RESEND_API_KEY está configurada', async () => {
+    const envWithResend = {
+      ...mockEnv,
+      RESEND_API_KEY: 're_test_key_123'
+    };
+    const req = createRequest({ 
+      nombre: 'Lead Resend',
+      email: 'lead@test.com',
+      mensaje: 'Prueba de envio con Resend',
+      privacidad: true,
+      cf_turnstile_response: 'valid_token' 
+    });
+    const res = await worker.fetch(req, envWithResend, {});
+    const json = await res.json();
+    expect(res.status).toBe(200);
+    expect(json.success).toBe(true);
+    
+    const urls = vi.mocked(global.fetch).mock.calls.map(c => c[0]);
+    expect(urls.some(u => String(u).includes('api.resend.com'))).toBe(true);
+    expect(urls.some(u => String(u).includes('formsubmit.co'))).toBe(false);
+  });
+
+  it('activa fallback a Formsubmit si Resend falla', async () => {
+    const envWithResend = {
+      ...mockEnv,
+      RESEND_API_KEY: 're_test_key_123'
+    };
+    const req = createRequest({ 
+      nombre: 'simular_error_resend',
+      email: 'lead@test.com',
+      mensaje: 'Prueba fallback a formsubmit',
+      privacidad: true,
+      cf_turnstile_response: 'valid_token' 
+    });
+    const res = await worker.fetch(req, envWithResend, {});
+    const json = await res.json();
+    expect(res.status).toBe(200);
+    expect(json.success).toBe(true);
+    
+    const urls = vi.mocked(global.fetch).mock.calls.map(c => c[0]);
+    expect(urls.some(u => String(u).includes('api.resend.com'))).toBe(true);
+    expect(urls.some(u => String(u).includes('formsubmit.co'))).toBe(true);
   });
 
   it('maneja fallo del proveedor de correo gracefully', async () => {

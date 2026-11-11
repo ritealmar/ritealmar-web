@@ -136,6 +136,7 @@ export default function App() {
       case '':
       case '/': return <Home onOpenCalendly={handleOpenModal} />;
       // Páginas SEO y Servicios Unificados
+      case '/agentes-ia':
       case '/servicios/agentes-ia': return <AgentesIA />;
       case '/diseno-web': return <DisenoWebPage />;
       case '/apps-para-empresas': return <AppsEmpresasPage />;
@@ -229,6 +230,16 @@ export default function App() {
           if (projectsData[projectSlug]) {
             return <GenericProjectPage data={projectsData[projectSlug]} />;
           }
+        }
+
+        if (path.startsWith('/casos-exito/')) {
+          const caseSlug = path.split('/')[2];
+          if (caseSlug === 'panel-central' && projectsData['panel-central']) return <GenericProjectPage data={projectsData['panel-central']} />;
+          if ((caseSlug === 'aurentia' || caseSlug === 'aurentia-app') && projectsData['aurentia-app']) return <GenericProjectPage data={projectsData['aurentia-app']} />;
+          if (caseSlug === 'inmobiliaria-ia' || caseSlug === 'inmobiliaria') return <CasoExitoInmobiliariaIA />;
+          if (caseSlug === 'ecommerce-ia' || caseSlug === 'ecommerce') return <CasoExitoEcommerceIA />;
+          if (caseSlug === 'clinica-ia' || caseSlug === 'clinica') return <CasoExitoClinicaIA />;
+          if (projectsData[caseSlug]) return <GenericProjectPage data={projectsData[caseSlug]} />;
         }
 
         if (path === '/plan-captacion') return <PlanCaptacion />;

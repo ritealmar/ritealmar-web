@@ -262,13 +262,70 @@ export default {
             }
         }
 
-        // --- 6.B ENTREGA DE CORREO (Proxy a Formsubmit) ---
+        // --- 6.B ENTREGA DE CORREO (Resend con fallback a Formsubmit) ---
         let emailSent = false;
-        try {
+
+        // 1. Envío profesional primario mediante Resend API (si está configurada RESEND_API_KEY)
+        if (env.RESEND_API_KEY) {
+          try {
+            const resendPayload: Record<string, any> = {
+              from: "RITEALMAR <onboarding@resend.dev>",
+              to: ["info@ritealmar.es"],
+              cc: ["llargo34@gmail.com"],
+              reply_to: body.email,
+              subject: `Solicitud de Contacto Web - ${body.nombre}`,
+              html: `
+                <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto; padding: 20px; border: 1px solid #e2e8f0; rounded: 8px;">
+                  <h2 style="color: #0284c7; border-bottom: 2px solid #0284c7; padding-bottom: 8px;">Nueva Solicitud de Contacto - RITEALMAR</h2>
+                  <p><strong>Nombre:</strong> ${body.nombre}</p>
+                  <p><strong>Email:</strong> ${body.email}</p>
+                  <p><strong>Empresa:</strong> ${body.empresa || 'No especificada'}</p>
+                  <p><strong>Teléfono:</strong> ${body.telefono || 'No especificado'}</p>
+                  <p><strong>Urgencia:</strong> ${body.urgencia || 'Media'}</p>
+                  <div style="margin-top: 15px; padding: 12px; background: #f8fafc; border-left: 4px solid #0284c7;">
+                    <strong>Mensaje:</strong><br>
+                    <p style="white-space: pre-wrap; margin-top: 5px;">${body.mensaje}</p>
+                  </div>
+                  <hr style="margin: 20px 0; border: none; border-top: 1px solid #e2e8f0;">
+                  <p style="font-size: 12px; color: #64748b;">
+                    Lead ID: ${leadId} | Score: ${strategyScore}/100 | Temperatura: ${temperatura}
+                  </p>
+                </div>
+              `
+            };
+
+            const resendRes = await fetch("https://api.resend.com/emails", {
+              method: "POST",
+              headers: {
+                "Authorization": `Bearer ${env.RESEND_API_KEY}`,
+                "Content-Type": "application/json"
+              },
+              body: JSON.stringify(resendPayload)
+            });
+
+            if (resendRes.ok) {
+              emailSent = true;
+            } else {
+              const resendErrorText = await resendRes.text().catch(() => '');
+              console.warn("Resend API warning, activando fallback a Formsubmit:", resendRes.status, resendErrorText);
+            }
+          } catch (resendError) {
+            console.warn("Resend exception, activando fallback a Formsubmit:", resendError.message);
+          }
+        }
+
+        // 2. Fallback a Formsubmit con headers Referer y Origin válidos
+        if (!emailSent) {
+          try {
             const formSubmitUrl = "https://formsubmit.co/ajax/info@ritealmar.es";
             const emailResponse = await fetch(formSubmitUrl, {
               method: "POST",
-              headers: { "Content-Type": "application/json", "Accept": "application/json" },
+              headers: {
+                "Content-Type": "application/json",
+                "Accept": "application/json",
+                "Referer": "https://ritealmar.es/",
+                "Origin": "https://ritealmar.es"
+              },
               body: JSON.stringify({
                 'Nombre Completo': body.nombre,
                 Email: body.email,
@@ -279,13 +336,20 @@ export default {
                 _cc: 'llargo34@gmail.com'
               })
             });
+
             if (emailResponse.ok) {
+              const resData: any = await emailResponse.json().catch(() => null);
+              if (resData && resData.success === 'false') {
+                console.error("Formsubmit devolvió error:", resData.message);
+              } else {
                 emailSent = true;
+              }
             } else {
-                console.error("Error enviando a formsubmit", emailResponse.status);
+              console.error("Error enviando a formsubmit", emailResponse.status);
             }
-        } catch (e) {
+          } catch (e) {
             console.error("Proxy Formsubmit error:", e.message);
+          }
         }
 
         // --- 7. RESPONSE: CLEAN PAYLOAD ---

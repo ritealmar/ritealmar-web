@@ -516,8 +516,8 @@ export default function EvaluadorMadurezIA() {
                 La madurez no es un estado, es un viaje. Observa cómo otras empresas han escalado niveles:
               </p>
               <ul className="list-disc pl-6 space-y-4 text-slate-400 text-lg">
-                <li><strong>De Tradicional a Digital:</strong> Panel Central, una empresa de e-commerce y panel sándwich, sufría un colapso administrativo gestionando catálogos gigantescos y presupuestos manuales. Pasaron de nivel 15 a nivel 70 implementando un Core automatizado que multiplicó sus ventas por siete. <a href="/casos-exito/panel-central" className="text-cyan-400 hover:underline">Lee el Caso Completo</a>.</li>
-                <li><strong>De Digital a IA Ready:</strong> Clínicas dentales que ya tenían software de citas, pero las recepcionistas no daban abasto. Subieron a nivel 90 desplegando a <em>Aurentia</em>, nuestro sistema inteligente. <a href="/casos-exito/aurentia" className="text-cyan-400 hover:underline">Descubre Aurentia</a>.</li>
+                <li><strong>De Tradicional a Digital:</strong> Panel Central, una empresa de e-commerce y panel sándwich, sufría un colapso administrativo gestionando catálogos gigantescos y presupuestos manuales. Pasaron de nivel 15 a nivel 70 implementando un Core automatizado que multiplicó sus ventas por siete. <a href="/proyectos/panel-central" className="text-cyan-400 hover:underline">Lee el Caso Completo</a>.</li>
+                <li><strong>De Digital a IA Ready:</strong> Clínicas dentales que ya tenían software de citas, pero las recepcionistas no daban abasto. Subieron a nivel 90 desplegando a <em>Aurentia</em>, nuestro sistema inteligente. <a href="/proyectos/aurentia-app" className="text-cyan-400 hover:underline">Descubre Aurentia</a>.</li>
               </ul>
             </div>
 

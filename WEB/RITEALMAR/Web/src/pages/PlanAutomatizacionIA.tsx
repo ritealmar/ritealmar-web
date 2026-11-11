@@ -384,7 +384,7 @@ export default function PlanAutomatizacionIA() {
                   <div className="bg-slate-900 border border-slate-800 rounded-2xl p-8 flex flex-col justify-center">
                     <h4 className="font-bold text-white mb-2 flex items-center gap-2"><Briefcase className="w-5 h-5 text-purple-400"/> Ejemplo de Uso Relacionado</h4>
                     <p className="text-slate-400 text-sm mb-6">Descubre cómo otra empresa implementó este mismo plan {formData.departamento === 'Ventas' ? 'comercial' : 'operativo'}.</p>
-                    <a href={formData.departamento === 'Ventas' ? '/casos-exito/ecommerce-ia' : '/casos-exito/panel-central'} className="inline-flex text-cyan-400 font-bold hover:underline items-center gap-2">
+                    <a href={formData.departamento === 'Ventas' ? '/casos-de-exito/ecommerce-recuperacion-carritos-ia' : '/proyectos/panel-central'} className="inline-flex text-cyan-400 font-bold hover:underline items-center gap-2">
                       Ver cómo lo lograron <ArrowRight className="w-4 h-4"/>
                     </a>
                   </div>

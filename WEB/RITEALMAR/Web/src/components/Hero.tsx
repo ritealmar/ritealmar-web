@@ -90,7 +90,7 @@ export default function Hero({ onOpenCalendly = () => {} }: HeroProps) {
             Conectamos WhatsApp, formularios, CRM, agenda y facturación sin obligarte a cambiar las herramientas que ya utilizas.
           </p>
           
-          <p className="text-sm text-slate-400 font-medium mb-10 max-w-xl border-l-2 border-[#00D4FF]/30 pl-4 lg:min-h-[40px]">
+          <p className="text-sm text-slate-300 font-medium mb-10 max-w-xl border-l-2 border-[#00D4FF]/30 pl-4 lg:min-h-[40px]">
             ✓ Sin cuotas ocultas | ✓ Proyectos llave en mano | ✓ Soporte continuo
           </p>
           
